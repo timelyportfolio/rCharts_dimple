@@ -1,4 +1,4 @@
-var casper = require('casper').create({viewportSize:{width:1600,height:900}});
+var casper = require('casper').create({viewportSize:{width:3200,height:1800}});
 
 //casper.start("gallery/example01_bar_vert.html", function() {
 //    this.capture('example.png', {
