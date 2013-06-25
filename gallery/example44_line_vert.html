@@ -1,4 +1,5 @@
 <!doctype HTML>
+<meta charset = 'utf-8'>
 <html>
   <head>
     <link rel='stylesheet' href="http://netdna.bootstrapcdn.com/bootswatch/2.3.1/cosmo/bootstrap.min.css">
@@ -138,18 +139,18 @@
                 </a>
               </li>
               <li class=''>
-                <a href='example24_bubble_lollipop_horiz_grp.html'>
-                  example24_bubble_lollipop_horiz_grp
+                <a href='example24_bubble_lollipop_vert_grp.html'>
+                  example24_bubble_lollipop_vert_grp
+                </a>
+              </li>
+              <li class=''>
+                <a href='example25_bubble_lollipop_horiz.html'>
+                  example25_bubble_lollipop_horiz
                 </a>
               </li>
               <li class=''>
                 <a href='example26_bubble_lollipop_horiz_grp.html'>
                   example26_bubble_lollipop_horiz_grp
-                </a>
-              </li>
-              <li class=''>
-                <a href='example27_bubble_lollipop_horiz.html'>
-                  example27_bubble_lollipop_horiz
                 </a>
               </li>
               <li class=''>
@@ -168,8 +169,8 @@
                 </a>
               </li>
               <li class=''>
-                <a href='example30_area_stack_pct.html'>
-                  example30_area_stack_pct
+                <a href='example30_area_stack_100.html'>
+                  example30_area_stack_100
                 </a>
               </li>
               <li class=''>
@@ -195,6 +196,11 @@
               <li class=''>
                 <a href='example35_area_vert_stack.html'>
                   example35_area_vert_stack
+                </a>
+              </li>
+              <li class=''>
+                <a href='example36_area_vert_stack_100.html'>
+                  example36_area_vert_stack_100
                 </a>
               </li>
               <li class=''>
@@ -248,8 +254,8 @@
                 </a>
               </li>
               <li class=''>
-                <a href='example47_line_mult_grp.html'>
-                  example47_line_mult_grp
+                <a href='example47_line_vert_mult_grp.html'>
+                  example47_line_vert_mult_grp
                 </a>
               </li>
               <li class=''>
@@ -261,15 +267,14 @@
           </div>
         </div>
         <div class='span9'>
-          <div id='chart2abc2dc24c14' class='rChart nvd3Plot dimple'></div>
+          <div id='chart15ec59023088' class='rChart nvd3Plot dimple'></div>
           <br/>
 <pre><code class='r'>### example 44 Vertical Line
-
 d1 &lt;- dPlot(
   x = &quot;UnitSales&quot;,
   y = &quot;Month&quot;,
   data = subset(data, Owner %in% c(&quot;Aperture&quot;,&quot;Black Mesa&quot;)),
-  type = &quot;dimple.plot.line&quot;,
+  type = &quot;line&quot;,
   bounds = list(x=80,y=30,height=480,width=330),
   height = 400,
   width = 590
@@ -284,19 +289,19 @@ d1
       
     <script type="text/javascript">
   var opts = {
- "dom": "chart2abc2dc24c14",
+ "dom": "chart15ec59023088",
 "width":    590,
 "height":    400,
 "x": "UnitSales",
 "y": "Month",
-"type": "dimple.plot.line",
+"type": "line",
 "bounds": {
  "x":     80,
 "y":     30,
 "height":    480,
 "width":    330 
 },
-"id": "chart2abc2dc24c14" 
+"id": "chart15ec59023088" 
 },
     data = [
  {
@@ -28875,7 +28880,7 @@ d1
   //as the first argument
   //if provided need to use groups from opts
   if(opts.hasOwnProperty("groups")) {
-    var s = myChart.addSeries( opts.groups, eval(opts.type) );   //know eval is evil but don't know a way around it in this case
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
     //series offers an aggregate method that we will also need to check if available
     //options available are avg, count, max, min, sum
     if (!(typeof(opts.aggregate) === 'undefined')) {
@@ -28887,7 +28892,7 @@ d1
     if (!(typeof(opts.barGap) === 'undefined')) {
       s.barGap = eval(opts.barGap);
     }    
-  } else var s = myChart.addSeries( null, eval(opts.type) );
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
   //unsure if this is best but if legend is provided (not empty) then evaluate
   if(d3.keys(legend).length > 0) {
     var l =myChart.addLegend();

@@ -2,7 +2,7 @@
 d1 <- dPlot(
   Month ~ UnitSales,
   data = data,
-  type = "dimple.plot.bar"
+  type = "bar"
 )
 d1$xAxis(type = "addMeasureAxis")
 #good test of orderRule on y instead of x

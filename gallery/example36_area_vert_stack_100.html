@@ -198,7 +198,7 @@
                   example35_area_vert_stack
                 </a>
               </li>
-              <li class=''>
+              <li class='active'>
                 <a href='example36_area_vert_stack_100.html'>
                   example36_area_vert_stack_100
                 </a>
@@ -228,7 +228,7 @@
                   example41_line_mult
                 </a>
               </li>
-              <li class='active'>
+              <li class=''>
                 <a href='example42_line_single_grp.html'>
                   example42_line_single_grp
                 </a>
@@ -267,19 +267,28 @@
           </div>
         </div>
         <div class='span9'>
-          <div id='chart15ec2bbe4e1a' class='rChart nvd3Plot dimple'></div>
+          <div id='chart15ec35fa4433' class='rChart nvd3Plot dimple'></div>
           <br/>
-<pre><code class='r'>### example 42 Grouped Single Line
+<pre><code class='r'>### example 36 Vertical 100% Stacked Area
 d1 &lt;- dPlot(
-  y = &quot;UnitSales&quot;,
-  x = c(&quot;Owner&quot;,&quot;Month&quot;),
-  groups = &quot;Owner&quot;,
+  x = &quot;UnitSales&quot;,
+  y = &quot;Month&quot;,
+  groups = &quot;Channel&quot;,
   data = subset(data, Owner %in% c(&quot;Aperture&quot;,&quot;Black Mesa&quot;)),
-  type = &quot;line&quot;,
-  barGap = 0.05
+  type = &quot;area&quot;,
+  bounds = list(x=80,y=30,height=480,width=330),
+  height = 400,
+  width = 590
 )
-d1$xAxis(type = &quot;addCategoryAxis&quot;, grouporderRule = &quot;Date&quot;)
-d1$yAxis(type = &quot;addMeasureAxis&quot;)
+d1$xAxis(type = &quot;addPctAxis&quot;)
+d1$yAxis(type = &quot;addCategoryAxis&quot;, grouporderRule = &quot;Date&quot;)
+d1$legend(
+  x = 60,
+  y = 10,
+  width = 500,
+  height = 20,
+  horizontalAlign = &quot;right&quot;
+)
 d1
 </code></pre>
         </div>
@@ -288,15 +297,20 @@ d1
       
     <script type="text/javascript">
   var opts = {
- "dom": "chart15ec2bbe4e1a",
-"width":    800,
+ "dom": "chart15ec35fa4433",
+"width":    590,
 "height":    400,
-"x": [ "Owner", "Month" ],
-"y": "UnitSales",
-"groups": "Owner",
-"type": "line",
-"barGap":   0.05,
-"id": "chart15ec2bbe4e1a" 
+"x": "UnitSales",
+"y": "Month",
+"groups": "Channel",
+"type": "area",
+"bounds": {
+ "x":     80,
+"y":     30,
+"height":    480,
+"width":    330 
+},
+"id": "chart15ec35fa4433" 
 },
     data = [
  {
@@ -28813,16 +28827,22 @@ d1
 } 
 ],
     xAxis = {
+ "type": "addPctAxis",
+"showPercent": false 
+},
+    yAxis = {
  "type": "addCategoryAxis",
 "showPercent": false,
 "grouporderRule": "Date" 
 },
-    yAxis = {
- "type": "addMeasureAxis",
-"showPercent": false 
-},
     zAxis = [],
-    legend = [];
+    legend = {
+ "x":     60,
+"y":     10,
+"width":    500,
+"height":     20,
+"horizontalAlign": "right" 
+};
   var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
 
   //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])

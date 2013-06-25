@@ -1,5 +1,4 @@
 ### example 23 Vertical Bubble Lollipop
-
 d1 <- dPlot(
   x = "Month",
   y = "UnitSales",
@@ -16,18 +15,16 @@ d1 <- dPlot(
       "01/12/2012"
     )
   ),
-  type = "dimple.plot.bubble"
+  type = "bubble"
 )
 d1$xAxis( type = "addCategoryAxis", orderRule = "Date" )
 d1$yAxis( type = "addMeasureAxis" )
 d1$zAxis( type = "addMeasureAxis" )
-d1$set(
-  legend = list(
-    x = 200,
-    y = 10,
-    width = 500,
-    height = 20,
-    horizontalAlign = "right"
-  )
+d1$legend(
+  x = 200,
+  y = 10,
+  width = 500,
+  height = 20,
+  horizontalAlign = "right"
 )
 d1

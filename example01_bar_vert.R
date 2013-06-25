@@ -3,7 +3,7 @@ d1 <- dPlot(
   x ="Month" ,
   y = "UnitSales",
   data = data,
-  type = "dimple.plot.bar"
+  type = "bar"
 )
 d1$xAxis(orderRule = "Date")
 d1

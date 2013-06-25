@@ -133,7 +133,7 @@
                   example22_bubble
                 </a>
               </li>
-              <li class='active'>
+              <li class=''>
                 <a href='example23_bubble_lollipop_vert.html'>
                   example23_bubble_lollipop_vert
                 </a>
@@ -143,7 +143,7 @@
                   example24_bubble_lollipop_vert_grp
                 </a>
               </li>
-              <li class=''>
+              <li class='active'>
                 <a href='example25_bubble_lollipop_horiz.html'>
                   example25_bubble_lollipop_horiz
                 </a>
@@ -267,12 +267,12 @@
           </div>
         </div>
         <div class='span9'>
-          <div id='chart15ec2c2a2ab0' class='rChart nvd3Plot dimple'></div>
+          <div id='chart15ec71f6479d' class='rChart nvd3Plot dimple'></div>
           <br/>
-<pre><code class='r'>### example 23 Vertical Bubble Lollipop
+<pre><code class='r'>### example 25 Horizontal Bubble Lollipop
 d1 &lt;- dPlot(
-  x = &quot;Month&quot;,
-  y = &quot;UnitSales&quot;,
+  y = &quot;Month&quot;,
+  x = &quot;UnitSales&quot;,
   z = &quot;OperatingProfit&quot;,
   groups = &quot;Channel&quot;,
   data = subset(
@@ -288,8 +288,8 @@ d1 &lt;- dPlot(
   ),
   type = &quot;bubble&quot;
 )
-d1$xAxis( type = &quot;addCategoryAxis&quot;, orderRule = &quot;Date&quot; )
-d1$yAxis( type = &quot;addMeasureAxis&quot; )
+d1$yAxis( type = &quot;addCategoryAxis&quot;, orderRule = &quot;Date&quot; )
+d1$xAxis( type = &quot;addMeasureAxis&quot; )
 d1$zAxis( type = &quot;addMeasureAxis&quot; )
 d1$legend(
   x = 200,
@@ -306,15 +306,15 @@ d1
       
     <script type="text/javascript">
   var opts = {
- "dom": "chart15ec2c2a2ab0",
+ "dom": "chart15ec71f6479d",
 "width":    800,
 "height":    400,
-"x": "Month",
-"y": "UnitSales",
+"x": "UnitSales",
+"y": "Month",
 "z": "OperatingProfit",
 "groups": "Channel",
 "type": "bubble",
-"id": "chart15ec2c2a2ab0" 
+"id": "chart15ec71f6479d" 
 },
     data = [
  {
@@ -11983,13 +11983,13 @@ d1
 } 
 ],
     xAxis = {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+    yAxis = {
  "type": "addCategoryAxis",
 "showPercent": false,
 "orderRule": "Date" 
-},
-    yAxis = {
- "type": "addMeasureAxis",
-"showPercent": false 
 },
     zAxis = {
  "type": "addMeasureAxis" 

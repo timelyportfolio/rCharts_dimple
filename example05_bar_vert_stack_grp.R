@@ -4,15 +4,13 @@ d1 <- dPlot(
   y = "UnitSales",
   groups = "Owner",
   data = data,
-  type = "dimple.plot.bar"
+  type = "bar"
 )
-d1$set(
-  legend = list(
-    x = 200,
-    y = 10,
-    width = 400,
-    height = 20,
-    horizontalAlign = "right"
-  )
+d1$legend(
+  x = 200,
+  y = 10,
+  width = 400,
+  height = 20,
+  horizontalAlign = "right"
 )
 d1

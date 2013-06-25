@@ -133,12 +133,12 @@
                   example22_bubble
                 </a>
               </li>
-              <li class='active'>
+              <li class=''>
                 <a href='example23_bubble_lollipop_vert.html'>
                   example23_bubble_lollipop_vert
                 </a>
               </li>
-              <li class=''>
+              <li class='active'>
                 <a href='example24_bubble_lollipop_vert_grp.html'>
                   example24_bubble_lollipop_vert_grp
                 </a>
@@ -267,11 +267,11 @@
           </div>
         </div>
         <div class='span9'>
-          <div id='chart15ec2c2a2ab0' class='rChart nvd3Plot dimple'></div>
+          <div id='chart15ec7ded4e5' class='rChart nvd3Plot dimple'></div>
           <br/>
-<pre><code class='r'>### example 23 Vertical Bubble Lollipop
+<pre><code class='r'>### example 24 Vertical Grouped Bubble Lollipop
 d1 &lt;- dPlot(
-  x = &quot;Month&quot;,
+  x = c(&quot;PriceTier&quot;,&quot;Channel&quot;),
   y = &quot;UnitSales&quot;,
   z = &quot;OperatingProfit&quot;,
   groups = &quot;Channel&quot;,
@@ -288,7 +288,7 @@ d1 &lt;- dPlot(
   ),
   type = &quot;bubble&quot;
 )
-d1$xAxis( type = &quot;addCategoryAxis&quot;, orderRule = &quot;Date&quot; )
+d1$xAxis( type = &quot;addCategoryAxis&quot; )
 d1$yAxis( type = &quot;addMeasureAxis&quot; )
 d1$zAxis( type = &quot;addMeasureAxis&quot; )
 d1$legend(
@@ -306,15 +306,15 @@ d1
       
     <script type="text/javascript">
   var opts = {
- "dom": "chart15ec2c2a2ab0",
+ "dom": "chart15ec7ded4e5",
 "width":    800,
 "height":    400,
-"x": "Month",
+"x": [ "PriceTier", "Channel" ],
 "y": "UnitSales",
 "z": "OperatingProfit",
 "groups": "Channel",
 "type": "bubble",
-"id": "chart15ec2c2a2ab0" 
+"id": "chart15ec7ded4e5" 
 },
     data = [
  {
@@ -11984,8 +11984,7 @@ d1
 ],
     xAxis = {
  "type": "addCategoryAxis",
-"showPercent": false,
-"orderRule": "Date" 
+"showPercent": false 
 },
     yAxis = {
  "type": "addMeasureAxis",

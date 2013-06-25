@@ -1,4 +1,4 @@
-### example 35 Vertical Stacked Area
+### example 36 Vertical 100% Stacked Area
 d1 <- dPlot(
   x = "UnitSales",
   y = "Month",
@@ -9,7 +9,7 @@ d1 <- dPlot(
   height = 400,
   width = 590
 )
-d1$xAxis(type = "addMeasureAxis")
+d1$xAxis(type = "addPctAxis")
 d1$yAxis(type = "addCategoryAxis", grouporderRule = "Date")
 d1$legend(
   x = 60,
