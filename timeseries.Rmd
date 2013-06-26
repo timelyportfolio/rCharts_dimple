@@ -11,6 +11,7 @@ hitheme: twitter-bootstrap
 ---
 
 <style>
+.container {width: 800px;}
 /*
 path.line {
   fill: none;
@@ -42,7 +43,7 @@ opts_chunk$set(message = FALSE, warning = FALSE, error = FALSE, tidy = FALSE, ca
 
 Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we were [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
 
-Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
+Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
 
 ```{r}
 require(quantmod)

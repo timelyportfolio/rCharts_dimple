@@ -11,6 +11,7 @@ hitheme: twitter-bootstrap
 ---
 
 <style>
+.container {width: 800px;}
 /*
 path.line {
   fill: none;
