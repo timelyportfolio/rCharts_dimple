@@ -98,7 +98,7 @@ data.sort(function(a,b){return d3.ascending(a.date,b.date);})
 
 //remove dimple axis
 //hoping x is always drawn first
-d3.select(".axis").remove()
+d3.select('#'+opts.id).select(".axis").remove()
 
 //from Bostock example http://bl.ocks.org/mbostock/1166403
 
@@ -111,7 +111,8 @@ var xd3 = d3.time.scale().range([myChart.x, myChart.x + myChart.width]),
 xd3.domain([data[0].date, data[data.length - 1].date]);
 yd3.domain([0, d3.max(data, function(d) { return d.value; })]).nice();
 
-svg.append("svg:g")
+var svg = d3.select('#'+opts.id).select('svg')
+svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + (+myChart.height+myChart.y) + ")")
   .call(xAxisd3);
