@@ -10,7 +10,33 @@ highlighter: prettify
 hitheme: twitter-bootstrap
 ---
 
+<style>
+/*
+path.line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+*/
+.axis {
+  shape-rendering: crispEdges;
+}
 
+.axis text {
+  font: 10px sans-serif;
+  margin: 0;
+}
+
+.x.axis line {
+  stroke: #000;
+}
+
+.x.axis path {
+  display: none;
+}
+</style>
+
+<div id = "chart1"></div>
 
 ```r
 require(quantmod)
@@ -20958,28 +20984,8 @@ d1$print('chart1')
 
 </script>
 
-<style>
-body {
-  font: 10px sans-serif;
-  margin: 0;
-}
-/*
-path.line {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1.5px;
-}
-*/
-.axis {
-  shape-rendering: crispEdges;
-}
 
-.x.axis line {
-  stroke: #000;
-}
 
-.x.axis path {
-  display: none;
-}
-</style>
+
+
 
