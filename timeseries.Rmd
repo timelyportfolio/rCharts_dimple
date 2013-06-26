@@ -40,9 +40,9 @@ path.line {
 opts_chunk$set(message = FALSE, warning = FALSE, error = FALSE, tidy = FALSE, cache = FALSE,results = 'asis' )
 ```
 
-Even this early in it release, [Dimple](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we were completed those, we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
+Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we were [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
 
-Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we will need to grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
+Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
 
 ```{r}
 require(quantmod)
@@ -61,7 +61,7 @@ for (i in 1:length( USbondssymbols ) ) {
 }
 ```
 
-Then we will define a little `xtsMelt` function to transform our wide data into long form.
+Then we will define a little `xtsMelt` function to easily transform our wide `xts` data into long form.
 
 ```{r}
 xtsMelt <- function(data) {
@@ -85,7 +85,7 @@ xtsMelt <- function(data) {
 }
 ```
 
-Now let's use our `xtsMelt` function on our data.  You might also notice that we use `na.omit` to remove the pesky NAs that sometimes come over in FRED data.
+Now let's use our new `xtsMelt` function on our data.  You might notice that we use `na.omit` to remove the pesky NAs that sometimes haunt FRED data.
 
 ```{r}
 ust.melt <- na.omit( xtsMelt( ust.xts["2012::",] ) )
@@ -103,7 +103,7 @@ ust.melt$maturity <- as.numeric(
 ust.melt$country <- rep( "US", nrow( ust.melt ))
 ```
 
-Have data, now let's plot.  I hope you see how easy it is to get an interactive `dimplejs` chart from `R`.  Without comments, it would all fit nicely on one line.  We can even use a `r` formula to define our `x` and `y`.
+Getting the data was fairly easy, now let's plot.  I hope you see how easy it is to get an interactive `dimplejs` chart from `R`.  Without my comments, the code would all fit nicely on one line.  We can even use a `r` formula to define our `x` and `y` as shown `value~date`.
 
 ```{r}
 #simple line chart of 10 year
@@ -121,7 +121,7 @@ d1
 d1$print('chart1')
 ```
 
-Uh oh, our x axis does not look too pretty.  `rCharts` is extensible and modular, so quickly we will need to move to a little more advanced concept.  `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
+Uh oh, our x axis does not look too pretty.  `rCharts` is extensible and modular, so unfortunately we will need to use little more advanced concept.  Currently `dimplejs` does not support dates on the x axis as well as I would like.  However, `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
 
 ```{r}
 d2 <- d1
@@ -134,4 +134,51 @@ d2
 <div id = "chart2"></div>
 ```{r echo = F}
 d2$print('chart2')
+```
+
+Sorry for the little advanced topic.  The author of dimplejs says better date handling is on his TO-DO list.
+
+Most portfolio managers/analysts will want more than just the US 10y.  Let's plot all the maturities with just one little `groups` addition in our `dPlot`.  I also anticipate that we will need a legend to identify our maturities by color so we will also add a legend.
+
+```{r}
+#simple line chart of all maturities
+d3 <- dPlot(
+  value ~ date,  #or x="date", y="value"
+  groups = 'maturity',
+  data = ust.melt,  #get all maturities so remove subset from above
+  type = 'line'
+)
+d3$legend( x = 60, y = 10, width = 620, height = 20,
+  horizontalAlign = "right")
+d3$field(
+  'templates',
+  modifyList(d3$templates, list(id = "chart3", script = 'http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html') )
+)
+d3
+```
+<div id ="chart3"></div>
+```{r echo = F}
+d3$print('chart3')
+```
+
+I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity, but will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`
+
+
+```{r}
+#simple line chart of all maturities
+d4 <- dPlot(
+  x = c("maturity","date"),
+  y = "value",
+  groups = 'maturity',
+  data = ust.melt,
+  type = 'line'
+)
+d4$xAxis( grouporderRule = "date" ) #sort by date
+d4$legend( x = 60, y = 10, width = 620, height = 20,
+  horizontalAlign = "right")
+d4
+```
+<div id ="chart4"></div>
+```{r echo = F}
+d4$print('chart4')
 ```
