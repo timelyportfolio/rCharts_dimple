@@ -1,0 +1,107 @@
+---
+title: rCharts, dimple, and time series
+subtitle: Some Early Experiments
+author: Timely Portfolio
+github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
+framework: bootstrap
+mode: selfcontained
+ext_widgets: {rCharts: "libraries/dimple"}
+highlighter: prettify
+hitheme: twitter-bootstrap
+---
+
+
+```{r results='asis', error=F, warning=F, message=F, tidy = F}
+require(quantmod)
+require(rCharts)
+
+xtsMelt <- function(data) {
+  require(reshape2)
+  
+  #translate xts to time series to json with date and data
+  #for this behavior will be more generic than the original
+  #data will not be transformed, so template.rmd will be changed to reflect
+  
+  
+  #convert to data frame
+  data.df <- data.frame(cbind(format(index(data),"%Y-%m-%d"),coredata(data)))
+  colnames(data.df)[1] = "date"
+  data.melt <- melt(data.df,id.vars=1,stringsAsFactors=FALSE)
+  colnames(data.melt) <- c("date","indexname","value")
+  #remove periods from indexnames to prevent javascript confusion
+  #these . usually come from spaces in the colnames when melted
+  data.melt[,"indexname"] <- apply(matrix(data.melt[,"indexname"]),2,gsub,pattern="[.]",replacement="")
+  return(data.melt)
+  #return(df2json(na.omit(data.melt)))
+}
+
+
+#now get the US bonds from FRED
+USbondssymbols <- paste0("DGS",c(1,2,3,5,7,10,20,30))
+
+ust.xts <- xts()
+for (i in 1:length( USbondssymbols ) ) {
+  ust.xts <- merge( 
+    ust.xts,
+    getSymbols( 
+      USbondssymbols[i], auto.assign = FALSE,src = "FRED"
+    )
+  )
+}
+
+ust.melt <- na.omit( xtsMelt( ust.xts["2012::",] ) )
+
+ust.melt$date <- format(as.Date(ust.melt$date), '%m/%d/%Y')
+ust.melt$value <- as.numeric(ust.melt$value)
+ust.melt$indexname <- factor(
+  ust.melt$indexname, levels = colnames(ust.xts)
+)
+ust.melt$maturity <- as.numeric(
+  substr(
+    ust.melt$indexname, 4, length( ust.melt$indexname ) - 4
+  )
+)
+ust.melt$country <- rep( "US", nrow( ust.melt ))
+
+#simple line chart of 10 year
+d1 <- dPlot(
+  value ~ date,
+  data = subset(ust.melt, maturity == 10),
+  type = 'line'
+)
+d1$print('chart1')
+```
+<style>
+body {
+  font: 10px sans-serif;
+  margin: 0;
+}
+
+.x.axis path {
+  display: none;
+}
+</style>
+
+<script>
+//get Dates in d3 js format
+data.forEach(function(d) {
+  d.date = d3.time.format('%M/%d/%Y').parse(d.date);
+});
+
+//remove dimple axis
+//hoping x is always drawn first
+d3.select(".axis").remove()
+
+//from Bostock example http://bl.ocks.org/mbostock/1166403
+var xd3 = d3.time.scale().range([myChart.x, myChart.x + myChart.width]),
+xAxisd3 = d3.svg.axis().scale(xd3).tickSize(-myChart.height).tickSubdivide(true);
+xd3.domain([data[0].date, data[data.length - 1].date]);
+svg.append("svg:g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + (+myChart.height+myChart.y) + ")")
+  .style("stroke","black")
+  .call(xAxisd3);
+</script>
+
+
+

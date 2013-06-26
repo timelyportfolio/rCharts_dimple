@@ -1,17 +1,9 @@
-var casper = require('casper').create({viewportSize:{width:3200,height:1800}});
-
-//casper.start("gallery/example01_bar_vert.html", function() {
-//    this.capture('example.png', {
-//        top: 0,
-//        left: 0,
-//        width: 1024,
-//        height: 768
-//    });
-//});
-
-casper.start('gallery/example11_bar_horiz_stack_grp.html', function() {
-this.captureSelector('example11.png', '.rChart');
+// screenshot.js
+var casper = require('casper').create({viewportSize:{width:1600,height:900}});
+var args = casper.cli.args;
+var imgfile = (args[1] || Math.random().toString(36).slice(2)) + '.png'
+casper.start(args[0], function() {
+    this.captureSelector(imgfile, '.rChart');
 });
-
 
 casper.run();
