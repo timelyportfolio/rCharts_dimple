@@ -65,12 +65,13 @@ ust.melt$country <- rep( "US", nrow( ust.melt ))
 
 #simple line chart of 10 year
 d1 <- dPlot(
-  value ~ date,
+  x = c("maturity","date"),
+  y = "value",
   groups = 'maturity',
   data = ust.melt,
   type = 'line'
 )
-d1$xAxis(orderRule = "date")
+d1$xAxis(grouporderRule = "date")
 d1$print('chart1')
 ```
 <style>

@@ -66,12 +66,13 @@ ust.melt$country <- rep( "US", nrow( ust.melt ))
 
 #simple line chart of 10 year
 d1 <- dPlot(
-  value ~ date,
+  x = c("maturity","date"),
+  y = "value",
   groups = 'maturity',
   data = ust.melt,
   type = 'line'
 )
-d1$xAxis(orderRule = "date")
+d1$xAxis(grouporderRule = "date")
 d1$print('chart1')
 ```
 
@@ -82,7 +83,7 @@ d1$print('chart1')
  "dom": "chart1",
 "width":    800,
 "height":    400,
-"x": "date",
+"x": [ "maturity", "date" ],
 "y": "value",
 "groups": "maturity",
 "type": "line",
@@ -5277,6 +5278,13 @@ d1$print('chart1')
 "country": "US" 
 },
 {
+ "date": "2013-06-24",
+"indexname": "DGS2",
+"value":   0.43,
+"maturity":      2,
+"country": "US" 
+},
+{
  "date": "2012-01-02",
 "indexname": "DGS3",
 "value":    0.4,
@@ -7863,6 +7871,13 @@ d1$print('chart1')
  "date": "2013-06-23",
 "indexname": "DGS3",
 "value":   0.73,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "2013-06-24",
+"indexname": "DGS3",
+"value":   0.74,
 "maturity":      3,
 "country": "US" 
 },
@@ -10457,6 +10472,13 @@ d1$print('chart1')
 "country": "US" 
 },
 {
+ "date": "2013-06-24",
+"indexname": "DGS5",
+"value":   1.49,
+"maturity":      5,
+"country": "US" 
+},
+{
  "date": "2012-01-02",
 "indexname": "DGS7",
 "value":   1.41,
@@ -13047,6 +13069,13 @@ d1$print('chart1')
 "country": "US" 
 },
 {
+ "date": "2013-06-24",
+"indexname": "DGS7",
+"value":   2.03,
+"maturity":      7,
+"country": "US" 
+},
+{
  "date": "2012-01-02",
 "indexname": "DGS10",
 "value":   1.97,
@@ -15633,6 +15662,13 @@ d1$print('chart1')
  "date": "2013-06-23",
 "indexname": "DGS10",
 "value":   2.57,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "2013-06-24",
+"indexname": "DGS10",
+"value":    2.6,
 "maturity":     10,
 "country": "US" 
 },
@@ -20822,12 +20858,19 @@ d1$print('chart1')
 "value":   3.56,
 "maturity":     30,
 "country": "US" 
+},
+{
+ "date": "2013-06-24",
+"indexname": "DGS30",
+"value":    3.6,
+"maturity":     30,
+"country": "US" 
 } 
 ],
     xAxis = {
  "type": "addCategoryAxis",
 "showPercent": false,
-"orderRule": "date" 
+"grouporderRule": "date" 
 },
     yAxis = {
  "type": "addMeasureAxis",
