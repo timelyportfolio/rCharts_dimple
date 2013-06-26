@@ -73,9 +73,9 @@ path.line {
 }
 </style>
 
-<p>Even this early in it release, <a href="http://dimplejs.org">dimplejs</a> is such a powerful and promising <a href="http://d3js.org">d3</a> library that we decided to quickly make it available in <a href="http://rcharts.io/site">rCharts</a>.  The first test was to recreate all (48) of the examples provided by <a href="http://dimplejs.org/examples_index.html">dimplejs</a> with <code>rCharts</code>.  Once we were <a href="http://timelyportfolio.github.io/rCharts_dimple/gallery/">completed those</a>, we felt fairly satisfied that we had good coverage of the <code>dimplejs</code> API (easily one of the best <a href="https://github.com/PMSI-AlignAlytics/dimple/wiki">documented</a>).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.</p>
+<p>Even this early in it release, <a href="http://dimplejs.org">dimplejs</a> is such a powerful and promising <a href="http://d3js.org">d3</a> library that we decided to quickly make it available in <a href="http://rcharts.io/site">rCharts</a>.  The first test was to recreate all (48) of the examples provided by <a href="http://dimplejs.org/examples_index.html">dimplejs</a> with <code>rCharts</code>.  Once we <a href="http://timelyportfolio.github.io/rCharts_dimple/gallery/">completed those</a>, we felt fairly satisfied that we had good coverage of the <code>dimplejs</code> API (easily one of the best <a href="https://github.com/PMSI-AlignAlytics/dimple/wiki">documented</a>).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.</p>
 
-<p>Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so grab the data with <code>quantmod</code> <code>getSymbols()</code> and then merge it into one big <code>ust.xts</code> object.</p>
+<p>Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with <code>quantmod</code> <code>getSymbols()</code> and then merge it into one big <code>ust.xts</code> object.</p>
 
 <pre><code class="r">require(quantmod)
 require(rCharts)
@@ -2849,7 +2849,7 @@ d1
 
 </script>
 
-<p>Uh oh, our x axis does not look too pretty.  <code>rCharts</code> is extensible and modular, so unfortunately we will need to use little more advanced concept.  Currently <code>dimplejs</code> does not support dates on the x axis as well as I would like.  However, <code>dimplejs</code> is built on <code>d3</code>, so let&#39;s fix with a little <a href="http://bl.ocks.org/mbostock/1166403">help</a> from the <code>d3</code> master <a href="http://bost.ocks.org/mike/">Mike Bostock</a>.  I built a custom <a href="http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html">layout template</a> to remove the <code>dimple</code> x-axis and replace with a <code>d3</code> version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).</p>
+<p>Uh oh, our x axis does not look too pretty.  However, <code>rCharts</code> is extensible and modular, so let&#39;s quickly jump to a little more advanced concept.  Currently <code>dimplejs</code> does not support dates on the x axis as well as I would like.  <code>dimplejs</code> is built on <code>d3</code>, so let&#39;s fix with a little <a href="http://bl.ocks.org/mbostock/1166403">help</a> from the <code>d3</code> master <a href="http://bost.ocks.org/mike/">Mike Bostock</a>.  I built a custom <a href="http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html">layout template</a> to remove the <code>dimple</code> x-axis and replace with a <code>d3</code> version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).</p>
 
 <pre><code class="r">d2 &lt;- d1
 d2$field(
@@ -26577,7 +26577,7 @@ svg.append("svg:path")
 */
 </script>
 
-<p>I am still really proud of my chart displayed in this <a href="http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html">post</a>.  I bet we can do something like that but better since we will have interactivity, but will it be hard?  Of course not, we just change our <code>x</code> in <code>dPlot()</code> and then sort with <code>d4$xAxis(grouporderRule=&quot;date&quot;)</code></p>
+<p>I am still really proud of my chart displayed in this <a href="http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html">post</a>.  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our <code>x</code> in <code>dPlot()</code> and then sort with <code>d4$xAxis(grouporderRule=&quot;date&quot;)</code></p>
 
 <pre><code class="r">#simple line chart of all maturities
 d4 &lt;- dPlot(

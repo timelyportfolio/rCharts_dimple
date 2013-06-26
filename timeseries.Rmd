@@ -41,7 +41,7 @@ path.line {
 opts_chunk$set(message = FALSE, warning = FALSE, error = FALSE, tidy = FALSE, cache = FALSE,results = 'asis' )
 ```
 
-Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we were [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
+Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
 
 Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
 
@@ -122,7 +122,7 @@ d1
 d1$print('chart1')
 ```
 
-Uh oh, our x axis does not look too pretty.  `rCharts` is extensible and modular, so unfortunately we will need to use little more advanced concept.  Currently `dimplejs` does not support dates on the x axis as well as I would like.  However, `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
+Uh oh, our x axis does not look too pretty.  However, `rCharts` is extensible and modular, so let's quickly jump to a little more advanced concept.  Currently `dimplejs` does not support dates on the x axis as well as I would like.  `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
 
 ```{r}
 d2 <- d1
@@ -162,7 +162,7 @@ d3
 d3$print('chart3')
 ```
 
-I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity, but will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`
+I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`
 
 
 ```{r}
