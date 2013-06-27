@@ -183,3 +183,46 @@ d4
 ```{r echo = F}
 d4$print('chart4')
 ```
+
+Another way to look at yields would be as a yield curve.  Generally, this means remove time, but with `dimplejs` `storyboard` feature we can see the history of the yield curve.  Daily would be a little tedious, so let's do weekly since April 2013.
+
+```{r}
+#get weekly since April 2013
+ust.melt <- xtsMelt(to.weekly(ust.xts,OHLC=FALSE)["2013-04::",])
+
+ust.melt$date <- format(as.Date(ust.melt$date),"%m/%d/%Y")
+ust.melt$value <- as.numeric(ust.melt$value)
+ust.melt$indexname <- factor(
+  ust.melt$indexname, levels = colnames(ust.xts)
+)
+ust.melt$maturity <- as.numeric(
+  substr(
+    ust.melt$indexname, 4, length( ust.melt$indexname ) - 4
+  )
+)
+ust.melt$country <- rep( "US", nrow( ust.melt ))
+
+d5 <- dPlot(
+  value ~ maturity,
+  data = ust.melt,
+  type = "line"
+)
+d5$xAxis( orderRule ="maturity" )
+d5$set( storyboard = "date" )
+d5
+```
+<div id ="chart5"></div>
+```{r echo = F}
+d5$print('chart5')
+```
+```{r}
+d6 <- dPlot(
+  x = c("date","maturity"),
+  y = "value",
+  groups = "maturity",
+  data = ust.melt,
+  type = "line"
+)
+d6$xAxis( orderRule = "date" )
+d6
+```

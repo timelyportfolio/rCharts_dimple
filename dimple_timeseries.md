@@ -1,51 +1,15 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>rCharts, dimple, and time series</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <link rel="icon" type="image/png" href="favicon.ico">
-  <style>
-  body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-  }
-  </style>
-  
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-responsive.no-icons.min.css" rel="stylesheet">
-<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
-<link  rel="stylesheet" 
-    href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css">
-  <link rel="stylesheet" href="libraries/frameworks/bootstrap/css/bootstrap-responsive.min.css">
-  
-  <link rel="stylesheet" href="libraries/frameworks/bootstrap/css/main.css">
-  <link rel="stylesheet" href="libraries/highlighters/prettify/css/twitter-bootstrap.css" />
-  <script src="libraries/frameworks/bootstrap/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="libraries/frameworks/bootstrap/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-    
-  <script src="libraries/widgets/dimple/js/dimple.v1.js"></script>
-<script src="libraries/widgets/dimple/js/d3.v3.js"></script>
+---
+title: rCharts, dimple, and time series
+subtitle: Some Experiments Using US Treasury Yield Data
+author: Timely Portfolio
+github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
+framework: bootstrap
+mode: selfcontained
+ext_widgets: {rCharts: "libraries/dimple"}
+highlighter: prettify
+hitheme: twitter-bootstrap
+---
 
-</head>
-<body>
-   <!--[if lt IE 7]>
-     <p class="chromeframe">You are using an outdated browser. 
-       <a href="http://browsehappy.com/">Upgrade your browser today</a> or 
-       <a href="http://www.google.com/chromeframe/?redirect=true"> 
-         install Google Chrome Frame
-       </a> to better experience this site.
-    </p>
-   <![endif]-->
-   <!-- Ref: http://twitter.github.com/bootstrap/examples/hero.html -->
-   
-    <div class="container">
-      
 <style>
 .container {width: 800px;}
 /*
@@ -73,83 +37,96 @@ path.line {
 }
 </style>
 
-<p>Even this early in it release, <a href="http://dimplejs.org">dimplejs</a> is such a powerful and promising <a href="http://d3js.org">d3</a> library that we decided to quickly make it available in <a href="http://rcharts.io/site">rCharts</a>.  The first test was to recreate all (48) of the examples provided by <a href="http://dimplejs.org/examples_index.html">dimplejs</a> with <code>rCharts</code>.  Once we <a href="http://timelyportfolio.github.io/rCharts_dimple/gallery/">completed those</a>, we felt fairly satisfied that we had good coverage of the <code>dimplejs</code> API (easily one of the best <a href="https://github.com/PMSI-AlignAlytics/dimple/wiki">documented</a>).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.</p>
 
-<p>Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with <code>quantmod</code> <code>getSymbols()</code> and then merge it into one big <code>ust.xts</code> object.</p>
 
-<pre><code class="r">require(quantmod)
+
+Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
+
+Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
+
+
+```r
+require(quantmod)
 require(rCharts)
 #now get the US bonds from FRED
-USbondssymbols &lt;- paste0(&quot;DGS&quot;,c(1,2,3,5,7,10,20,30))
+USbondssymbols <- paste0("DGS",c(1,2,3,5,7,10,20,30))
 
-ust.xts &lt;- xts()
+ust.xts <- xts()
 for (i in 1:length( USbondssymbols ) ) {
-  ust.xts &lt;- merge( 
+  ust.xts <- merge( 
     ust.xts,
     getSymbols( 
-      USbondssymbols[i], auto.assign = FALSE,src = &quot;FRED&quot;
+      USbondssymbols[i], auto.assign = FALSE,src = "FRED"
     )
   )
 }
-</code></pre>
+```
 
-<p>Then we will define a little <code>xtsMelt</code> function to easily transform our wide <code>xts</code> data into long form.</p>
 
-<pre><code class="r">xtsMelt &lt;- function(data) {
+Then we will define a little `xtsMelt` function to easily transform our wide `xts` data into long form.
+
+
+```r
+xtsMelt <- function(data) {
   require(reshape2)
-
+  
   #translate xts to time series to json with date and data
   #for this behavior will be more generic than the original
   #data will not be transformed, so template.rmd will be changed to reflect
-
-
+  
+  
   #convert to data frame
-  data.df &lt;- data.frame(cbind(format(index(data),&quot;%Y-%m-%d&quot;),coredata(data)))
-  colnames(data.df)[1] = &quot;date&quot;
-  data.melt &lt;- melt(data.df,id.vars=1,stringsAsFactors=FALSE)
-  colnames(data.melt) &lt;- c(&quot;date&quot;,&quot;indexname&quot;,&quot;value&quot;)
+  data.df <- data.frame(cbind(format(index(data),"%Y-%m-%d"),coredata(data)))
+  colnames(data.df)[1] = "date"
+  data.melt <- melt(data.df,id.vars=1,stringsAsFactors=FALSE)
+  colnames(data.melt) <- c("date","indexname","value")
   #remove periods from indexnames to prevent javascript confusion
   #these . usually come from spaces in the colnames when melted
-  data.melt[,&quot;indexname&quot;] &lt;- apply(matrix(data.melt[,&quot;indexname&quot;]),2,gsub,pattern=&quot;[.]&quot;,replacement=&quot;&quot;)
+  data.melt[,"indexname"] <- apply(matrix(data.melt[,"indexname"]),2,gsub,pattern="[.]",replacement="")
   return(data.melt)
   #return(df2json(na.omit(data.melt)))
 }
-</code></pre>
+```
 
-<p>Now let&#39;s use our new <code>xtsMelt</code> function on our data.  You might notice that we use <code>na.omit</code> to remove the pesky NAs that sometimes haunt FRED data.</p>
 
-<pre><code class="r">ust.melt &lt;- na.omit( xtsMelt( ust.xts[&quot;2012::&quot;,] ) )
+Now let's use our new `xtsMelt` function on our data.  You might notice that we use `na.omit` to remove the pesky NAs that sometimes haunt FRED data.
 
-ust.melt$date &lt;- format(as.Date(ust.melt$date))
-ust.melt$value &lt;- as.numeric(ust.melt$value)
-ust.melt$indexname &lt;- factor(
+
+```r
+ust.melt <- na.omit( xtsMelt( ust.xts["2012::",] ) )
+
+ust.melt$date <- format(as.Date(ust.melt$date))
+ust.melt$value <- as.numeric(ust.melt$value)
+ust.melt$indexname <- factor(
   ust.melt$indexname, levels = colnames(ust.xts)
 )
-ust.melt$maturity &lt;- as.numeric(
+ust.melt$maturity <- as.numeric(
   substr(
     ust.melt$indexname, 4, length( ust.melt$indexname ) - 4
   )
 )
-ust.melt$country &lt;- rep( &quot;US&quot;, nrow( ust.melt ))
-</code></pre>
+ust.melt$country <- rep( "US", nrow( ust.melt ))
+```
 
-<p>Getting the data was fairly easy, now let&#39;s plot.  I hope you see how easy it is to get an interactive <code>dimplejs</code> chart from <code>R</code>.  Without my comments, the code would all fit nicely on one line.  We can even use a <code>r</code> formula to define our <code>x</code> and <code>y</code> as shown <code>value~date</code>.</p>
 
-<pre><code class="r">#simple line chart of 10 year
-d1 &lt;- dPlot(
-  value ~ date,  #or x=&quot;date&quot;, y=&quot;value&quot;
+Getting the data was fairly easy, now let's plot.  I hope you see how easy it is to get an interactive `dimplejs` chart from `R`.  Without my comments, the code would all fit nicely on one line.  We can even use a `r` formula to define our `x` and `y` as shown `value~date`.
+
+
+```r
+#simple line chart of 10 year
+d1 <- dPlot(
+  value ~ date,  #or x="date", y="value"
   #dimplejs allows filtering but will lessen data to write
   #if we subset in R
   data = subset(ust.melt,maturity==10),  #get all data for 10y maturity
-  type = &#39;line&#39;
+  type = 'line'
 )
 d1
-</code></pre>
+```
 
 <div id ="chart1"></div>
 
 <div id='chart1' class='rChart dimple'></div>
-
 <script type="text/javascript">
   var opts = {
  "dom": "chart1",
@@ -2849,20 +2826,22 @@ d1
 
 </script>
 
-<p>Uh oh, our x axis does not look too pretty.  However, <code>rCharts</code> is extensible and modular, so let&#39;s quickly jump to a little more advanced concept.  Currently <code>dimplejs</code> does not support dates on the x axis as well as I would like.  <code>dimplejs</code> is built on <code>d3</code>, so let&#39;s fix with a little <a href="http://bl.ocks.org/mbostock/1166403">help</a> from the <code>d3</code> master <a href="http://bost.ocks.org/mike/">Mike Bostock</a>.  I built a custom <a href="http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html">layout template</a> to remove the <code>dimple</code> x-axis and replace with a <code>d3</code> version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).</p>
 
-<pre><code class="r">d2 &lt;- d1
+Uh oh, our x axis does not look too pretty.  However, `rCharts` is extensible and modular, so let's quickly jump to a little more advanced concept.  Currently `dimplejs` does not support dates on the x axis as well as I would like.  `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
+
+
+```r
+d2 <- d1
 d2$field(
-  &#39;templates&#39;,
-  modifyList(d2$templates, list(id = &quot;chart2&quot;, script = &#39;http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html&#39;) )
+  'templates',
+  modifyList(d2$templates, list(id = "chart2", script = 'http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html') )
 )
 d2
-</code></pre>
+```
 
 <div id = "chart2"></div>
 
 <div id='chart2' class='rChart dimple'></div>
-
 <script type="text/javascript">
   var opts = {
  "dom": "chart2",
@@ -5561,7 +5540,6 @@ d2
   myChart.draw();
 
 </script>
-
 <script>
 //add this as a way to work around current lack of features for 
 //times on x axis in dimple
@@ -5615,30 +5593,32 @@ svg.append("svg:path")
 */
 </script>
 
-<p>Sorry for the little advanced topic.  The author of dimplejs says better date handling is on his TO-DO list.</p>
 
-<p>Most portfolio managers/analysts will want more than just the US 10y.  Let&#39;s plot all the maturities with just one little <code>groups</code> addition in our <code>dPlot</code>.  I also anticipate that we will need a legend to identify our maturities by color so we will also add a legend.</p>
+Sorry for the little advanced topic.  The author of dimplejs says better date handling is on his TO-DO list.
 
-<pre><code class="r">#simple line chart of all maturities
-d3 &lt;- dPlot(
-  value ~ date,  #or x=&quot;date&quot;, y=&quot;value&quot;
-  groups = &#39;maturity&#39;,
+Most portfolio managers/analysts will want more than just the US 10y.  Let's plot all the maturities with just one little `groups` addition in our `dPlot`.  I also anticipate that we will need a legend to identify our maturities by color so we will also add a legend.
+
+
+```r
+#simple line chart of all maturities
+d3 <- dPlot(
+  value ~ date,  #or x="date", y="value"
+  groups = 'maturity',
   data = ust.melt,  #get all maturities so remove subset from above
-  type = &#39;line&#39;
+  type = 'line'
 )
 d3$legend( x = 60, y = 10, width = 620, height = 20,
-  horizontalAlign = &quot;right&quot;)
+  horizontalAlign = "right")
 d3$field(
-  &#39;templates&#39;,
-  modifyList(d3$templates, list(id = &quot;chart3&quot;, script = &#39;http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html&#39;) )
+  'templates',
+  modifyList(d3$templates, list(id = "chart3", script = 'http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html') )
 )
 d3
-</code></pre>
+```
 
 <div id ="chart3"></div>
 
 <div id='chart3' class='rChart dimple'></div>
-
 <script type="text/javascript">
   var opts = {
  "dom": "chart3",
@@ -26523,7 +26503,6 @@ d3
   myChart.draw();
 
 </script>
-
 <script>
 //add this as a way to work around current lack of features for 
 //times on x axis in dimple
@@ -26577,26 +26556,29 @@ svg.append("svg:path")
 */
 </script>
 
-<p>I am still really proud of my chart displayed in this <a href="http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html">post</a>.  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our <code>x</code> in <code>dPlot()</code> and then sort with <code>d4$xAxis(grouporderRule=&quot;date&quot;)</code></p>
 
-<pre><code class="r">#simple line chart of all maturities
-d4 &lt;- dPlot(
-  x = c(&quot;maturity&quot;,&quot;date&quot;),
-  y = &quot;value&quot;,
-  groups = &#39;maturity&#39;,
+I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`
+
+
+
+```r
+#simple line chart of all maturities
+d4 <- dPlot(
+  x = c("maturity","date"),
+  y = "value",
+  groups = 'maturity',
   data = ust.melt,
-  type = &#39;line&#39;
+  type = 'line'
 )
-d4$xAxis( grouporderRule = &quot;date&quot; ) #sort by date
+d4$xAxis( grouporderRule = "date" ) #sort by date
 d4$legend( x = 60, y = 10, width = 620, height = 20,
-  horizontalAlign = &quot;right&quot;)
+  horizontalAlign = "right")
 d4
-</code></pre>
+```
 
 <div id ="chart4"></div>
 
 <div id='chart4' class='rChart dimple'></div>
-
 <script type="text/javascript">
   var opts = {
  "dom": "chart4",
@@ -47483,23 +47465,881 @@ d4
 
 </script>
 
-    </div>
-        
-</body>
-  <script src="libraries/frameworks/bootstrap/js/vendor/bootstrap.min.js"></script>
-  <script src="libraries/frameworks/bootstrap/js/plugins.js"></script>
-  <script src="libraries/frameworks/bootstrap/js/main.js"></script>
-  <!-- Load Javascripts for Widgets -->
-  
-  <!-- Google Prettify -->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
-  <script src='libraries/highlighters/prettify/js/lang-r.js'></script>
-  <script>
-    var pres = document.getElementsByTagName("pre");
-    for (var i=0; i < pres.length; ++i) {
-      pres[i].className = "prettyprint linenums";
+
+Another way to look at yields would be as a yield curve.  Generally, this means remove time, but with `dimplejs` `storyboard` feature we can see the history of the yield curve.  Daily would be a little tedious, so let's do weekly since April 2013.
+
+
+```r
+#get weekly since April 2013
+ust.melt <- xtsMelt(to.weekly(ust.xts,OHLC=FALSE)["2013-04::",])
+
+ust.melt$date <- format(as.Date(ust.melt$date),"%m/%d/%Y")
+ust.melt$value <- as.numeric(ust.melt$value)
+ust.melt$indexname <- factor(
+  ust.melt$indexname, levels = colnames(ust.xts)
+)
+ust.melt$maturity <- as.numeric(
+  substr(
+    ust.melt$indexname, 4, length( ust.melt$indexname ) - 4
+  )
+)
+ust.melt$country <- rep( "US", nrow( ust.melt ))
+
+d5 <- dPlot(
+  value ~ maturity,
+  data = ust.melt,
+  type = "line"
+)
+d5$xAxis( orderRule ="maturity" )
+d5$set( storyboard = "date" )
+d5
+```
+
+<div id ="chart5"></div>
+
+<div id='chart5' class='rChart dimple'></div>
+<script type="text/javascript">
+  var opts = {
+ "dom": "chart5",
+"width":    800,
+"height":    400,
+"x": "maturity",
+"y": "value",
+"type": "line",
+"storyboard": "date",
+"id": "chart5" 
+},
+    data = [
+ {
+ "date": "04/05/2013",
+"indexname": "DGS1",
+"value":   0.13,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS1",
+"value":   0.12,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS1",
+"value":   0.12,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS1",
+"value":   0.12,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS1",
+"value":   0.12,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS1",
+"value":   0.13,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS1",
+"value":   0.13,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS1",
+"value":   0.17,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS2",
+"value":   0.24,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS2",
+"value":   0.22,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS2",
+"value":   0.24,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS2",
+"value":   0.22,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS2",
+"value":   0.22,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS2",
+"value":   0.26,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS2",
+"value":   0.26,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS2",
+"value":   0.26,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS2",
+"value":    0.3,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS2",
+"value":   0.32,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS2",
+"value":   0.29,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS2",
+"value":   0.38,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS2",
+"value":   0.43,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS3",
+"value":   0.33,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS3",
+"value":   0.33,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS3",
+"value":   0.35,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS3",
+"value":   0.32,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS3",
+"value":   0.34,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS3",
+"value":   0.38,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS3",
+"value":    0.4,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS3",
+"value":   0.41,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS3",
+"value":   0.52,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS3",
+"value":   0.52,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS3",
+"value":   0.49,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS3",
+"value":    0.7,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS3",
+"value":   0.74,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS5",
+"value":   0.68,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS5",
+"value":    0.7,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS5",
+"value":   0.72,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS5",
+"value":   0.68,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS5",
+"value":   0.73,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS5",
+"value":   0.82,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS5",
+"value":   0.84,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS5",
+"value":    0.9,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS5",
+"value":   1.05,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS5",
+"value":    1.1,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS5",
+"value":   1.04,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS5",
+"value":   1.42,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS5",
+"value":   1.49,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS7",
+"value":   1.12,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS7",
+"value":   1.14,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS7",
+"value":   1.14,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS7",
+"value":    1.1,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS7",
+"value":   1.17,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS7",
+"value":   1.28,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS7",
+"value":   1.32,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS7",
+"value":   1.39,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS7",
+"value":   1.55,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS7",
+"value":   1.59,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS7",
+"value":   1.53,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS7",
+"value":   1.95,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS7",
+"value":   2.03,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS10",
+"value":   1.72,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS10",
+"value":   1.75,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS10",
+"value":   1.73,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS10",
+"value":    1.7,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS10",
+"value":   1.78,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS10",
+"value":    1.9,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS10",
+"value":   1.95,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS10",
+"value":   2.01,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS10",
+"value":   2.16,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS10",
+"value":   2.17,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS10",
+"value":   2.14,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS10",
+"value":   2.52,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS10",
+"value":    2.6,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS20",
+"value":    2.5,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS20",
+"value":   2.54,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS20",
+"value":    2.5,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS20",
+"value":   2.47,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS20",
+"value":   2.58,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS20",
+"value":    2.7,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS20",
+"value":   2.77,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS20",
+"value":    2.8,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS20",
+"value":   2.95,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS20",
+"value":   2.98,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS20",
+"value":   2.95,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS20",
+"value":   3.26,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS20",
+"value":   3.31,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/05/2013",
+"indexname": "DGS30",
+"value":   2.87,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/12/2013",
+"indexname": "DGS30",
+"value":   2.92,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/19/2013",
+"indexname": "DGS30",
+"value":   2.88,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/26/2013",
+"indexname": "DGS30",
+"value":   2.87,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/03/2013",
+"indexname": "DGS30",
+"value":   2.96,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/10/2013",
+"indexname": "DGS30",
+"value":    3.1,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/17/2013",
+"indexname": "DGS30",
+"value":   3.17,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/24/2013",
+"indexname": "DGS30",
+"value":   3.18,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/31/2013",
+"indexname": "DGS30",
+"value":    3.3,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/07/2013",
+"indexname": "DGS30",
+"value":   3.33,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/14/2013",
+"indexname": "DGS30",
+"value":   3.28,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/21/2013",
+"indexname": "DGS30",
+"value":   3.56,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/25/2013",
+"indexname": "DGS30",
+"value":    3.6,
+"maturity":     30,
+"country": "US" 
+} 
+],
+    xAxis = {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": "maturity" 
+},
+    yAxis = {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+    zAxis = [],
+    legend = [];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(x = opts.bounds.x, y = opts.bounds.y, height = opts.bounds.height, width = opts.bounds.width);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var x;
+  if(xAxis.measure) {
+    x = myChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    x = myChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) x.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) x.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) x.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) x.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  //y axis
+  var y;
+  if(yAxis.measure) {
+    y = myChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    y = myChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) y.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) y.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) y.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) y.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) y.overrideMax = yAxis.overrideMax;
+  //z for bubbles
+    var z;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      z = myChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      z = myChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) z.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) z.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) z.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) z.overrideMax = zAxis.overrideMax;
+  }
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  if(opts.hasOwnProperty("groups")) {
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      s.aggregate = eval(opts.aggregate);
     }
-    prettyPrint();
-  </script>
-  <!-- End Google Prettify --> 
-  </html>
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      s.barGap = eval(opts.barGap);
+    }    
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+
+```r
+d6 <- dPlot(
+  x = c("date","maturity"),
+  y = "value",
+  groups = "maturity",
+  data = ust.melt,
+  type = "line"
+)
+d6$xAxis( orderRule = "date" )
+d6
+```
+
