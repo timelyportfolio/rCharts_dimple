@@ -212,7 +212,7 @@ d4$print('chart4')
 Another way to look at yields would be as a yield curve.  Generally, this means remove time, but with `dimplejs` `storyboard` feature we can see the history of the yield curve.  Daily would be a little tedious, so let's do monthly 2013.  Watch closely.
 
 ```{r}
-#get weekly since April 2013
+#get monthly for 2013
 ust.melt <- xtsMelt(ust.xts[endpoints(ust.xts,"months"),]["2013::",])
 
 ust.melt$date <- format(as.Date(ust.melt$date),"%m/%d/%Y")
@@ -300,7 +300,7 @@ d8
 ```
 <div id ="chart8"></div>
 ```{r echo = F}
-d7$print('chart8')
+d8$print('chart8')
 ```
 
 ---
