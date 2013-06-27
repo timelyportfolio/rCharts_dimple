@@ -1,17 +1,20 @@
 ---
 title: rCharts, dimple, and time series
-subtitle: Some Experiments Using US Treasury Yield Data
 author: Timely Portfolio
 github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
-framework: bootstrap
+framework: bootplus
+layout: post
 mode: selfcontained
 ext_widgets: {rCharts: "libraries/dimple"}
 highlighter: prettify
 hitheme: twitter-bootstrap
+lead : >
+  dimplejs and rCharts Tutorial with US Treasury Yield Data
 ---
 
+# rCharts Smiles With dimple
+
 <style>
-.container {width: 800px;}
 /*
 path.line {
   fill: none;
@@ -40,7 +43,11 @@ path.line {
 
 
 
-Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.
+
+Even this early in it release, [dimplejs](http://dimplejs.org) is such a powerful and promising [d3](http://d3js.org) library that we decided to quickly make it available in [rCharts](http://rcharts.io/site).  The first test was to recreate all (48) of the examples provided by [dimplejs](http://dimplejs.org/examples_index.html) with `rCharts`.  Once we [completed those](http://timelyportfolio.github.io/rCharts_dimple/gallery/), we felt fairly satisfied that we had good coverage of the `dimplejs` API (easily one of the best [documented](https://github.com/PMSI-AlignAlytics/dimple/wiki)).  We are aware of a couple missing items, but I really wanted to throw some real financial time series at it to see how well it might work in my real life as a portfolio manager.  If you are not familiar with `rCharts`, you might want to see this [Quickstart](http://ramnathv.github.io/rCharts/).
+
+---
+### Get the Data
 
 Since bonds are a hot topic now, I thought some US Treasury Yield data from the St. Louis Federal Reserve (FRED) would make a nice subject.  I will start very basic and build up to a still simple but slightly more complicated plot.  As always, we first need data so we grab the data with `quantmod` `getSymbols()` and then merge it into one big `ust.xts` object.
 
@@ -62,6 +69,8 @@ for (i in 1:length( USbondssymbols ) ) {
 }
 ```
 
+---
+### Transform Our Data
 
 Then we will define a little `xtsMelt` function to easily transform our wide `xts` data into long form.
 
@@ -108,6 +117,9 @@ ust.melt$maturity <- as.numeric(
 ust.melt$country <- rep( "US", nrow( ust.melt ))
 ```
 
+
+---
+### Our First Plot - A Single Line
 
 Getting the data was fairly easy, now let's plot.  I hope you see how easy it is to get an interactive `dimplejs` chart from `R`.  Without my comments, the code would all fit nicely on one line.  We can even use a `r` formula to define our `x` and `y` as shown `value~date`.
 
@@ -2826,6 +2838,10 @@ d1
 
 </script>
 
+
+
+---
+### Fix the x axis
 
 Uh oh, our x axis does not look too pretty.  However, `rCharts` is extensible and modular, so let's quickly jump to a little more advanced concept.  Currently `dimplejs` does not support dates on the x axis as well as I would like.  `dimplejs` is built on `d3`, so let's fix with a little [help](http://bl.ocks.org/mbostock/1166403) from the `d3` master [Mike Bostock](http://bost.ocks.org/mike/).  I built a custom [layout template](http://timelyportfolio.github.io/rCharts_dimple/assets/chart_d3dateaxis.html) to remove the `dimple` x-axis and replace with a `d3` version featuring much better date/time support.  To access it, we can set it with a little hack (I have a little inside information that this will soon become much easier).
 
@@ -5593,6 +5609,9 @@ svg.append("svg:path")
 */
 </script>
 
+
+---
+### Line Chart with all Maturities
 
 Sorry for the little advanced topic.  The author of dimplejs says better date handling is on his TO-DO list.
 
@@ -26557,7 +26576,10 @@ svg.append("svg:path")
 </script>
 
 
-I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`
+---
+### Line Chart by Maturity by Date
+
+I am still really proud of my chart displayed in this [post](http://timelyportfolio.blogspot.com/2013/05/even-more-jgb-yield-charts-with-r.html).  I bet we can do something like that but better since we will have interactivity.  Will it be hard?  Of course not, we just change our `x` in `dPlot()` and then sort with `d4$xAxis(grouporderRule="date")`.
 
 
 
@@ -47466,12 +47488,15 @@ d4
 </script>
 
 
-Another way to look at yields would be as a yield curve.  Generally, this means remove time, but with `dimplejs` `storyboard` feature we can see the history of the yield curve.  Daily would be a little tedious, so let's do weekly since April 2013.
+---
+### Yield Curve Storyboard
+
+Another way to look at yields would be as a yield curve.  Generally, this means remove time, but with `dimplejs` `storyboard` feature we can see the history of the yield curve.  Daily would be a little tedious, so let's do monthly 2013.  Watch closely.
 
 
 ```r
 #get weekly since April 2013
-ust.melt <- xtsMelt(to.weekly(ust.xts,OHLC=FALSE)["2013-04::",])
+ust.melt <- xtsMelt(ust.xts[endpoints(ust.xts,"months"),]["2013::",])
 
 ust.melt$date <- format(as.Date(ust.melt$date),"%m/%d/%Y")
 ust.melt$value <- as.numeric(ust.melt$value)
@@ -47511,728 +47536,336 @@ d5
 },
     data = [
  {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS1",
-"value":   0.13,
+"value":   0.15,
 "maturity":      1,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS1",
-"value":   0.11,
+"value":   0.16,
 "maturity":      1,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
-"indexname": "DGS1",
-"value":   0.12,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "04/26/2013",
-"indexname": "DGS1",
-"value":   0.12,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "05/03/2013",
-"indexname": "DGS1",
-"value":   0.11,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS1",
-"value":   0.11,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS1",
-"value":   0.12,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS1",
-"value":   0.12,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "03/31/2013",
 "indexname": "DGS1",
 "value":   0.14,
 "maturity":      1,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
+ "date": "04/30/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
 "indexname": "DGS1",
 "value":   0.14,
 "maturity":      1,
 "country": "US" 
 },
 {
- "date": "06/14/2013",
-"indexname": "DGS1",
-"value":   0.13,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS1",
-"value":   0.13,
-"maturity":      1,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS1",
 "value":   0.17,
 "maturity":      1,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS2",
-"value":   0.24,
+"value":   0.27,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS2",
-"value":   0.22,
+"value":   0.25,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
+ "date": "03/31/2013",
 "indexname": "DGS2",
-"value":   0.24,
+"value":   0.23,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "04/26/2013",
+ "date": "04/30/2013",
 "indexname": "DGS2",
-"value":   0.22,
+"value":    0.2,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "05/03/2013",
-"indexname": "DGS2",
-"value":   0.22,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS2",
-"value":   0.26,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS2",
-"value":   0.26,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS2",
-"value":   0.26,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS2",
 "value":    0.3,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS2",
-"value":   0.32,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS2",
-"value":   0.29,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS2",
-"value":   0.38,
-"maturity":      2,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS2",
 "value":   0.43,
 "maturity":      2,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
-"indexname": "DGS3",
-"value":   0.33,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "04/12/2013",
-"indexname": "DGS3",
-"value":   0.33,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "04/19/2013",
-"indexname": "DGS3",
-"value":   0.35,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "04/26/2013",
-"indexname": "DGS3",
-"value":   0.32,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "05/03/2013",
-"indexname": "DGS3",
-"value":   0.34,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS3",
-"value":   0.38,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
+ "date": "01/31/2013",
 "indexname": "DGS3",
 "value":    0.4,
 "maturity":      3,
 "country": "US" 
 },
 {
- "date": "05/24/2013",
+ "date": "02/28/2013",
 "indexname": "DGS3",
-"value":   0.41,
+"value":   0.35,
 "maturity":      3,
 "country": "US" 
 },
 {
- "date": "05/31/2013",
+ "date": "03/31/2013",
+"indexname": "DGS3",
+"value":   0.36,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS3",
+"value":    0.3,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
 "indexname": "DGS3",
 "value":   0.52,
 "maturity":      3,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS3",
-"value":   0.52,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS3",
-"value":   0.49,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS3",
-"value":    0.7,
-"maturity":      3,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS3",
 "value":   0.74,
 "maturity":      3,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS5",
-"value":   0.68,
+"value":   0.88,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS5",
-"value":    0.7,
+"value":   0.75,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
+ "date": "03/31/2013",
 "indexname": "DGS5",
-"value":   0.72,
+"value":   0.76,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "04/26/2013",
+ "date": "04/30/2013",
 "indexname": "DGS5",
-"value":   0.68,
+"value":   0.65,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "05/03/2013",
-"indexname": "DGS5",
-"value":   0.73,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS5",
-"value":   0.82,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS5",
-"value":   0.84,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS5",
-"value":    0.9,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS5",
 "value":   1.05,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS5",
-"value":    1.1,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS5",
-"value":   1.04,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS5",
-"value":   1.42,
-"maturity":      5,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS5",
 "value":   1.49,
 "maturity":      5,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS7",
-"value":   1.12,
+"value":    1.4,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS7",
-"value":   1.14,
+"value":   1.23,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
+ "date": "03/31/2013",
 "indexname": "DGS7",
-"value":   1.14,
+"value":   1.23,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "04/26/2013",
+ "date": "04/30/2013",
 "indexname": "DGS7",
-"value":    1.1,
+"value":   1.07,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "05/03/2013",
-"indexname": "DGS7",
-"value":   1.17,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS7",
-"value":   1.28,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS7",
-"value":   1.32,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS7",
-"value":   1.39,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS7",
 "value":   1.55,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS7",
-"value":   1.59,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS7",
-"value":   1.53,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS7",
-"value":   1.95,
-"maturity":      7,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS7",
 "value":   2.03,
 "maturity":      7,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS10",
-"value":   1.72,
+"value":   2.04,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS10",
-"value":   1.75,
+"value":   1.86,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
+ "date": "03/31/2013",
 "indexname": "DGS10",
-"value":   1.73,
+"value":   1.86,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "04/26/2013",
+ "date": "04/30/2013",
 "indexname": "DGS10",
-"value":    1.7,
+"value":   1.66,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "05/03/2013",
-"indexname": "DGS10",
-"value":   1.78,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS10",
-"value":    1.9,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS10",
-"value":   1.95,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS10",
-"value":   2.01,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS10",
 "value":   2.16,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS10",
-"value":   2.17,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS10",
-"value":   2.14,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS10",
-"value":   2.52,
-"maturity":     10,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS10",
 "value":    2.6,
 "maturity":     10,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS20",
-"value":    2.5,
+"value":   2.83,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS20",
-"value":   2.54,
+"value":   2.68,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
-"indexname": "DGS20",
-"value":    2.5,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "04/26/2013",
-"indexname": "DGS20",
-"value":   2.47,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "05/03/2013",
-"indexname": "DGS20",
-"value":   2.58,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
+ "date": "03/31/2013",
 "indexname": "DGS20",
 "value":    2.7,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "05/17/2013",
+ "date": "04/30/2013",
 "indexname": "DGS20",
-"value":   2.77,
+"value":   2.44,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "05/24/2013",
-"indexname": "DGS20",
-"value":    2.8,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS20",
 "value":   2.95,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS20",
-"value":   2.98,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS20",
-"value":   2.95,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS20",
-"value":   3.26,
-"maturity":     20,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS20",
 "value":   3.31,
 "maturity":     20,
 "country": "US" 
 },
 {
- "date": "04/05/2013",
+ "date": "01/31/2013",
 "indexname": "DGS30",
-"value":   2.87,
+"value":   3.21,
 "maturity":     30,
 "country": "US" 
 },
 {
- "date": "04/12/2013",
+ "date": "02/28/2013",
 "indexname": "DGS30",
-"value":   2.92,
+"value":   3.06,
 "maturity":     30,
 "country": "US" 
 },
 {
- "date": "04/19/2013",
+ "date": "03/31/2013",
 "indexname": "DGS30",
-"value":   2.88,
+"value":   3.08,
 "maturity":     30,
 "country": "US" 
 },
 {
- "date": "04/26/2013",
+ "date": "04/30/2013",
 "indexname": "DGS30",
-"value":   2.87,
+"value":   2.83,
 "maturity":     30,
 "country": "US" 
 },
 {
- "date": "05/03/2013",
-"indexname": "DGS30",
-"value":   2.96,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "05/10/2013",
-"indexname": "DGS30",
-"value":    3.1,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "05/17/2013",
-"indexname": "DGS30",
-"value":   3.17,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "05/24/2013",
-"indexname": "DGS30",
-"value":   3.18,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "05/31/2013",
+ "date": "05/30/2013",
 "indexname": "DGS30",
 "value":    3.3,
 "maturity":     30,
 "country": "US" 
 },
 {
- "date": "06/07/2013",
-"indexname": "DGS30",
-"value":   3.33,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "06/14/2013",
-"indexname": "DGS30",
-"value":   3.28,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "06/21/2013",
-"indexname": "DGS30",
-"value":   3.56,
-"maturity":     30,
-"country": "US" 
-},
-{
- "date": "06/25/2013",
+ "date": "06/24/2013",
 "indexname": "DGS30",
 "value":    3.6,
 "maturity":     30,
@@ -48331,15 +47964,1399 @@ d5
 </script>
 
 
+---
+### Other dimplejs Chart Types
+
+Telling a story with your data has never been so easy.  Add a little text content describing the change and next you will be presenting at [Eyeo](http://eyeofestival.com/).
+
+Just to make sure we cover some of the other plot types, let's draw our other two `dimplejs` options--area, bar, and bubble.
+
+
 ```r
 d6 <- dPlot(
-  x = c("date","maturity"),
+  x = "date",
   y = "value",
-  groups = "maturity",
+  groups = "indexname",
   data = ust.melt,
-  type = "line"
+  type = "area"
 )
 d6$xAxis( orderRule = "date" )
 d6
 ```
 
+<div id ="chart6"></div>
+
+<div id='chart6' class='rChart dimple'></div>
+<script type="text/javascript">
+  var opts = {
+ "dom": "chart6",
+"width":    800,
+"height":    400,
+"x": "date",
+"y": "value",
+"groups": "indexname",
+"type": "area",
+"id": "chart6" 
+},
+    data = [
+ {
+ "date": "01/31/2013",
+"indexname": "DGS1",
+"value":   0.15,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS1",
+"value":   0.16,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS1",
+"value":   0.17,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS2",
+"value":   0.27,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS2",
+"value":   0.25,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS2",
+"value":   0.23,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS2",
+"value":    0.2,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS2",
+"value":    0.3,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS2",
+"value":   0.43,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS3",
+"value":    0.4,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS3",
+"value":   0.35,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS3",
+"value":   0.36,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS3",
+"value":    0.3,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS3",
+"value":   0.52,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS3",
+"value":   0.74,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS5",
+"value":   0.88,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS5",
+"value":   0.75,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS5",
+"value":   0.76,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS5",
+"value":   0.65,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS5",
+"value":   1.05,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS5",
+"value":   1.49,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS7",
+"value":    1.4,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS7",
+"value":   1.07,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS7",
+"value":   1.55,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS7",
+"value":   2.03,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS10",
+"value":   2.04,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS10",
+"value":   1.66,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS10",
+"value":   2.16,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS10",
+"value":    2.6,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS20",
+"value":   2.83,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS20",
+"value":   2.68,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS20",
+"value":    2.7,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS20",
+"value":   2.44,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS20",
+"value":   2.95,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS20",
+"value":   3.31,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS30",
+"value":   3.21,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS30",
+"value":   3.06,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS30",
+"value":   3.08,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS30",
+"value":   2.83,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS30",
+"value":    3.3,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS30",
+"value":    3.6,
+"maturity":     30,
+"country": "US" 
+} 
+],
+    xAxis = {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": "date" 
+},
+    yAxis = {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+    zAxis = [],
+    legend = [];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(x = opts.bounds.x, y = opts.bounds.y, height = opts.bounds.height, width = opts.bounds.width);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var x;
+  if(xAxis.measure) {
+    x = myChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    x = myChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) x.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) x.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) x.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) x.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  //y axis
+  var y;
+  if(yAxis.measure) {
+    y = myChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    y = myChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) y.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) y.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) y.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) y.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) y.overrideMax = yAxis.overrideMax;
+  //z for bubbles
+    var z;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      z = myChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      z = myChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) z.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) z.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) z.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) z.overrideMax = zAxis.overrideMax;
+  }
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  if(opts.hasOwnProperty("groups")) {
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      s.aggregate = eval(opts.aggregate);
+    }
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      s.barGap = eval(opts.barGap);
+    }    
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+
+And although a stacked 100% bar does not make a lot of sense with this data, here is how we might do that by changing `type = "bar"` and `d7$yAxis( type = "addPctAxis" )`.
+
+
+```r
+d7 <- dPlot(
+  x = "date",
+  y = "value",
+  groups = "indexname",
+  data = ust.melt,
+  type = "bar"
+)
+d7$xAxis( orderRule = "date" )
+d7$yAxis( type = "addPctAxis" )
+d7
+```
+
+<div id ="chart7"></div>
+
+<div id='chart7' class='rChart dimple'></div>
+<script type="text/javascript">
+  var opts = {
+ "dom": "chart7",
+"width":    800,
+"height":    400,
+"x": "date",
+"y": "value",
+"groups": "indexname",
+"type": "bar",
+"id": "chart7" 
+},
+    data = [
+ {
+ "date": "01/31/2013",
+"indexname": "DGS1",
+"value":   0.15,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS1",
+"value":   0.16,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS1",
+"value":   0.17,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS2",
+"value":   0.27,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS2",
+"value":   0.25,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS2",
+"value":   0.23,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS2",
+"value":    0.2,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS2",
+"value":    0.3,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS2",
+"value":   0.43,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS3",
+"value":    0.4,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS3",
+"value":   0.35,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS3",
+"value":   0.36,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS3",
+"value":    0.3,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS3",
+"value":   0.52,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS3",
+"value":   0.74,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS5",
+"value":   0.88,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS5",
+"value":   0.75,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS5",
+"value":   0.76,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS5",
+"value":   0.65,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS5",
+"value":   1.05,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS5",
+"value":   1.49,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS7",
+"value":    1.4,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS7",
+"value":   1.07,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS7",
+"value":   1.55,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS7",
+"value":   2.03,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS10",
+"value":   2.04,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS10",
+"value":   1.66,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS10",
+"value":   2.16,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS10",
+"value":    2.6,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS20",
+"value":   2.83,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS20",
+"value":   2.68,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS20",
+"value":    2.7,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS20",
+"value":   2.44,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS20",
+"value":   2.95,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS20",
+"value":   3.31,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS30",
+"value":   3.21,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS30",
+"value":   3.06,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS30",
+"value":   3.08,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS30",
+"value":   2.83,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS30",
+"value":    3.3,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS30",
+"value":    3.6,
+"maturity":     30,
+"country": "US" 
+} 
+],
+    xAxis = {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": "date" 
+},
+    yAxis = {
+ "type": "addPctAxis",
+"showPercent": false 
+},
+    zAxis = [],
+    legend = [];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(x = opts.bounds.x, y = opts.bounds.y, height = opts.bounds.height, width = opts.bounds.width);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var x;
+  if(xAxis.measure) {
+    x = myChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    x = myChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) x.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) x.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) x.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) x.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  //y axis
+  var y;
+  if(yAxis.measure) {
+    y = myChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    y = myChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) y.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) y.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) y.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) y.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) y.overrideMax = yAxis.overrideMax;
+  //z for bubbles
+    var z;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      z = myChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      z = myChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) z.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) z.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) z.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) z.overrideMax = zAxis.overrideMax;
+  }
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  if(opts.hasOwnProperty("groups")) {
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      s.aggregate = eval(opts.aggregate);
+    }
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      s.barGap = eval(opts.barGap);
+    }    
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+
+Bubble also might not be the best way to plot yields, but here is an example.
+
+
+```r
+d8 <- dPlot(
+  x = c("indexname","date"),
+  y = "value",
+  z = "value",
+  groups = "indexname",
+  data = ust.melt,
+  type = "bubble"
+)
+d8$xAxis( grouporderRule = "date", orderRule = "maturity" )
+d8$zAxis( type = "addMeasureAxis", overrideMax = 10 )
+d8
+```
+
+<div id ="chart8"></div>
+
+<div id='chart8' class='rChart dimple'></div>
+<script type="text/javascript">
+  var opts = {
+ "dom": "chart8",
+"width":    800,
+"height":    400,
+"x": "date",
+"y": "value",
+"groups": "indexname",
+"type": "bar",
+"id": "chart8" 
+},
+    data = [
+ {
+ "date": "01/31/2013",
+"indexname": "DGS1",
+"value":   0.15,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS1",
+"value":   0.16,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS1",
+"value":   0.11,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS1",
+"value":   0.14,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS1",
+"value":   0.17,
+"maturity":      1,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS2",
+"value":   0.27,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS2",
+"value":   0.25,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS2",
+"value":   0.23,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS2",
+"value":    0.2,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS2",
+"value":    0.3,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS2",
+"value":   0.43,
+"maturity":      2,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS3",
+"value":    0.4,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS3",
+"value":   0.35,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS3",
+"value":   0.36,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS3",
+"value":    0.3,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS3",
+"value":   0.52,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS3",
+"value":   0.74,
+"maturity":      3,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS5",
+"value":   0.88,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS5",
+"value":   0.75,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS5",
+"value":   0.76,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS5",
+"value":   0.65,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS5",
+"value":   1.05,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS5",
+"value":   1.49,
+"maturity":      5,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS7",
+"value":    1.4,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS7",
+"value":   1.23,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS7",
+"value":   1.07,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS7",
+"value":   1.55,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS7",
+"value":   2.03,
+"maturity":      7,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS10",
+"value":   2.04,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS10",
+"value":   1.86,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS10",
+"value":   1.66,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS10",
+"value":   2.16,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS10",
+"value":    2.6,
+"maturity":     10,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS20",
+"value":   2.83,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS20",
+"value":   2.68,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS20",
+"value":    2.7,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS20",
+"value":   2.44,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS20",
+"value":   2.95,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS20",
+"value":   3.31,
+"maturity":     20,
+"country": "US" 
+},
+{
+ "date": "01/31/2013",
+"indexname": "DGS30",
+"value":   3.21,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "02/28/2013",
+"indexname": "DGS30",
+"value":   3.06,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "03/31/2013",
+"indexname": "DGS30",
+"value":   3.08,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "04/30/2013",
+"indexname": "DGS30",
+"value":   2.83,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "05/30/2013",
+"indexname": "DGS30",
+"value":    3.3,
+"maturity":     30,
+"country": "US" 
+},
+{
+ "date": "06/24/2013",
+"indexname": "DGS30",
+"value":    3.6,
+"maturity":     30,
+"country": "US" 
+} 
+],
+    xAxis = {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": "date" 
+},
+    yAxis = {
+ "type": "addPctAxis",
+"showPercent": false 
+},
+    zAxis = [],
+    legend = [];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(x = opts.bounds.x, y = opts.bounds.y, height = opts.bounds.height, width = opts.bounds.width);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var x;
+  if(xAxis.measure) {
+    x = myChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    x = myChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) x.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) x.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) x.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) x.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  //y axis
+  var y;
+  if(yAxis.measure) {
+    y = myChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    y = myChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) y.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) y.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) y.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) y.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) y.overrideMax = yAxis.overrideMax;
+  //z for bubbles
+    var z;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      z = myChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      z = myChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) z.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) z.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) z.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) z.overrideMax = zAxis.overrideMax;
+  }
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  if(opts.hasOwnProperty("groups")) {
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      s.aggregate = eval(opts.aggregate);
+    }
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      s.barGap = eval(opts.barGap);
+    }    
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+
+---
+### More rCharts, slidify, and dimplejs
+
+The beauty of [rCharts](http://rcharts.io/site) is its ability to harness the ingenuity from the entire ecosystem inside and outside of `r`.  Whole libraries, such as [dimplejs](http://dimplejs.org), [nvd3](http://nvd3.org), [rickshaw](http://code.shutterstock.com/rickshaw/), [highcharts](http://highcharts.com), [morris](http://www.oesmith.co.uk/morris.js/), and [polycharts](http://www.polychartjs.com/), or even specific custom [visualizations](http://rcharts.io/site/gallery.html) can quickly be incorporated into your workflow and publishing.  If desired, these can be delivered in various reproducible formats with [slidify](http://slidify.org).  I strongly encourage you to check out [rCharts](http://rcharts.io/site), [slidify](http://slidify.org), and [dimplejs](http://dimplejs.org).  They have changed my world.
+
+
+---
+### Thanks:
+- [Ramnath Vaidyanathan](http://github.com/ramnathv) for his amazing dedication, responsiveness, and help with [rCharts](http://rcharts.io/site) and [slidify](http://slidify.org).
+- [John Kiernander](https://twitter.com/jkiernander) for `dimplejs`[http://dimplejs.org] and his seemingly infinite supply of helpful and inspirational [examples](http://dimplejs.org/advanced_examples_index.html).
+- [Mike Bostock](http://bost.ocks.org/mike/example/) for everything.
