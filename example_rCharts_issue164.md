@@ -1,7 +1,7 @@
 ---
-title: Sankey from Scratch
+title: Dimple Examples
 author: Timely Portfolio
-github: {user: timelyportfolio, repo: rCharts_d3_sankey, branch: "gh-pages"}
+github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
 framework: bootstrap
 mode: selfcontained
 highlighter: prettify
@@ -36,7 +36,7 @@ h4 {
 }
 </style>
 
-<a href="https://github.com/timelyportfolio/rCharts_d3_sankey"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/timelyportfolio/rCharts_dimple"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 
 
@@ -4561,7 +4561,7 @@ d1 <- dPlot(
   id = "chart6"
 )
 d1$yAxis( type = "addCategoryAxis", orderRule = "Tissue" )
-d1$zAxis( type = "addCategoryAxis", orderRule = "Zscore" )
+d1$xAxis( type = "addCategoryAxis", orderRule = "Zscore" )
 d1$zAxis( type = "addMeasureAxis", overrideMax = 30 )
 d1$print(d1$params$id)
 ```
@@ -5340,7 +5340,8 @@ d1$print(d1$params$id)
 ],
     xAxis = {
  "type": "addCategoryAxis",
-"showPercent": false 
+"showPercent": false,
+"orderRule": "Zscore" 
 },
     yAxis = {
  "type": "addCategoryAxis",
@@ -5349,7 +5350,6 @@ d1$print(d1$params$id)
 },
     zAxis = {
  "type": "addMeasureAxis",
-"orderRule": "Zscore",
 "overrideMax":     30 
 },
     colorAxis = [],
