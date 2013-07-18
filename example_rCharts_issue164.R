@@ -1,0 +1,26 @@
+require(rjson)
+require(rCharts)
+
+data <- data.frame(rjson::fromJSON('{"Zscore": [  1.594,  0.024,  5.231,  3.933,  6.222,  0.164,  3.324,  2.913,  3.357,  4.041,  5.082,  2.727,  2.739,  3.042,  2.308,  0.286,  1.965,  3.534,  1.518,  4.553,  0.937,  5.124,    0.4,  2.467,  1.475,  1.591,  2.943,  2.081,  3.083,  4.252,  3.951,  3.006,  3.578,  3.332,  3.641,  1.918,  4.157,  1.074,  3.416,  1.729, -0.229,  2.765, -0.071,  0.321,  4.151,  2.497,  2.295,  0.911,  1.949,  3.285,      3,  -1.23, -0.894,  0.853,   3.59,  3.643,  1.772,  2.276,  2.301,  3.088,   0.07,  2.422,  1.572,  1.864,  0.408,  0.838,  1.202, -0.645,  0.794,  0.866,  1.978,   1.14,  0.603,  3.268, -1.378,  2.304,  2.038,  1.275,  1.486,  2.979,  1.657,  1.726,  3.169,  0.607,  4.511,  1.238,   0.71,  2.314,   0.68, -0.239,  2.588,  2.258,  0.951,  0.723,  1.665,  3.637,  3.317,  1.984,  1.638,  2.151,   2.29,  1.535,  0.732,  0.833,  2.519,  0.929,   2.12,  0.301,  0.817,   1.95,  2.226,  1.785,   1.66,  1.131,  0.883,  1.529,  2.457,  5.625,  1.475,  1.422,  2.935,  3.513,  2.931,  0.927, -0.246 ],
+"Cell": [ "HTR8svn", "Adult_CD4+", "CD14+", "CD20+", "CD34+", "CLL", "CMK", "GM06990", "GM12864", "GM12865", "GM12878", "GM12891", "GM12892", "GM18507", "GM19238", "GM19239", "GM19240", "HL-60", "Jurkat", "K562", "NB4", "Th1", "Th2", "AoAF", "AoSMC", "HBMEC", "HMVEC-dAd", "HMVEC-dBl-Ad", "HMVEC-dBl-Neo", "HMVEC-dLy-Ad", "HMVEC-dLy-Neo", "HMVEC-dNeo", "HMVEC-LBl", "HMVEC-LLy", "HPAEC", "HPAF", "HUVEC", "Osteobl", "BE2_C", "Gliobla", "Medullo", "SK-N-MC", "SK-N-SH", "HA-h", "HMEC", "HMF", "MCF-7", "MCF-7", "T-47D", "HAc", "HeLa-S3", "HeLa-S3", "Caco-2", "HCT-116", "HVMF", "WI-38", "WI-38", "A549", "HAEpiC", "HCPEpiC", "HEEpiC", "HIPEpiC", "HNPCEpiC", "HPdLF", "HRCEpiC", "HRE", "HRPEpiC", "pHTE", "RPTEC", "SAEC", "HESC", "hESCT0", "H9ES", "HConF", "WERI-Rb-1", "Chorion", "HFF", "HFF-Myc", "AG09319", "HGF", "HCFaa", "HCF", "HCM", "iPS", "HRGEC", "8988T", "Hepatocytes", "HepG2", "Huh-7.5", "Huh-7", "Stellate", "AG04450", "HPF", "NHLF", "E_myoblast", "HSMM", "HSMM", "SKMC", "Myometr", "NH-A", "PANC-1", "PanIsletD", "PanIslets", "HPDE6-E6E7", "LNCaP", "LNCaP", "PrEC", "RWPE1", "AG04449", "AG09309", "AG10803", "BJ", "Fibrobl", "FibroP", "Melano", "NHDF-Ad", "NHDF-neo", "NHEK", "ProgFib", "HA-sp", "NT2-D1", "Urothelia", "Urothelia", "Ishikawa", "Ishikawa" ],
+"Tissue": [ "Blastula", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Blood vessel", "Bone", "Brain", "Brain", "Brain", "Brain", "Brain", "Brain hippocampus", "Breast", "Breast", "Breast", "Breast", "Breast", "Cerebellar", "Cervix", "Cervix", "Colon", "Colon", "Connective", "Embryonic lung", "Embryonic lung", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "Epithelium", "ES cell", "ES cell", "ES cell", "Eye", "Eye", "Fetal membrane", "Foreskin", "Foreskin", "Gingival", "Gingival", "Heart", "Heart", "Heart", "IPS", "Kidney", "Liver", "Liver", "Liver", "Liver", "Liver", "Liver", "Lung", "Lung", "Lung", "Muscle", "Muscle", "Muscle", "Muscle", "Myometrium", "Nervous", "Pancreas", "Pancreas", "Pancreas", "Pancreatic duct", "Prostate", "Prostate", "Prostate", "Prostate", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Skin", "Spinal cord", "Testis", "Urothelium", "Urothelium", "Uterus", "Uterus" ],
+                         "Colour": [      2,      2,      0,      0,      0,      2,      1,      1,      1,      0,      0,      1,      1,      1,      2,      2,      2,      0,      2,      0,      2,      0,      2,      2,      2,      2,      1,      2,      1,      0,      0,      1,      0,      1,      0,      2,      0,      2,      0,      2,      2,      1,      2,      2,      0,      2,      2,      2,      2,      1,      1,      2,      2,      2,      0,      0,      2,      2,      2,      1,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      1,      2,      2,      2,      2,      2,      1,      2,      2,      1,      2,      0,      2,      2,      2,      2,      2,      1,      2,      2,      2,      2,      0,      1,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      2,      0,      2,      2,      1,      0,      1,      2,      2 ] 
+                         }'))
+
+d1 <- dPlot(
+  y = "Zscore",
+  x = "Cell",
+  groups = "Colour",
+  data = data,
+  type = "bubble",
+  width = 1000,
+  height = 600,
+  bounds = list(x=90,y=30,height=500,width=850)
+)
+d1$xAxis( type = "addCategoryAxis", orderRule = "Cell" )
+d1$yAxis( type = "addMeasureAxis" )
+d1$colorAxis(
+  type = "addColorAxis",
+  colorSeries = "Zscore",
+  palette = c("red","yellow","green") )
+d1
