@@ -21,7 +21,7 @@ Currently, I think the best method of adding script is through use of `slidify`.
 
 If you look at the code, you can see that I grab the data and create an rChart as normal.  Then I simply take advantage of markdown's script support to copy/paste the script inside of the `<script>...</script>` tags.  I only made one change to the script, since the rCharts dimple implementation uses `l` rather than `mylegend` to refer to the legend.
 
-Other options to customize would be to create a custom html template that adds the script.  For an example of this option, see this [rCharts d3 horizon chart tutorial](http://timelyportfolio.github.io/rCharts_d3_horizon/).  If you plan to use the html inline, you could use `myrChart$html()` and then append the script before including in your finale page.
+Other options to customize would be to create a custom html template that adds the script.  For an example of this option, see this [rCharts d3 horizon chart tutorial](http://timelyportfolio.github.io/rCharts_d3_horizon/).  If you plan to use the html inline, you could use `myrChart$html()` and then append the script before including in your final page.
 
 ```{r echo =F, warning=F, message=F, error=F}
 opts_chunk$set(message = FALSE, warning = FALSE, error = FALSE, tidy = FALSE, cache = FALSE,results = 'asis' )
