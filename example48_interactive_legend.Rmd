@@ -1,0 +1,178 @@
+---
+title: rCharts + dimple | Interactive Legend
+author: Timely Portfolio
+github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
+framework: bootstrap
+mode: selfcontained
+ext_widgets: {rCharts: "libraries/dimple"}
+highlighter: prettify
+hitheme: twitter-bootstrap
+---
+
+<style>
+.container { width: 850px;}
+</style>
+
+# Dimple with an Interactive Legend
+
+There are plans in [`rCharts`](http://rcharts.io/site) future to provide support for partial layouts similar to [`slidify`](http://slidify.org).  For now though, there are some other options to adding script/html to customize your chart.  A good reference example comes from [`dimplejs`](http://dimplejs.org) new [interactive legends example](http://dimplejs.org/advanced_examples_viewer.html?id=advanced_interactive_legends).  In this case a small bit of javascript is added to the base chart to hide/show scatter points when the corresponding legend item is clicked.
+
+Currently, I think the best method of adding script is through use of `slidify`.  Since `slidify` is authored by the same author as `rCharts`, they play very nicely together.  To run this reproducible example on your own, just download [this .Rmd file](http://timelyportfolio.github.io/rCharts_dimple/example48_interactive_legend.Rmd) and `slidify` it.
+
+If you look at the code, you can see that I grab the data and create an rChart as normal.  Then I simply take advantage of markdown's script support to copy/paste the script inside of the `<script>...</script>` tags.  I only made one change to the script, since the rCharts dimple implementation uses `l` rather than `mylegend` to refer to the legend.
+
+Other options to customize would be to create a custom html template that adds the script.  For an example of this option, see this [rCharts d3 horizon chart tutorial](http://timelyportfolio.github.io/rCharts_d3_horizon/).  If you plan to use the html inline, you could use `myrChart$html()` and then append the script before including in your finale page.
+
+```{r echo =F, warning=F, message=F, error=F}
+opts_chunk$set(message = FALSE, warning = FALSE, error = FALSE, tidy = FALSE, cache = FALSE,results = 'asis' )
+```
+
+### Get Our Data
+```{r}
+data <- read.delim(
+  "http://pmsi-alignalytics.github.io/dimple/data/example_data.tsv"
+)
+### eliminate . to avoid confusion in javascript
+colnames(data) <- gsub("[.]","",colnames(data))
+```
+
+### Draw Our Chart
+```{r results="asis"}
+require(rCharts)
+d1 <- dPlot(
+  SalesValue~Price,
+  groups = c("SKU", "Channel", "Owner"),
+  data = subset(data, Date == "01/12/2012"),
+  type = "bubble",
+  height = 400,
+  width = 590,
+  bounds = list(x=60, y=30, width=420, height=330)
+)
+d1$xAxis( type = "addMeasureAxis" )
+d1$yAxis( type = "addMeasureAxis" )
+d1$legend(
+  x = 530,
+  y = 100,
+  width = 60,
+  height = 300,
+  horizontalAlign = "right"
+)
+d1$display("inline")
+```
+
+### Now Add Script to Make Legend Interactive
+
+Although you won't know it unless you look at the source, I duplicate the script so that it shows in the tutorial.  This is unnecessary unless you want the script to be visible on the rendered html page.
+
+```
+<script>
+        // This is a critical step.  By doing this we orphan the legend. This
+        // means it will not respond to graph updates.  Without this the legend
+        // will redraw when the chart refreshes removing the unchecked item and
+        // also dropping the events we define below.
+        myChart.legends = [];
+
+        // This block simply adds the legend title. I put it into a d3 data
+        // object to split it onto 2 lines.  This technique works with any
+        // number of lines, it isn't dimple specific.
+        svg.selectAll("title_text")
+          .data(["Click legend to","show/hide owners:"])
+          .enter()
+          .append("text")
+            .attr("x", 499)
+            .attr("y", function (d, i) { return 90 + i * 14; })
+            .style("font-family", "sans-serif")
+            .style("font-size", "10px")
+            .style("color", "Black")
+            .text(function (d) { return d; });
+
+        // Get a unique list of Owner values to use when filtering
+        var filterValues = dimple.getUniqueValues(data, "Owner");
+        // Get all the rectangles from our now orphaned legend
+        l.shapes.selectAll("rect")
+          // Add a click event to each rectangle
+          .on("click", function (e) {
+            // This indicates whether the item is already visible or not
+            var hide = false;
+            var newFilters = [];
+            // If the filters contain the clicked shape hide it
+            filterValues.forEach(function (f) {
+              if (f === e.aggField.slice(-1)[0]) {
+                hide = true;
+              } else {
+                newFilters.push(f);
+              }
+            });
+            // Hide the shape or show it
+            if (hide) {
+              d3.select(this).style("opacity", 0.2);
+            } else {
+              newFilters.push(e.aggField.slice(-1)[0]);
+              d3.select(this).style("opacity", 0.8);
+            }
+            // Update the filters
+            filterValues = newFilters;
+            // Filter the data
+            myChart.data = dimple.filterData(data, "Owner", filterValues);
+            // Passing a duration parameter makes the chart animate. Without
+            // it there is no transition
+            myChart.draw(800);
+          });
+  </script>
+```
+
+<script>
+        // This is a critical step.  By doing this we orphan the legend. This
+        // means it will not respond to graph updates.  Without this the legend
+        // will redraw when the chart refreshes removing the unchecked item and
+        // also dropping the events we define below.
+        myChart.legends = [];
+
+        // This block simply adds the legend title. I put it into a d3 data
+        // object to split it onto 2 lines.  This technique works with any
+        // number of lines, it isn't dimple specific.
+        svg.selectAll("title_text")
+          .data(["Click legend to","show/hide owners:"])
+          .enter()
+          .append("text")
+            .attr("x", 499)
+            .attr("y", function (d, i) { return 90 + i * 14; })
+            .style("font-family", "sans-serif")
+            .style("font-size", "10px")
+            .style("color", "Black")
+            .text(function (d) { return d; });
+
+        // Get a unique list of Owner values to use when filtering
+        var filterValues = dimple.getUniqueValues(data, "Owner");
+        // Get all the rectangles from our now orphaned legend
+        l.shapes.selectAll("rect")
+          // Add a click event to each rectangle
+          .on("click", function (e) {
+            // This indicates whether the item is already visible or not
+            var hide = false;
+            var newFilters = [];
+            // If the filters contain the clicked shape hide it
+            filterValues.forEach(function (f) {
+              if (f === e.aggField.slice(-1)[0]) {
+                hide = true;
+              } else {
+                newFilters.push(f);
+              }
+            });
+            // Hide the shape or show it
+            if (hide) {
+              d3.select(this).style("opacity", 0.2);
+            } else {
+              newFilters.push(e.aggField.slice(-1)[0]);
+              d3.select(this).style("opacity", 0.8);
+            }
+            // Update the filters
+            filterValues = newFilters;
+            // Filter the data
+            myChart.data = dimple.filterData(data, "Owner", filterValues);
+            // Passing a duration parameter makes the chart animate. Without
+            // it there is no transition
+            myChart.draw(800);
+          });
+  </script>
+
