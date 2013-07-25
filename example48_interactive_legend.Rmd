@@ -176,3 +176,7 @@ Although you won't know it unless you look at the source, I duplicate the script
           });
   </script>
 
+### Thanks
+- John Kiernander for [dimplejs](http://dimplejs.org)
+- Ramnath Vaidyanathan for [slidify](http://slidify.org) and [rCharts](http://rcharts.io/site)
+- Mike Bostock for his genius, especially [d3js](http://d3js.org)

@@ -63,10 +63,10 @@ d1$display("inline")
 ```
 
 
-<div id='chart2d428776366' class='rChart dimple'></div>
+<div id='chart2d443895471' class='rChart dimple'></div>
 <script type="text/javascript">
   var opts = {
- "dom": "chart2d428776366",
+ "dom": "chart2d443895471",
 "width":    590,
 "height":    400,
 "x": "Price",
@@ -79,7 +79,7 @@ d1$display("inline")
 "width":    420,
 "height":    330 
 },
-"id": "chart2d428776366" 
+"id": "chart2d443895471" 
 },
     data = [
  {
@@ -2250,3 +2250,7 @@ Although you won't know it unless you look at the source, I duplicate the script
           });
   </script>
 
+### Thanks
+- John Kiernander for [dimplejs](http://dimplejs.org)
+- Ramnath Vaidyanathan for [slidify](http://slidify.org) and [rCharts](http://rcharts.io/site)
+- Mike Bostock for his genius, especially [d3js](http://d3js.org)
