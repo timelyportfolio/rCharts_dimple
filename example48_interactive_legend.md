@@ -13,7 +13,7 @@ hitheme: twitter-bootstrap
 .container { width: 850px;}
 </style>
 
-# Dimple with an Interactive Legend
+# rCharts + dimple | Interactive Legend
 
 There are plans in [`rCharts`](http://rcharts.io/site) future to provide support for partial layouts similar to [`slidify`](http://slidify.org).  For now though, there are some other options to adding script/html to customize your chart.  A good reference example comes from [`dimplejs`](http://dimplejs.org) new [interactive legends example](http://dimplejs.org/advanced_examples_viewer.html?id=advanced_interactive_legends).  In this case a small bit of javascript is added to the base chart to hide/show scatter points when the corresponding legend item is clicked.
 
@@ -63,10 +63,10 @@ d1$display("inline")
 ```
 
 
-<div id='chart2d47ab42821' class='rChart dimple'></div>
+<div id='chart2d428776366' class='rChart dimple'></div>
 <script type="text/javascript">
   var opts = {
- "dom": "chart2d47ab42821",
+ "dom": "chart2d428776366",
 "width":    590,
 "height":    400,
 "x": "Price",
@@ -79,7 +79,7 @@ d1$display("inline")
 "width":    420,
 "height":    330 
 },
-"id": "chart2d47ab42821" 
+"id": "chart2d428776366" 
 },
     data = [
  {
