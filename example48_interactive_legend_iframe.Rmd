@@ -30,11 +30,6 @@ d1$legend(
   horizontalAlign = "right"
 )
 
-# will need to do this once
-# of course could do manually
-# this will write
-writeLines(readLines("http://timelyportfolio.github.io/rCharts_dimple/assets/chart_legend.html"),"chart_legend.html")
-
-d1$templates$script="chart_legend.html"
+d1$templates$script="http://timelyportfolio.github.io/rCharts_dimple/assets/chart_legend.html"
 d1$show()
 ```

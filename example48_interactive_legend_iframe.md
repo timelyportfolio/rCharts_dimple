@@ -1,3 +1,5 @@
+# One Way of Doing iframe With Custom Script Template
+
 ### Build the Chart and Test iframe
 
 
@@ -21,7 +23,8 @@ d1 <- dPlot(SalesValue ~ Price, groups = c("SKU", "Channel", "Owner"), data = su
 d1$xAxis(type = "addMeasureAxis")
 d1$yAxis(type = "addMeasureAxis")
 d1$legend(x = 530, y = 100, width = 60, height = 300, horizontalAlign = "right")
-d1$templates$script = "assets/chart_legend.html"
+
+d1$templates$script = "http://timelyportfolio.github.io/rCharts_dimple/assets/chart_legend.html"
 d1$show()
 ```
 

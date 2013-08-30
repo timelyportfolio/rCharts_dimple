@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Build the Chart and Test iframe</title>
+<title>One Way of Doing iframe With Custom Script Template</title>
 
 <style type="text/css">
 body, td {
@@ -178,6 +178,8 @@ hljs.initHighlightingOnLoad();
 </head>
 
 <body>
+<h1>One Way of Doing iframe With Custom Script Template</h1>
+
 <h3>Build the Chart and Test iframe</h3>
 
 <pre><code class="r">require(rCharts)
@@ -197,7 +199,8 @@ d1 &lt;- dPlot(SalesValue ~ Price, groups = c(&quot;SKU&quot;, &quot;Channel&quo
 d1$xAxis(type = &quot;addMeasureAxis&quot;)
 d1$yAxis(type = &quot;addMeasureAxis&quot;)
 d1$legend(x = 530, y = 100, width = 60, height = 300, horizontalAlign = &quot;right&quot;)
-d1$templates$script = &quot;assets/chart_legend.html&quot;
+
+d1$templates$script = &quot;http://timelyportfolio.github.io/rCharts_dimple/assets/chart_legend.html&quot;
 d1$show()
 </code></pre>
 
