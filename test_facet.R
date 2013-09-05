@@ -68,7 +68,7 @@ hair_eye = as.data.frame(HairEyeColor)
 d60 <- dPlot(
   x = "Hair",
   y = "Freq",
-  groups = 'Eye',
+  groups = "Eye",
   data = hair_eye,
   type = 'bar'
 )
@@ -81,7 +81,7 @@ d60
 
 
 d61 <- dPlot(
-  Freq~Hair | Sex * Eye,
+  Freq~Hair,# | Sex * Eye,
   groups = "Hair",
   data = hair_eye,
   type = 'bubble'
