@@ -1,6 +1,6 @@
 require(rCharts)
 
-mtcars.df <- data.frame(rownames(mtcars),coredata(mtcars))
+mtcars.df <- data.frame(rownames(mtcars),mtcars)
 colnames(mtcars.df)[1] <- "model"
 rownames(mtcars.df) <- 1:nrow(mtcars.df)
 
@@ -81,8 +81,7 @@ d60
 
 
 d61 <- dPlot(
-  x = "Hair",
-  y = "Freq",
+  Freq~Hair | Sex * Eye,
   groups = "Hair",
   data = hair_eye,
   type = 'bubble'
@@ -93,5 +92,10 @@ d61$templates$script = system.file(
 )
 d61$yAxis(overrideMax = 100)
 d61$xAxis(orderRule = "Hair")
-d61$set(facet = list(x = "Sex", y = "Eye"))
+d61$facet(x = "Sex", y = "Eye")
 d61
+
+
+d62 = d61
+d62$params$type = "bar"
+d62
