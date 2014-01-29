@@ -21,5 +21,5 @@ d1
 
 #with improvements from special script template
 d1$templates$script = "http://timelyportfolio.github.io/rCharts_dimple/chart_slopegraph.html"
-d1$templates$script = "./chart_slopegraph.html"
+#d1$templates$script = "./chart_slopegraph.html"
 d1
