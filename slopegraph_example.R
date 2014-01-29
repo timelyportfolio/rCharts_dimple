@@ -14,10 +14,12 @@ d1 <- dPlot(
   data = data,
   type = "line",
   height = 800,
-  width = 500
+  width = 550,
+  bounds = list(x=200,y=30,height=700,width=300)
 )
 d1
 
 #with improvements from special script template
 d1$templates$script = "http://timelyportfolio.github.io/rCharts_dimple/chart_slopegraph.html"
+d1$templates$script = "./chart_slopegraph.html"
 d1

@@ -1,10 +1,12 @@
 <script type="text/javascript">
+(function(){
   var opts = {{{ opts }}},
     data = {{{ data }}},
     xAxis = {{{ xAxis }}},
     yAxis = {{{ yAxis }}},
     zAxis = {{{ zAxis }}},
     colorAxis = {{{ colorAxis }}},
+    defaultColors = {{{ defaultColors }}},
     legend = {{{ legend }}};
   var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
 
@@ -62,6 +64,24 @@
   if(d3.keys(colorAxis).length > 0) {
     myChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
   }
+
+  //allow manipulation of default colors to use with dimple
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(defaultColors(n));
+      };
+      defaultColors = defaultColorsArray;
+    }
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = defaultColors;
+  }
   
   //here need think I need to evaluate group and if missing do null
   //as the first argument
@@ -91,6 +111,115 @@
   if(opts.storyboard) {
     myChart.setStoryboard(opts.storyboard);
   };
-  myChart.draw();
 
+  //catch all for other options
+  //these can be provided by dMyChart$chart( ... )
+  {{{ chart }}}
+
+  myChart.draw();
+  
+  //axes adjustments for slopegraph
+  
+  //based on template myChart.axes[2] should be y
+  //but just to make sure do map
+  var ySlope = myChart.axes.filter(function(axis){return axis.position==="y"})[0];
+  var xSlope = myChart.axes.filter(function(axis){return axis.position==="x"})[0]
+  
+  //remove axis labels if desired
+  ySlope.shapes.remove();
+  //remove gridlines
+  ySlope.gridlineShapes.remove();
+  //remove axis title
+  ySlope.titleShape.remove();
+  
+  var slopelabels = d3.select("#"+opts.id).select("svg").select("g").append("g")
+    .attr("class","slopelabels")
+  
+  //get unique values for groups in data
+  //note will only work with one group level
+  var firstPoints = data.filter(function(d){
+    return d[opts.x] == x._draw.scale().domain()[0];
+  });
+  
+  slopelabels.selectAll("text")
+    .data(firstPoints)
+    .enter()
+    .append("text")
+      .attr("class","labels")
+      //.attr("x", function(d){
+      //  return xSlope._scale(d[opts.x])
+      //})
+      .attr("x",d3.select(".axis").select(".tick.major text").attr("x") - 20)
+      .attr("y", function(d){
+        return ySlope._scale(d[opts.y])
+      })
+      .attr("dy","0.2em")
+      .attr("transform",d3.select(".axis").select(".tick.major").attr("transform"))
+      .attr("fill",function(d){return myChart._assignedColors[d.group].fill})
+      //.attr("stroke",function(d){return myChart._assignedColors[d.group].stroke})
+      .attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
+      .style("text-anchor","end")
+      .text(function(d){
+        return d[opts.groups]
+      });
+      
+  // constraint relaxation on labels
+  // from http://bl.ocks.org/syntagmatic/4053096
+  //add y for each of these to use code as is
+  firstPoints.forEach(function(d){
+    d.y = ySlope._scale(d[opts.y]);
+  })
+  
+  var alpha = 0.5;
+  var spacing = 12;
+  function relax() {
+    var again = false;
+    firstPoints.forEach(function(a,i) {
+      firstPoints.slice(i+1).forEach(function(b) {
+        var dy = a.y - b.y;
+        if (Math.abs(dy) < spacing) {
+          again = true;
+          var sign = dy > 0 ? 1 : -1;
+          a.y += sign*alpha;
+          b.y -= sign*alpha;
+        }
+      });
+    });
+    d3.selectAll(".labels")
+      .attr("y", function(d) {
+        return d.y;
+      });
+    if (again) setTimeout(relax,20);
+  };
+
+  relax();  
+  
+  
+  //add numbers to each point
+  var pointtext = d3.select("#"+opts.id).select("svg").select("g").append("g")
+    .attr("class","pointtext")
+  pointtext.selectAll("text")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("transform",function(d){
+      return d3.select(d3.select(".axis").selectAll(".tick.major")[0].filter(function(dd){
+        return d3.select(dd).datum() == d[opts.x]
+      })[0]).attr("transform")
+    })
+    .append("text")
+      .attr("x",function(d){
+        return d3.select(".axis").select(".tick.major text").attr("x")
+      })
+      .attr("y",function(d){
+        return ySlope._scale(d[opts.y])})
+      .attr("dy","0.2em")
+      .attr("fill",function(d){return myChart._assignedColors[d.group].fill})
+      //.attr("stroke",function(d){return myChart._assignedColors[d.group].stroke})
+      .attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
+      .attr("text-anchor","middle")
+      .text(function(d){
+        return d[opts.y]})
+  
+})();
 </script>
