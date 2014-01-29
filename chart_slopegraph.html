@@ -214,10 +214,11 @@
       .attr("y",function(d){
         return ySlope._scale(d[opts.y])})
       .attr("dy","0.2em")
-      .attr("fill",function(d){return myChart._assignedColors[d.group].fill})
+      //.attr("fill",function(d){return myChart._assignedColors[d.group].fill})
       //.attr("stroke",function(d){return myChart._assignedColors[d.group].stroke})
-      .attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
+      //.attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
       .attr("text-anchor","middle")
+      .style("font-size","12")
       .text(function(d){
         return d[opts.y]})
   
