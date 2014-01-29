@@ -64,8 +64,5 @@ dSharpe$xAxis(
   outputFormat = "%Y"
 )
 dSharpe$facet( y = "metric")
-dSharpe$templates$script = system.file(
-  "libraries/dimple/layouts/chartFacet.html",
-  package = "rCharts"
-)
+dSharpe$templates$script = "http://timelyportfolio.github.io/rCharts_dimple/chartFacet_d3grid.html"
 dSharpe
