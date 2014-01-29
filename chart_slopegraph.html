@@ -219,6 +219,7 @@
       //.attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
       .attr("text-anchor","middle")
       .style("font-size","12")
+      .style("pointer-events","none")
       .text(function(d){
         return d[opts.y]})
   
