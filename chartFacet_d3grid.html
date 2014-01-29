@@ -1,0 +1,244 @@
+<script type="text/javascript">
+(function(){
+  var opts = {{{ opts }}},
+    data = {{{ data }}},
+    xAxis = {{{ xAxis }}},
+    yAxis = {{{ yAxis }}},
+    zAxis = {{{ zAxis }}},
+    colorAxis = {{{ colorAxis }}},
+    defaultColors = {{{ defaultColors }}},
+    legend = {{{ legend }}};
+    
+  var subCharts = [];  
+  
+  //move this here for facet template since only occurs once
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(defaultColors(n));
+      };
+      defaultColors = defaultColorsArray;
+    }
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
+    })
+  } 
+  
+
+  //if facet not provided for x or y make Dummy variable
+  opts.facet.x = opts.facet.x ? opts.facet.x : "Dummy"
+  opts.facet.y = opts.facet.y ? opts.facet.y : "Dummy"    
+  if(opts.facet.x === "Dummy" || opts.facet.y === "Dummy") {
+    data.forEach(function(d){
+      d.Dummy = 1;
+    })
+  }
+
+  var rows = d3.set(data.map(function(d){return d[opts.facet.y]})).values();
+  var nrow = rows.length;
+  var cols = d3.set(data.map(function(d){return d[opts.facet.x]})).values()
+  var ncol = cols.length;
+  
+  var tuples = d3.merge(rows.map(function(row,irow){return cols.map(function(col,icol){return {key:row + "~" + col, values: {"row":irow, "col":icol} }})}))
+    
+  var grid = d3.layout.grid()
+    .rows( nrow )
+    .cols( ncol )
+    .size([ opts.width, opts.height-100])
+    .bands();
+  
+  var svgGrid = d3.select("#" + opts.id).append("svg")
+    .attr("width", opts.width)
+    .attr("height", opts.height);
+   // .attr("transform", "translate(50,0)");
+
+grid(tuples);
+
+/* var cells = d3.select("#" + opts.id).selectAll("svg")
+    .data(grid(tuples))
+    .enter()
+      .append("svg")
+        .attr("class", "cell")
+        .attr("id", function(d) {
+          return d.key;
+        })
+        .attr("transform", function(d, i) {
+           return "translate(" + d.x + "," + d.y + ")"
+         })
+        .attr("width", grid.nodeSize()[0])
+        .attr("height", grid.nodeSize()[1]);
+*/
+
+  var color = d3.scale.linear()
+    .domain([0, 3, 6])
+    .range(["red", "lightgray", "green"]);
+    
+/*  cells.selectAll("rect")
+    .data(function(d){
+      return [d];
+    })
+      .enter().append("rect")
+        .attr("width", grid.nodeSize()[0])
+        .attr("height", grid.nodeSize()[1])
+        .style("fill", function(d) {return color(d.values.row)});         
+*/
+    tuples.forEach(function(cell,cellnum) {
+        //cell = d3.select(cell);
+    
+        // Filter the data set for the quarter and the price tier
+        // of the current shape
+        var filteredData = dimple.filterData(data, opts.facet.x, cell.key.split('~')[1]);
+        filteredData = dimple.filterData(filteredData, opts.facet.y, cell.key.split('~')[0]);    
+        
+        // Draw a new chart which will go in the current shape
+        var subChart = new dimple.chart(svgGrid, filteredData);
+
+        
+        // Get the shape from the main chart on which this chart is based
+        var shape = d3.select(this);
+
+
+        // Position the chart inside the shape
+        subChart.setBounds(
+            parseFloat(cell.x + 50), 
+            parseFloat(cell.y + 10),
+            parseFloat(grid.nodeSize()[0] - 50),
+            parseFloat(grid.nodeSize()[1]) - 10);
+
+  
+  
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var subx;
+  if(xAxis.measure) {
+    subx = subChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    subx = subChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) subx.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) subx.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) subx.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) subx.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) subx.overrideMax = xAxis.overrideMax;
+  if (xAxis.overrideMax) subx.overrideMax = xAxis.overrideMax;
+  if (xAxis.inputFormat) subx.dateParseFormat = xAxis.inputFormat;
+  if (xAxis.outputFormat) subx.tickFormat = xAxis.outputFormat;
+  //y axis
+  var suby;
+  if(yAxis.measure) {
+    suby = subChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    suby = subChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) suby.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) suby.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) suby.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) suby.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) suby.overrideMax = yAxis.overrideMax;
+  if (yAxis.inputFormat) suby.dateParseFormat = yAxis.inputFormat;
+  if (yAxis.outputFormat) suby.tickFormat = yAxis.outputFormat;
+//z for bubbles
+    var subz;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      subz = subChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      sub = subChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) subz.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) subz.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) subz.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) subz.overrideMax = zAxis.overrideMax;
+  }
+  if(d3.keys(colorAxis).length > 0) {
+    subChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(defaultColors.length) {
+    //move transform of defaultColors to top
+    subChart.defaultColors = defaultColors;
+  }  
+  
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  var seriesVariables = [];
+  if(!(opts.facet.x==="Dummy")) seriesVariables.push(opts.facet.x)
+  if(!(opts.facet.y==="Dummy")) seriesVariables.push(opts.facet.y)
+  if(opts.hasOwnProperty("groups")) {
+    seriesVariables.push(opts.groups)
+    var subs = subChart.addSeries( seriesVariables, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      subs.aggregate = eval(opts.aggregate);
+    }
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      subs.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      subs.barGap = eval(opts.barGap);
+    }    
+  } else var subs = myChart.addSeries( seriesVariables, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l = subChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    subChart.setStoryboard(opts.storyboard);
+  };
+  subChart.draw();
+  subCharts.push(subChart);
+})
+
+
+//evaluate which do not fall in column 1 or row 1 to remove
+var xpos = d3.extent(subCharts,function(d){return d.x});
+var ypos = d3.extent(subCharts,function(d){return d.y});
+
+//get rid of all y for those not in column 1
+//can easily customize this to only remove bits and pieces
+subCharts.filter(function(d){
+  return d.x!=xpos[0];
+}).forEach(function(d){
+  d.axes[1].shapes.remove();
+  d.axes[1].titleShape.remove();
+});
+//now x for those not in row 1
+subCharts.filter(function(d){
+  return d.y!=ypos[1];
+}).forEach(function(d){
+  d.axes[0].shapes.remove();
+  d.axes[0].titleShape.remove();
+});
+
+/*
+subCharts.filter(function(d){
+  return d.svg.data()[0].values.col!=0;
+}).forEach(function(d){
+  d.axes[1].shapes.remove();
+  d.axes[1].titleShape.remove();
+});
+//now x for those not in row 1
+subCharts.filter(function(d){
+  return d.svg.data()[0].values.row!=nrow-1;
+}).forEach(function(d){
+  d.axes[0].shapes.remove();
+  d.axes[0].titleShape.remove();
+});
+*/
+
+})();
+</script>
