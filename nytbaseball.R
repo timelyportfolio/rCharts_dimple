@@ -82,6 +82,47 @@ p1$setTemplate(
 )
 p1
 
+#test to see that r mean matches dimple.aggregateMethod.avg
+p2 <- dPlot(
+  SOG ~ yearID,
+  groups = "average",
+  data = team_data,
+  type = 'line' 
+)
+p2$xAxis(
+  type = "addTimeAxis",
+  inputFormat = "%Y-%m-%d",
+  outputFormat = "%Y"
+)
+p2$yAxis(
+  outputFormat = ".2f",
+  #axes are not linked, so dimple doesn't handle well
+  #overrideMin and overrideMax are inherited though
+  #if not specified in additional layers
+  overrideMax = round(max(team_data$SOG))
+)
+year_data_mean = ddply(
+  team_data,
+  .(yearID),
+  summarize,
+  mean = mean(SOG)
+)
+p2$layer(
+  mean~yearID,
+  groups="rAvg",
+  data = year_data_mean,
+  type = "area"
+)
+p2$layer(
+  mean~yearID,
+  groups="rAvg",
+  data = year_data_mean,
+  type = "bubble"
+)
+p2
+
+
+
 #color axis is not working as expected
 # I think this is really nice functionality
 # in next version make sure to solve this
