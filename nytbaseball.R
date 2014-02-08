@@ -52,6 +52,10 @@ p1$setTemplate(
     //#remove the hover effect for the lines
     svg.selectAll("circle").selectAll("[id*=%s]").transition().remove()
     svg.selectAll("circle").selectAll("[id*=%s]").transition().remove()
+    svg.selectAll("path")
+        .transition()
+        .delay(200)
+        .style("pointer-events","none")
     //do a delayed transition to make the circles smaller
     //since dimple drawing has a transition; wait for it
     svg.selectAll("circle").transition().attr("r",1).delay(200)
@@ -61,10 +65,6 @@ p1$setTemplate(
             d.remove()
           }
         });
-    svg.selectAll("path")
-        .transition()
-        .delay(200)
-        .style("pointer-events","none")
     //fix scale for additional layers
     //does not work cross browser
     //use overrideMin/Max instead
@@ -81,3 +81,12 @@ p1$setTemplate(
   )
 )
 p1
+
+#color axis is not working as expected
+# I think this is really nice functionality
+# in next version make sure to solve this
+p1$colorAxis(
+  type = "addColorAxis",
+  colorSeries = "SOG",
+  palette = "#FF0000"
+)
