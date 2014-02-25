@@ -8,6 +8,9 @@ ggplot(data = team_data, aes(x=yearID, y=SOG, colour=name)) +
   geom_point() +
   stat_summary(fun.y=mean,geom="line",aes(group=1))
 
+ggplot(team_data,aes(x=as.Date(yearID),y=SOG)) +
+  geom_point() +
+  geom_smooth(groups=1)
 
 require(rCharts)
 p1 <- dPlot(
