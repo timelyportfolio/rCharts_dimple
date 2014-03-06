@@ -59,6 +59,7 @@ function DemoCtrl($scope){
 //global for now until I come up with a better idea
 var svg;
 var subCharts = [];
+var default_colors = [];
 
 function drawChart(opts, data){ 
   svg = d3.select("#" + opts.id).select("svg")
@@ -119,7 +120,7 @@ function drawChart(opts, data){
   
   //move this here for facet template since only occurs once
   //allow manipulation of default colors to use with dimple
-  var default_colors = opts.defaultColors;
+  default_colors = opts.defaultColors;
   if(default_colors.length) {
     default_colors = default_colors[0];
     if (typeof(default_colors) == "function") {
