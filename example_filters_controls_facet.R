@@ -29,3 +29,11 @@ d1$addControls(
 d1$addFilters("Hair","Eye")
 d1$defaultColors("#!d3.scale.category10()!#")
 d1
+
+
+d1$set( removeAxes = FALSE )
+d1$params$facet = list( ncol = 2 )
+d1$templates$script = 
+  "http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+
+d1
