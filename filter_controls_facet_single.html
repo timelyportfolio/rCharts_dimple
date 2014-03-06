@@ -1,39 +1,154 @@
-<div class='container' ng-controller="DemoCtrl">
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    
+    <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
+    <script src='http://dimplejs.org/dist/dimple.v1.1.5.min.js' type='text/javascript'></script>
+    <script src='./js/d3-grid.js' type='text/javascript'></script>
+    
+     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    
+    <style>
+    .rChart {
+      display: block
+      margin: auto auto;
+      width: 100%;
+      height: 400px;
+    }
+    .bs-docs-example:after {
+      content: "";
+      background: transparent;
+      border: none;
+    }
+    </style>
+    
+  </head>
+  <body ng-app>
+      
+    <div class='container' ng-controller="DemoCtrl">
   <div class='row'>
     <div class='col-md-3'>
       <form class='well'>
-    		{{# controls }}
-        <label><b>{{label}}</b></label>
-    		<select class='form-control' ng-model="opts.{{name}}" 
-          ng-options="ctl for ctl in controls.{{name}}.values">   
+        <label><b>Select  facetx :</b></label>
+    		<select class='form-control' ng-model="opts.facetx" 
+          ng-options="ctl for ctl in controls.facetx.values">   
     		</select><br>
-				{{/ controls }}
-        {{# hasFilter }}
-        <label><b>Filters:</b></label>
+        <label><b>Select  x :</b></label>
+    		<select class='form-control' ng-model="opts.x" 
+          ng-options="ctl for ctl in controls.x.values">   
+    		</select><br>
+        <label><b>Select  groups :</b></label>
+    		<select class='form-control' ng-model="opts.groups" 
+          ng-options="ctl for ctl in controls.groups.values">   
+    		</select><br>
+        
         <select
           ng-model="selected" 
           ng-options="c as c.value group by c.variable for c in filters" 
-          class="form-control">
+          class="form-control" multiple size="10">
         </select>
-        {{/ hasFilter }}
       </form>
     </div>
     <div class='col-md-8'>
       <div class="bs-docs-example">
-        <div id='{{chartId}}' class='rChart {{lib}}'>
+        <div id='chart2988a1a96a' class='rChart '>
           <svg></svg>
         </div>
-        {{# CODE }}<pre><code class='r'>{{CODE}}</code></pre>{{/ CODE }}
+        
       </div>
     </div>
   </div>
 </div>
 <script type="text/javascript">
 function DemoCtrl($scope){
-  $scope.opts = {{{ opts }}}
-  $scope.data = {{{ data }}}
-  $scope.controls = {{{ controls_json }}} 
-  $scope.filters = {{{ filters_json }}}
+  $scope.opts = {
+ "dom": "chart2988a1a96a",
+"width":    700,
+"height":    400,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": [],
+"defaultColors": [
+ d3.scale.category10() 
+],
+"layers": [],
+"legend": [],
+"x": "Sex",
+"y": "Freq",
+"groups": "Eye",
+"type": "bar",
+"facet": {
+ "x": null,
+"y": null,
+"removeAxes": true 
+},
+"id": "chart2988a1a96a" 
+}
+  $scope.data = [{"Hair":"Black","Eye":"Brown","Sex":"Male","Freq":32},{"Hair":"Brown","Eye":"Brown","Sex":"Male","Freq":53},{"Hair":"Red","Eye":"Brown","Sex":"Male","Freq":10},{"Hair":"Blond","Eye":"Brown","Sex":"Male","Freq":3},{"Hair":"Black","Eye":"Blue","Sex":"Male","Freq":11},{"Hair":"Brown","Eye":"Blue","Sex":"Male","Freq":50},{"Hair":"Red","Eye":"Blue","Sex":"Male","Freq":10},{"Hair":"Blond","Eye":"Blue","Sex":"Male","Freq":30},{"Hair":"Black","Eye":"Hazel","Sex":"Male","Freq":10},{"Hair":"Brown","Eye":"Hazel","Sex":"Male","Freq":25},{"Hair":"Red","Eye":"Hazel","Sex":"Male","Freq":7},{"Hair":"Blond","Eye":"Hazel","Sex":"Male","Freq":5},{"Hair":"Black","Eye":"Green","Sex":"Male","Freq":3},{"Hair":"Brown","Eye":"Green","Sex":"Male","Freq":15},{"Hair":"Red","Eye":"Green","Sex":"Male","Freq":7},{"Hair":"Blond","Eye":"Green","Sex":"Male","Freq":8},{"Hair":"Black","Eye":"Brown","Sex":"Female","Freq":36},{"Hair":"Brown","Eye":"Brown","Sex":"Female","Freq":66},{"Hair":"Red","Eye":"Brown","Sex":"Female","Freq":16},{"Hair":"Blond","Eye":"Brown","Sex":"Female","Freq":4},{"Hair":"Black","Eye":"Blue","Sex":"Female","Freq":9},{"Hair":"Brown","Eye":"Blue","Sex":"Female","Freq":34},{"Hair":"Red","Eye":"Blue","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Blue","Sex":"Female","Freq":64},{"Hair":"Black","Eye":"Hazel","Sex":"Female","Freq":5},{"Hair":"Brown","Eye":"Hazel","Sex":"Female","Freq":29},{"Hair":"Red","Eye":"Hazel","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Hazel","Sex":"Female","Freq":5},{"Hair":"Black","Eye":"Green","Sex":"Female","Freq":2},{"Hair":"Brown","Eye":"Green","Sex":"Female","Freq":14},{"Hair":"Red","Eye":"Green","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Green","Sex":"Female","Freq":8}]
+  $scope.controls = {
+ "facetx": {
+ "name": "facetx",
+"value": "Hair",
+"values": [ "Hair", "Eye", "Sex" ],
+"label": "Select  facetx :" 
+},
+"x": {
+ "name": "x",
+"value": "Sex",
+"values": [ "Hair", "Eye", "Sex" ],
+"label": "Select  x :" 
+},
+"groups": {
+ "name": "groups",
+"value": "Eye",
+"values": [ "Hair", "Eye", "Sex" ],
+"label": "Select  groups :" 
+} 
+} 
+  $scope.filters = [
+ {
+ "variable": "Hair",
+"value": "Black" 
+},
+{
+ "variable": "Hair",
+"value": "Brown" 
+},
+{
+ "variable": "Hair",
+"value": "Red" 
+},
+{
+ "variable": "Hair",
+"value": "Blond" 
+},
+{
+ "variable": "Eye",
+"value": "Brown" 
+},
+{
+ "variable": "Eye",
+"value": "Blue" 
+},
+{
+ "variable": "Eye",
+"value": "Hazel" 
+},
+{
+ "variable": "Eye",
+"value": "Green" 
+} 
+]
   
   $scope.drawChart = function(){
     drawChart($scope.opts, $scope.data)  
@@ -41,16 +156,11 @@ function DemoCtrl($scope){
   
   $scope.$watch('selected', function(){
     if (!(typeof($scope.selected) === "undefined")) {
-      if( $scope.selected.length ) {
-        $scope.opts.selected = $scope.selected.map(function(d){
-          selectKey={};
-          selectKey[d.variable]=d.value;
-          return selectKey;
-        })
-      } else {
-        $scope.opts.selected = [{}];
-        $scope.opts.selected[0][$scope.selected.variable] = $scope.selected.value
-      }
+      $scope.opts.selected = $scope.selected.map(function(d){
+        selectKey={};
+        selectKey[d.variable]=d.value;
+        return selectKey;
+      })
     }
   }) 
   
@@ -378,3 +488,6 @@ subCharts.forEach(function(subChart) {
 }
 
 </script>
+    
+  </body>
+</html>

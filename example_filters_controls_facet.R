@@ -31,9 +31,17 @@ d1$defaultColors("#!d3.scale.category10()!#")
 d1
 
 
-d1$set( removeAxes = FALSE )
-d1$params$facet = list( ncol = 2 )
-d1$templates$script = 
-  "http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+#d1$params$facet = list( ncol = 2 )
+d1$params$facet = list( x = NULL, y = NULL, removeAxes = TRUE)
+d1
 
+
+d1$templates$script = 
+  "./chart_singleselect.html"
+  #"http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+d1
+
+
+
+d1$addAssets("./js/d3-grid.js")
 d1
