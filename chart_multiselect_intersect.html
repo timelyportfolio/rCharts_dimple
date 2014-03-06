@@ -119,20 +119,20 @@ function drawChart(opts, data){
   
   //move this here for facet template since only occurs once
   //allow manipulation of default colors to use with dimple
-  var defaultColors = opts.defaultColors;
-  if(defaultColors.length) {
-    defaultColors = defaultColors[0];
-    if (typeof(defaultColors) == "function") {
+  var default_colors = opts.defaultColors;
+  if(default_colors.length) {
+    default_colors = default_colors[0];
+    if (typeof(default_colors) == "function") {
       //assume this is a d3 scale
       //for now loop through first 20 but need a better way to handle
       var defaultColorsArray = [];
       for (var n=0;n<20;n++) {
-        defaultColorsArray.push(defaultColors(n));
+        defaultColorsArray.push(default_colors(n));
       };
-      defaultColors = defaultColorsArray;
+      default_colors = defaultColorsArray;
     }
-    defaultColors.forEach(function(d,i) {
-      defaultColors[i] = new dimple.color(d);
+    default_colors.forEach(function(d,i) {
+      default_colors[i] = new dimple.color(d);
     })
   }
   
