@@ -45,10 +45,11 @@
           ng-options="ctl for ctl in controls.groups.values">   
     		</select><br>
         
+        <label><b>Filters:</b></label>
         <select
           ng-model="selected" 
           ng-options="c as c.value group by c.variable for c in filters" 
-          class="form-control" multiple size="10">
+          class="form-control">
         </select>
       </form>
     </div>
@@ -156,11 +157,16 @@ function DemoCtrl($scope){
   
   $scope.$watch('selected', function(){
     if (!(typeof($scope.selected) === "undefined")) {
-      $scope.opts.selected = $scope.selected.map(function(d){
-        selectKey={};
-        selectKey[d.variable]=d.value;
-        return selectKey;
-      })
+      if( $scope.selected.length ) {
+        $scope.opts.selected = $scope.selected.map(function(d){
+          selectKey={};
+          selectKey[d.variable]=d.value;
+          return selectKey;
+        })
+      } else {
+        $scope.opts.selected = [{}];
+        $scope.opts.selected[0][$scope.selected.variable] = $scope.selected.value
+      }
     }
   }) 
   
