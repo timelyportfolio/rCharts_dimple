@@ -27,5 +27,5 @@ d1$addControls(
   values = colnames(as.data.frame(HairEyeColor)[-4])
 )
 d1$addFilters("Hair","Eye")
-d1$defaultColors("#!d3.scale.category20b()!#")
+d1$defaultColors("#!d3.scale.category10()!#")
 d1

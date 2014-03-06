@@ -79,7 +79,9 @@ function DemoCtrl($scope){
 },
 "zAxis": [],
 "colorAxis": [],
-"defaultColors": [],
+"defaultColors": [
+ d3.scale.category10() 
+],
 "layers": [],
 "legend": [],
 "x": "Sex",
@@ -233,21 +235,23 @@ function drawChart(opts, data){
   
   //move this here for facet template since only occurs once
   //allow manipulation of default colors to use with dimple
-  if(opts.defaultColors.length) {
-    opts.defaultColors = opts.defaultColors[0];
-    if (typeof(opts.defaultColors) == "function") {
+  var defaultColors = opts.defaultColors;
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
       //assume this is a d3 scale
       //for now loop through first 20 but need a better way to handle
-      defaultColorsArray = [];
+      var defaultColorsArray = [];
       for (var n=0;n<20;n++) {
-        defaultColorsArray.push(opts.defaultColors(n));
+        defaultColorsArray.push(defaultColors(n));
       };
-      opts.defaultColors = defaultColorsArray;
+      defaultColors = defaultColorsArray;
     }
-    opts.defaultColors.forEach(function(d,i) {
-      opts.defaultColors[i] = new dimple.color(d);
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
     })
   }
+
   
   var c = null;
   
@@ -406,7 +410,7 @@ grid(tuples);
   //allow manipulation of default colors to use with dimple
   if(opts.defaultColors.length) {
     //move transform of defaultColors to top
-    subChart.defaultColors = opts.defaultColors;
+    subChart.defaultColors = defaultColors;
   }  
   
   buildSeries(opts, false, subChart);
