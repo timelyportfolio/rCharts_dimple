@@ -37,8 +37,8 @@ d1
 
 
 d1$templates$script = 
-  "./chart_singleselect.html"
-  #"http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+  #"./chart_singleselect.html"
+  "http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
 d1
 
 
