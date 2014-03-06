@@ -92,7 +92,7 @@ function drawChart(opts, data){
     )
   */
   // for multiselect intersection
-    data = _.chain(opts.selected)
+    filterdata = _.chain(opts.selected)
       .map(function(d){
         return _.compact(
           data.map(function(val,ind){
