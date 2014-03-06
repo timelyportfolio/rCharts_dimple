@@ -1,7 +1,7 @@
 #example how to use the new addFilters with angular and lodash
 
 #require(devtools)
-#install("rCharts","timelyportfolio",ref="dimple_controls")
+#install_github("rCharts","timelyportfolio",ref="dimple_controls")
 require(rCharts)
 options(viewer=NULL)
 d1 <- dPlot(
