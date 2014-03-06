@@ -104,7 +104,7 @@ function drawChart(opts, data){
       })
       .value();
   
-     var intersected = _.countBy(_.flatten(testdata,function(d){return d}));
+     var intersected = _.countBy(_.flatten(data,function(d){return d}));
 
      var varKeys = _.uniq(_.flatten(opts.selected.map(function(d){return _.keys(d)})));
 
