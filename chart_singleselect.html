@@ -270,19 +270,30 @@ function drawChart(opts, data){
         
         // Draw a new chart which will go in the current shape
         var subChart = new dimple.chart(svgGrid, filteredData);
-
-        
+      
         // Get the shape from the main chart on which this chart is based
         var shape = d3.select(this);
 
-
+        
         // Position the chart inside the shape
-        subChart.setBounds(
+        subChart.height = grid.nodeSize()[1]
+        subChart.width = grid.nodeSize()[0]      
+        
+        if (opts.margins) {
+          subChart.setBounds(
+            parseFloat(cell.x + opts.margins.left),
+            parseFloat(cell.y + opts.margins.bottom),
+            subChart.width - opts.margins.right- opts.margins.left,
+            subChart.height - opts.margins.top - opts.margins.bottom
+          )
+        } else {
+          subChart.setBounds(
             parseFloat(cell.x + 50), 
             parseFloat(cell.y + 10),
             parseFloat(grid.nodeSize()[0] - 50),
-            parseFloat(grid.nodeSize()[1]) - 10);
-
+            parseFloat(grid.nodeSize()[1]) - 10
+          );
+        }
   
   
   //dimple allows use of custom CSS with noFormats
