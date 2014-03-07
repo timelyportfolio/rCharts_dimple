@@ -58,8 +58,11 @@ function DemoCtrl($scope){
     if($scope.opts.facetx) {
       $scope.opts.facet.x = $scope.opts.facetx
     }
+    if($scope.opts.facety) {
+      $scope.opts.facet.y = $scope.opts.facety
+    }    
     $scope.drawChart()
-	}, true)
+  }, true)
 }  
 
 //global for now until I come up with a better idea
@@ -338,13 +341,13 @@ subCharts.forEach(function(subChart) {
 //get rid of all y for those not in column 1
 //can easily customize this to only remove bits and pieces
   if(opts.facet.removeAxes) {
-    //work on axis scaling
-    //assume if remove then same scales for all charts
-    axisdomain = [];
-    ["y"].forEach(function(position){
+    ["x","y"].forEach(function(position){
+      //work on axis scaling
+      //assume if remove then same scales for all charts
+      axisdomain = [];      
       subCharts.forEach(function(subChart){
         subChart.axes.forEach(function(axis){
-          if (axis.position === position){
+          if (axis.position === position && !axis._hasCategories()){
             axisdomain.push(axis._scale.domain())
           }
         })
@@ -352,7 +355,7 @@ subCharts.forEach(function(subChart) {
       axisdomain = d3.extent(_.flatten(axisdomain));
       subCharts.forEach(function(subChart){
         subChart.axes.forEach(function(axis){
-          if (axis.position === position){
+          if (axis.position === position && !axis._hasCategories()){
             axis.overrideMin = axisdomain[0];
             axis.overrideMax = axisdomain[1];
           }

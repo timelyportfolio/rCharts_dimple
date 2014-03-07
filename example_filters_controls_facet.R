@@ -57,15 +57,15 @@ d1 <- dPlot(
   data = as.data.frame(HairEyeColor),
   type = "bubble",
   height = 400,
-  width = 600,
-  margins = list(left=80,top=40,right=40,bottom=40)
+  width = 600
+  ,margins = list(left=80,top=40,right=40,bottom=40)
 )
 d1$params$facet = list(x=NULL,y=NULL)
-d1$addControls(
-  "facetx",
-  value = "Hair",
-  values = colnames(as.data.frame(HairEyeColor)[-4])
-)
+#d1$addControls(
+#  "facetx",
+#  value = "Hair",
+#  values = colnames(as.data.frame(HairEyeColor)[-4])
+#)
 d1$addControls(
   "y",
   value = "Sex",
@@ -83,4 +83,36 @@ d1$yAxis(type ="addCategoryAxis")
 d1$templates$script = 
   "./chart_singleselect.html"
   #"http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+d1
+
+d1$templates$script = 
+  "./chart_multiselect.html"
+d1
+
+d1$templates$script = 
+  "./chart_multiselect_intersect.html"
+d1
+
+d1$params$facet$removeAxes = T
+d1$addControls(
+  "facetx",
+  value = "Hair",
+  values = colnames(as.data.frame(HairEyeColor)[-4])
+)
+d1$addControls(
+  "facety",
+  value = "Hair",
+  values = colnames(as.data.frame(HairEyeColor)[-4])
+)
+d1$templates$script = 
+  "./chart_singleselect.html"
+#"http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
+d1
+
+d1$templates$script = 
+  "./chart_multiselect.html"
+d1
+
+d1$templates$script = 
+  "./chart_multiselect_intersect.html"
 d1
