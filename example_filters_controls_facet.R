@@ -53,6 +53,7 @@ d1$save("filter_controls_facet_single.html",cdn=T)
 
 d1 <- dPlot(
   Sex~Freq,
+  z="Freq",
   groups = c("Eye"),
   data = as.data.frame(HairEyeColor),
   type = "bubble",
@@ -80,6 +81,7 @@ d1$addFilters("Hair","Eye")
 d1$defaultColors("#!d3.scale.category10()!#")
 d1$xAxis(type = "addMeasureAxis")
 d1$yAxis(type ="addCategoryAxis")
+d1$zAxis(type="addPctAxis")
 d1$templates$script = 
   "./chart_singleselect.html"
   #"http://timelyportfolio.github.io/rCharts_dimple/chart_singleselect.html"
