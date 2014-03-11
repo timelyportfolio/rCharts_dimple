@@ -120,25 +120,26 @@ function drawChart(opts, data){
       );
   }
   
+  /*
   //move this here for facet template since only occurs once
   //allow manipulation of default colors to use with dimple
   var defaultColors = opts.defaultColors;
-  if(defaultColors.length) {
+  if(defaultColors.length && typeof(defaultColors) != "function") {
     defaultColors = defaultColors[0];
-    if (typeof(defaultColors) == "function") {
-      //assume this is a d3 scale
-      //for now loop through first 20 but need a better way to handle
-      var defaultColorsArray = [];
-      for (var n=0;n<20;n++) {
-        defaultColorsArray.push(defaultColors(n));
-      };
-      defaultColors = defaultColorsArray;
-    }
-    defaultColors.forEach(function(d,i) {
-      defaultColors[i] = new dimple.color(d);
-    })
   }
-  
+  if (typeof(defaultColors) == "function") {
+    //assume this is a d3 scale
+    //for now loop through first 20 but need a better way to handle
+    var defaultColorsArray = [];
+    for (var n=0;n<20;n++) {
+      defaultColorsArray.push(defaultColors(n));
+    };
+    defaultColors = defaultColorsArray;
+  }
+  defaultColors.forEach(function(d,i) {
+    defaultColors[i] = new dimple.color(d);
+  })
+  */
   var c = null;
   
   function buildSeries(layer, hidden, myChart){
@@ -227,7 +228,6 @@ function drawChart(opts, data){
   var svgGrid = d3.select("#" + opts.id).select("svg")
     .attr("width", opts.width)
     .attr("height", opts.height);
-   // .attr("transform", "translate(50,0)");
 
   grid(tuples);
 
@@ -302,12 +302,13 @@ function drawChart(opts, data){
     c = subChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
   }
 
-  
+  /*
   //allow manipulation of default colors to use with dimple
   if(defaultColors.length) {
     //move transform of defaultColors to top
     subChart.defaultColors = defaultColors;
-  }  
+  } 
+  */
   
   buildSeries(opts, false, subChart);
   if (opts.layers.length > 0) {
@@ -384,6 +385,24 @@ subCharts.forEach(function(subChart) {
       })
     });
   }
+  
+  
+//also need to fix colors since dimple
+//does not use category scale for defaultColors like d3
+if (typeof(opts.defaultColors) === "function"){
+  var defaultColors = opts.defaultColors;
+  subCharts.forEach(function(subChart) {
+    subChart.series[0].shapes
+      .transition()
+      .style("fill", function(d){
+        return defaultColors(d.aggField.join())
+      })
+      .style("stroke", function(d){
+        return defaultColors(d.aggField.join())
+      })
+      .delay(1000)
+    })
+}
 }
 
 </script>
