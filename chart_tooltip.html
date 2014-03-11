@@ -3,9 +3,12 @@
     data = {{{ data }}};
   var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
   
-  tip = d3.tip().html(function(d) {
-    return eval(opts.tooltip) ;
-  });
+  tip = d3.tip()
+    .html(function(d) {
+      return eval(opts.tooltip.html) ;
+    })
+    .direction(opts.tooltip.direction ? opts.tooltip.direction : "s")
+    .offset(opts.tooltip.offset ? opts.tooltip.offset : [10,10])
 
   /* Invoke the tip in the context of your visualization */
   svg.call(tip)
@@ -136,11 +139,11 @@
   };
   myChart.draw();
   
-  function onHover(){
-    tip.show(d3.select(this));
+  function onHover(e){
+    tip.show(e.selectedShape.datum());
   }
   
-  function onLeave(){
-    tip.hide(d3.select(this));
+  function onLeave(e){
+    tip.hide(e.selectedShape.datum());
   }
 </script>
