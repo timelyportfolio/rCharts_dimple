@@ -1,0 +1,227 @@
+<script type="text/javascript">
+(function(){
+  var opts = {{{ opts }}},
+    data = {{{ data }}},
+    xAxis = {{{ xAxis }}},
+    yAxis = {{{ yAxis }}},
+    zAxis = {{{ zAxis }}},
+    colorAxis = {{{ colorAxis }}},
+    defaultColors = {{{ defaultColors }}},
+    legend = {{{ legend }}};
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  //x axis
+  var x;
+  if(xAxis.measure) {
+    x = myChart[xAxis.type]("x",opts.x,xAxis.measure);
+  } else {
+    x = myChart[xAxis.type]("x", opts.x);
+  };
+  if(!(xAxis.type === "addPctAxis")) x.showPercent = xAxis.showPercent;
+  if (xAxis.orderRule) x.addOrderRule(xAxis.orderRule);
+  if (xAxis.grouporderRule) x.addGroupOrderRule(xAxis.grouporderRule);  
+  if (xAxis.overrideMin) x.overrideMin = xAxis.overrideMin;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  if (xAxis.overrideMax) x.overrideMax = xAxis.overrideMax;
+  if (xAxis.inputFormat) x.dateParseFormat = xAxis.inputFormat;
+  if (xAxis.outputFormat) x.tickFormat = xAxis.outputFormat;
+  //y axis
+  var y;
+  if(yAxis.measure) {
+    y = myChart[yAxis.type]("y",opts.y,yAxis.measure);
+  } else {
+    y = myChart[yAxis.type]("y", opts.y);
+  };
+  if(!(yAxis.type === "addPctAxis")) y.showPercent = yAxis.showPercent;
+  if (yAxis.orderRule) y.addOrderRule(yAxis.orderRule);
+  if (yAxis.grouporderRule) y.addGroupOrderRule(yAxis.grouporderRule);
+  if (yAxis.overrideMin) y.overrideMin = yAxis.overrideMin;
+  if (yAxis.overrideMax) y.overrideMax = yAxis.overrideMax;
+  if (yAxis.inputFormat) y.dateParseFormat = yAxis.inputFormat;
+  if (yAxis.outputFormat) y.tickFormat = yAxis.outputFormat;
+//z for bubbles
+    var z;
+  if (!(typeof(zAxis) === 'undefined') && zAxis.type){
+    if(zAxis.measure) {
+      z = myChart[zAxis.type]("z",opts.z,zAxis.measure);
+    } else {
+      z = myChart[zAxis.type]("z", opts.z);
+    };
+    if(!(zAxis.type === "addPctAxis")) z.showPercent = zAxis.showPercent;
+    if (zAxis.orderRule) z.addOrderRule(zAxis.orderRule);
+    if (zAxis.overrideMin) z.overrideMin = zAxis.overrideMin;
+    if (zAxis.overrideMax) z.overrideMax = zAxis.overrideMax;
+  }
+  if(d3.keys(colorAxis).length > 0) {
+    myChart[colorAxis.type](colorAxis.colorSeries,colorAxis.palette) ;
+  }
+
+  //allow manipulation of default colors to use with dimple
+  if(defaultColors.length) {
+    defaultColors = defaultColors[0];
+    if (typeof(defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(defaultColors(n));
+      };
+      defaultColors = defaultColorsArray;
+    }
+    defaultColors.forEach(function(d,i) {
+      defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = defaultColors;
+  }
+  
+  //here need think I need to evaluate group and if missing do null
+  //as the first argument
+  //if provided need to use groups from opts
+  if(opts.hasOwnProperty("groups")) {
+    var s = myChart.addSeries( opts.groups, dimple.plot[opts.type] );
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(opts.aggregate) === 'undefined')) {
+      s.aggregate = eval(opts.aggregate);
+    }
+    if (!(typeof(opts.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(opts.lineWeight);
+    }
+    if (!(typeof(opts.barGap) === 'undefined')) {
+      s.barGap = eval(opts.barGap);
+    }    
+  } else var s = myChart.addSeries( null, dimple.plot[opts.type] );
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(legend).forEach(function(d){
+      l[d] = legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+
+  //catch all for other options
+  //these can be provided by dMyChart$chart( ... )
+  {{{ chart }}}
+
+  myChart.draw();
+  
+  //axes adjustments for slopegraph
+  
+  //based on template myChart.axes[2] should be y
+  //but just to make sure do map
+  var ySlope = myChart.axes.filter(function(axis){return axis.position==="y"})[0];
+  var xSlope = myChart.axes.filter(function(axis){return axis.position==="x"})[0]
+  
+  //remove axis labels if desired
+  ySlope.shapes.remove();
+  //remove gridlines
+  ySlope.gridlineShapes.remove();
+  //remove axis title
+  ySlope.titleShape.remove();
+  
+  var slopelabels = d3.select("#"+opts.id).select("svg").select("g").append("g")
+    .attr("class","slopelabels")
+  
+  //get unique values for groups in data
+  //note will only work with one group level
+  var firstPoints = data.filter(function(d){
+    return d[opts.x] == x._draw.scale().domain()[0];
+  });
+  
+  slopelabels.selectAll("text")
+    .data(firstPoints)
+    .enter()
+    .append("text")
+      .attr("class","labels")
+      //.attr("x", function(d){
+      //  return xSlope._scale(d[opts.x])
+      //})
+      .attr("x",d3.select(".axis").select(".tick text").attr("x") - 20)
+      .attr("y", function(d){
+        return ySlope._scale(d[opts.y])
+      })
+      .attr("dy","0.2em")
+      .attr("transform",d3.select(".axis").select(".tick").attr("transform"))
+      .attr("fill",function(d){return myChart._assignedColors[d.group].fill})
+      //.attr("stroke",function(d){return myChart._assignedColors[d.group].stroke})
+      .attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
+      .style("text-anchor","end")
+      .text(function(d){
+        return d[opts.groups]
+      });
+      
+  // constraint relaxation on labels
+  // from http://bl.ocks.org/syntagmatic/4053096
+  //add y for each of these to use code as is
+  firstPoints.forEach(function(d){
+    d.y = ySlope._scale(d[opts.y]);
+  })
+  
+  var alpha = 0.5;
+  var spacing = 12;
+  function relax() {
+    var again = false;
+    firstPoints.forEach(function(a,i) {
+      firstPoints.slice(i+1).forEach(function(b) {
+        var dy = a.y - b.y;
+        if (Math.abs(dy) < spacing) {
+          again = true;
+          var sign = dy > 0 ? 1 : -1;
+          a.y += sign*alpha;
+          b.y -= sign*alpha;
+        }
+      });
+    });
+    d3.selectAll(".labels")
+      .attr("y", function(d) {
+        return d.y;
+      });
+    if (again) setTimeout(relax,20);
+  };
+
+  relax();  
+  
+  
+  //add numbers to each point
+  var pointtext = d3.select("#"+opts.id).select("svg").select("g").append("g")
+    .attr("class","pointtext")
+  pointtext.selectAll("text")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("transform",function(d){
+      return d3.select(d3.select(".axis").selectAll(".tick")[0].filter(function(dd){
+        return d3.select(dd).datum() == d[opts.x]
+      })[0]).attr("transform")
+    })
+    .append("text")
+      .attr("x",function(d){
+        return d3.select(".axis").select(".tick text").attr("x")
+      })
+      .attr("y",function(d){
+        return ySlope._scale(d[opts.y])})
+      .attr("dy","0.2em")
+      //.attr("fill",function(d){return myChart._assignedColors[d.group].fill})
+      //.attr("stroke",function(d){return myChart._assignedColors[d.group].stroke})
+      //.attr("opacity",function(d){return myChart._assignedColors[d.group].opacity})
+      .attr("text-anchor","middle")
+      .style("font-size","12")
+      .style("pointer-events","none")
+      .text(function(d){
+        return d[opts.y]})
+  
+})();
+</script>
