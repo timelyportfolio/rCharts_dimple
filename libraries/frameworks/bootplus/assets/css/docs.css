@@ -184,7 +184,7 @@ hr.soften {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #F9F9F9 url(../img/bkg-jumbotron.jpg) no-repeat bottom right;
+  background: #F9F9F9 url(../img/bkg-jumbotron-rcharts.png) no-repeat bottom right;
   /*opacity: .4;*/
 }
 @media

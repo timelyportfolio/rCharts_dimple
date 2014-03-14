@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>View From a Bond Shop</title>
+  <!-- Always force latest IE rendering engine -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Timely Portfolio">
+  
+  <link rel="icon" type="image/png" href="img/slidify_logo_notext.png">
+  
+  <link href="libraries/frameworks/bootplus/assets/css/bootplus.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/bootplus-responsive.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/font-awesome.min.css" rel="stylesheet">
+  <link href="libraries/frameworks/bootplus/assets/css/docs.css" rel="stylesheet">
+  <link href="libraries/highlighters/prettify/css/twitter-bootstrap.css" rel="stylesheet">
+  
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+  
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <![endif]-->
+  
+  
+  <style>
+    p {
+      text-align: justify;
+    }
+    .nav [class^="icon-"] {
+      line-height: normal;
+    }
+    
+    ol.linenums {
+      
+    }
+  </style>
+  
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="libraries/frameworks/bootplus/assets/ico/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="libraries/frameworks/bootplus/assets/ico/favicon.png">  <link rel=stylesheet href="http://fonts.googleapis.com/css?family=Raleway:300"></link>
+<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Oxygen"></link>
+
+  <script src="libraries/frameworks/bootplus/assets/js/jquery.js"></script>
+  <script src="libraries/widgets/dimple/js/dimple.v1.js"></script>
+<script src="libraries/widgets/dimple/js/d3.v3.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v1.1.5.min.js"></script>
+
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+  
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">
+              <!-- <img src='assets/img/slidify_logo.png' width='100px' /> -->
+              
+            </a>
+            <iframe class="pull-right" style="margin-top:10px;" src="http://ghbtns.com/github-btn.html?user=timelyportfolio&repo=rCharts_dimple&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+            <iframe class="pull-right" style="margin-top:10px;" src="http://ghbtns.com/github-btn.html?user=timelyportfolio&repo=rCharts_dimple&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>View From a Bond Shop</h1>
+      <p class="lead">
+        Iterate Through a Chart with rCharts and dimplejs
+
+      </p>
+    </div>
+  </header>
+  
+  <div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav">
+        <li><a href="#slide-1"> Not a Designer but I Do Know rCharts ...</a></li>
+        <li><a href="#slide-2"> Little Data &lt;- Manual Input</a></li>
+        <li><a href="#slide-3"> And the Iteration Begins</a></li>
+        <li><a href="#slide-4"> Add Some Color</a></li>
+        <li><a href="#slide-5"> Dimple Calls This a Block Matrix</a></li>
+        <li><a href="#slide-6"> Where are 1 and 5?</a></li>
+        <li><a href="#slide-7"> Sort It Out</a></li>
+        <li><a href="#slide-8"> Colored Labels</a></li>
+        <li><a href="#slide-9"> Can Sort Help Convey?</a></li>
+        <li><a href="#slide-10"> Spread the Font Love</a></li>
+        <li><a href="#slide-11"> More to Do</a></li>
+        <li><a href="#slide-12"> Thanks</a></li>
+      </ul>
+    </div>
+    
+    <div class="span8">
+      <section id="slide-1">
+  <div class="page-header">
+    <h1>Not a Designer but I Do Know rCharts ...</h1>
+  </div>
+  <style>
+body{
+  font-family: 'Oxygen', sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.tooltip{
+  opacity:1 !important
+}
+</style>
+
+<p>Yesterday I saw this chart (<strong>these are not my views</strong>) in a presentation by an undisclosed fixed income shop (unless they tell me they want me to disclose their identity).  Likely due to my immersion in <code>d3</code> and <code>rCharts</code> I paid no attention to the content and my mind went immediately to<br></p>
+
+<blockquote>
+Could this be better designed?    
+</blockquote>
+
+<p class='..'>and soon after ...</p>
+
+<blockquote>
+Could I do it with <code>rCharts</code> and <code>dimplejs</code>?    
+</blockquote>
+
+<p><img src="assets/fig/originalview.jpg" alt="original graphic">
+<em style="font-size:10px;">source: not me</em></p>
+
+</section>
+<section id="slide-2">
+  <div class="page-header">
+    <h1>Little Data &lt;- Manual Input</h1>
+  </div>
+  <p>Since the data is a summary view, manually inputting it into a <code>data.frame</code> is really easy.  We&#39;ll name it <code>views</code> and express our view with a scale 1 (don&#39;t like) to 6 (really like).</p>
+
+<pre><code class="r">require(rCharts)
+
+options(stringsAsFactors=F)
+
+views &lt;- data.frame(
+  Asset = c(
+    &quot;U.S. Treasuries&quot;
+    ,&quot;Curve Positions&quot;
+    ,&quot;Non US Developed&quot;
+    ,&quot;Emerging Markets&quot;
+    ,&quot;Mortgage-Backed Securities&quot;
+    ,&quot;Investment Grade Credit&quot;
+    ,&quot;High Yield&quot;
+    ,&quot;Municipals&quot;
+    ,&quot;Currency&quot;
+  ),
+  View = c(
+    3
+    ,6
+    ,3
+    ,2
+    ,4
+    ,3
+    ,3
+    ,4
+    ,2
+  )
+)
+</code></pre>
+
+</section>
+<section id="slide-3">
+  <div class="page-header">
+    <h1>And the Iteration Begins</h1>
+  </div>
+  <p>The beauty of rCharts is that we do not have to break our workflow as we explore and iterate.  Often the hardest part of iteration is finding a starting point when we are staring at a blank page or canvas.  I overcome this by just doing something and expecting it to be bad.</p>
+
+<pre><code class="r">dP &lt;- dPlot(
+  Asset ~ View,
+  data = views,
+  type = &quot;bar&quot;,
+  height = 600,
+  width = 600,
+  bounds = list( x= 240, y = 50 , width = 360, height = 500)
+)
+dP$xAxis( type = &quot;addMeasureAxis&quot; )
+dP$yAxis( type = &quot;addCategoryAxis&quot; )
+dP$show(chartId = &quot;example1&quot;)
+</code></pre>
+
+<div id = 'example1' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example1",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": [],
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example1" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<div id = "example1"></div>
+
+</section>
+<section id="slide-4">
+  <div class="page-header">
+    <h1>Add Some Color</h1>
+  </div>
+  <p>Some color might help.  <code>dimplejs</code> makes a color scale easy.  Although there is <code>colorbrewer.js</code>, we can avoid a js dependency and plug in <code>RColorBrewer</code> colors from <code>R</code>.  With a couple lines of new code we can get a heat map type color scheme with red, yellow, and green.  Sorry to the color blind readers, but I thought I would try to match the color scheme from the original.</p>
+
+<pre><code class="r">#need some color
+dP$colorAxis(
+  type = &quot;addColorAxis&quot;,
+  colorSeries = &quot;View&quot;,
+  palette = RColorBrewer::brewer.pal(n=5,&quot;RdYlGn&quot;) 
+)
+dP$show(chartId = &quot;example2&quot;)
+</code></pre>
+
+<div id = 'example2' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example2",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example2" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<div id = "example2"></div>
+
+</section>
+<section id="slide-5">
+  <div class="page-header">
+    <h1>Dimple Calls This a Block Matrix</h1>
+  </div>
+  <p>This <code>dimplejs</code> <a href="http://dimplejs.org/examples_viewer.html?id=bars_matrix">block matrix example</a> might be a better option than a traditional bar chart.  Block matrix charts have two categorical or discrete axes.  Let&#39;s make our <code>xAxis</code> categorical.</p>
+
+<pre><code class="r">#probably need x to be Category Axis
+dP$xAxis( type = &quot;addCategoryAxis&quot; )
+dP$show(chartId = &quot;example3&quot;)
+</code></pre>
+
+<div id = 'example3' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example3",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example3" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<div id = "example3"></div>
+
+</section>
+<section id="slide-6">
+  <div class="page-header">
+    <h1>Where are 1 and 5?</h1>
+  </div>
+  <p>Now that our <code>xAxis</code> is categorical, we lost 1 and 5 since we don&#39;t have this view on any of the opportunities.  As of now, I do not think <code>dimplejs</code> allows us to manually specify a domain for our categorical axes, but we can fool <code>dimplejs</code> by providing a dummy 1 and 5 then deleting it with javascript.</p>
+
+<pre><code class="r">#but what about views without an asset
+#in this case 1 and 5
+#dimple does not allow easy way of specifying explicit
+#categorical domain for axis scale
+#we will fool it and then remove
+dP$params$data = rbind(
+  views,
+  data.frame(
+    Asset = rep(&quot;Currency&quot;,2),
+    View = c(1,5)
+  )
+)
+#now for the manual removal of the byproduct of fooling dimple
+dP$setTemplate(
+  afterScript = &quot;
+&lt;script&gt;
+  d3.select(&#39;#example4&#39;).selectAll(&#39;#All_1_Currency_,#All_5_Currency_&#39;).remove()
+&lt;/script&gt;
+  &quot;
+)
+dP$show(chartId = &quot;example4&quot;)
+</code></pre>
+
+<div id = 'example4' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example4",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example4" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2},{"Asset":"Currency","View":1},{"Asset":"Currency","View":5}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<script>
+  d3.select('#example4').selectAll('#All_1_Currency_,#All_5_Currency_').remove()
+</script>
+  
+
+<div id = "example4"></div>
+
+</section>
+<section id="slide-7">
+  <div class="page-header">
+    <h1>Sort It Out</h1>
+  </div>
+  <p>I did not make the original chart, but I will assume that the ordering of the opportunity set (<code>yAxis</code>) was intentional.  <code>dimplejs</code> will assume natural sort order or alphabetical for text, but we can manually specify our sort order with a different variable or by providing an array.  The <code>data.frame</code> is in the correct order so let&#39;s give <code>dimplejs</code> that with the following code.</p>
+
+<pre><code class="r">#now our y Axis gets sorted in a way we might not like
+dP$yAxis(
+  orderRule = rev(views$Asset)
+)
+dP$show(chartId = &quot;example5&quot;)
+</code></pre>
+
+<div id = 'example5' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example5",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": [ "Currency", "Municipals", "High Yield", "Investment Grade Credit", "Mortgage-Backed Securities", "Emerging Markets", "Non US Developed", "Curve Positions", "U.S. Treasuries" ] 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example5" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2},{"Asset":"Currency","View":1},{"Asset":"Currency","View":5}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<script>
+  d3.select('#example5').selectAll('#All_1_Currency_,#All_5_Currency_').remove()
+</script>
+  
+
+<div id = "example5></div>
+
+</section>
+<section id="slide-8">
+  <div class="page-header">
+    <h1>Colored Labels</h1>
+  </div>
+  <p>Not sure if this helps viewers understand our chart or not, but colored labels for the <code>xAxis</code> might get style points.  A little <code>d3.js</code> can help us make the change.</p>
+
+<pre><code class="r">#one last bit of cleanup
+#label the axes as in the original
+dP$setTemplate(
+  afterScript = &quot;
+&lt;script&gt;
+  //get rid of dummy data
+  d3.select(&#39;#example6&#39;).selectAll(&#39;#All_1_Currency_,#All_5_Currency_&#39;).remove()
+  //get rid of text labels on x axis
+  d3.select(&#39;#example6&#39;).select(&#39;.axis:nth-child(2)&#39;).selectAll(&#39;.tick text&#39;).remove()
+  //label with text from original
+  d3.select(&#39;#example6&#39;).select(&#39;.axis:nth-child(2)&#39;).select(&#39;.tick&#39;).append(&#39;text&#39;)
+    .text(&#39;Minimum Allocation&#39;)
+    .attr(&#39;dy&#39;,&#39;1.5em&#39;)
+    .style(&#39;fill&#39;,myChart.axes[0].colors[0])
+  d3.select(&#39;#example6&#39;).select(&#39;.axis:nth-child(2)&#39;).select(&#39;.tick:last-of-type&#39;).append(&#39;text&#39;)
+    .text(&#39;Maximum Allocation&#39;)
+    .attr(&#39;text-anchor&#39;,&#39;end&#39;)
+    .attr(&#39;dy&#39;,&#39;1.5em&#39;)
+    .style(&#39;fill&#39;,myChart.axes[0].colors[4])
+&lt;/script&gt;
+  &quot;
+)
+dP$show(chartId = &quot;example6&quot;)
+</code></pre>
+
+<div id = 'example6' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example6",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": [ "Currency", "Municipals", "High Yield", "Investment Grade Credit", "Mortgage-Backed Securities", "Emerging Markets", "Non US Developed", "Curve Positions", "U.S. Treasuries" ] 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example6" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2},{"Asset":"Currency","View":1},{"Asset":"Currency","View":5}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<script>
+  //get rid of dummy data
+  d3.select('#example6').selectAll('#All_1_Currency_,#All_5_Currency_').remove()
+  //get rid of text labels on x axis
+  d3.select('#example6').select('.axis:nth-child(2)').selectAll('.tick text').remove()
+  //label with text from original
+  d3.select('#example6').select('.axis:nth-child(2)').select('.tick').append('text')
+    .text('Minimum Allocation')
+    .attr('dy','1.5em')
+    .style('fill',myChart.axes[0].colors[0])
+  d3.select('#example6').select('.axis:nth-child(2)').select('.tick:last-of-type').append('text')
+    .text('Maximum Allocation')
+    .attr('text-anchor','end')
+    .attr('dy','1.5em')
+    .style('fill',myChart.axes[0].colors[4])
+</script>
+  
+
+<div id = "example6></div>
+
+</section>
+<section id="slide-9">
+  <div class="page-header">
+    <h1>Can Sort Help Convey?</h1>
+  </div>
+  <p>Here is where some formal training might help, but I wanted to see if a different sort order might help.  Let&#39;s sort and in effect group opportunities by our view.</p>
+
+<pre><code class="r">#but if we want to sort our y Axis by view
+#could do this
+dP$yAxis(
+  orderRule = views$Asset[order(views$View,decreasing=T)]
+)
+dP$show(chartId = &quot;example7&quot;)
+</code></pre>
+
+<div id = 'example7' class = 'rChart dimple'></div>
+
+<script type="text/javascript">
+  var opts = {
+ "dom": "example7",
+"width":    600,
+"height":    600,
+"xAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addCategoryAxis",
+"showPercent": false,
+"orderRule": [ "Curve Positions", "Mortgage-Backed Securities", "Municipals", "U.S. Treasuries", "Non US Developed", "Investment Grade Credit", "High Yield", "Emerging Markets", "Currency" ] 
+},
+"zAxis": [],
+"colorAxis": {
+ "type": "addColorAxis",
+"colorSeries": "View",
+"palette": [ "#D7191C", "#FDAE61", "#FFFFBF", "#A6D96A", "#1A9641" ] 
+},
+"defaultColors": [],
+"layers": [],
+"legend": [],
+"x": "View",
+"y": "Asset",
+"type": "bar",
+"bounds": {
+ "x":    240,
+"y":     50,
+"width":    360,
+"height":    500 
+},
+"id": "example7" 
+},
+    data = [{"Asset":"U.S. Treasuries","View":3},{"Asset":"Curve Positions","View":6},{"Asset":"Non US Developed","View":3},{"Asset":"Emerging Markets","View":2},{"Asset":"Mortgage-Backed Securities","View":4},{"Asset":"Investment Grade Credit","View":3},{"Asset":"High Yield","View":3},{"Asset":"Municipals","View":4},{"Asset":"Currency","View":2},{"Asset":"Currency","View":1},{"Asset":"Currency","View":5}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups]; 
+    };
+    
+    //series offers an aggregate method that we will also need to check if available
+    //options available are avg, count, max, min, sum
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }
+    
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+
+<script>
+  //get rid of dummy data
+  d3.select('#example7').selectAll('#All_1_Currency_,#All_5_Currency_').remove()
+  //get rid of text labels on x axis
+  d3.select('#example7').select('.axis:nth-child(2)').selectAll('.tick text').remove()
+  //label with text from original
+  d3.select('#example7').select('.axis:nth-child(2)').select('.tick').append('text')
+    .text('Minimum Allocation')
+    .attr('dy','1.5em')
+    .style('fill',myChart.axes[0].colors[0])
+  d3.select('#example7').select('.axis:nth-child(2)').select('.tick:last-of-type').append('text')
+    .text('Maximum Allocation')
+    .attr('text-anchor','end')
+    .attr('dy','1.5em')
+    .style('fill',myChart.axes[0].colors[4])
+</script>
+  
+
+<div id = "example7"></div>
+
+</section>
+<section id="slide-10">
+  <div class="page-header">
+    <h1>Spread the Font Love</h1>
+  </div>
+  <p>This is hard to show before and after, but I thought it would be nice to use the same fonts from html in our <code>dimplejs</code> charts.  <code>dimplejs</code> allows full custom formatting with <a href="https://github.com/PMSI-AlignAlytics/dimple/wiki/dimple.chart#noFormats"><code>noFormats</code></a>, but I just want to change the font.  Let&#39;s use a little <code>d3.js</code> to change the font for our <code>svg text</code>.</p>
+
+<pre><code class="r">&lt;script&gt;
+  d3.selectAll(&#39;svg text&#39;).style(&quot;font-family&quot;,d3.select(&quot;body&quot;).style(&quot;font-family&quot;))
+&lt;/script&gt;
+</code></pre>
+
+<script>
+  d3.selectAll('svg text').style("font-family",d3.select("body").style("font-family"))
+</script>
+
+</section>
+<section id="slide-11">
+  <div class="page-header">
+    <h1>More to Do</h1>
+  </div>
+  <p>I still have many things I want to try to improve this chart and its interactivity, but we&#39;ll stop here.  If anybody really wants a part 2, please let me know.</p>
+
+</section>
+<section id="slide-12">
+  <div class="page-header">
+    <h1>Thanks</h1>
+  </div>
+  <p>As I hope you can tell, this post was more a function of the efforts of others than of my own.</p>
+
+<p>Thanks specifically:</p>
+
+<ul>
+<li><a href="http://ramnathv.github.io/">Ramnath Vaidyanathan</a> for <a href="http://rcharts.io/site">rCharts</a> and <a href="http://slidify.org">slidify</a>.</li>
+<li><a href="https://twitter.com/jkiernander">John Kiernander</a> for <a href="http://dimplejs.org">dimplejs</a></li>
+<li>Nameless Fixed Income Shop for the original chart.</li>
+<li><a href="http://bost.ocks.org/mike/">Mike Bostock</a> for everything.</li>
+<li>Google fonts <a href="http://www.google.com/fonts/specimen/Raleway">Raleway</a> and <a href="http://www.google.com/fonts/specimen/Oxygen">Oxygen</a></li>
+</ul>
+
+</section>
+    </div>
+  </div>
+  </div> <!-- container -->
+  
+  
+</body>
+  <script src="libraries/frameworks/bootplus/assets/js/bootstrap.min.js"></script>
+  <script src="libraries/frameworks/bootplus/assets/js/application.js"></script>
+  
+  <!-- Google Prettify -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+  <script src='libraries/highlighters/prettify/js/lang-r.js'></script>
+  <script>
+    var pres = document.getElementsByTagName("pre");
+    for (var i=0; i < pres.length; ++i) {
+      pres[i].className = "prettyprint linenums";
+    }
+    prettyPrint();
+  </script>
+  <!-- End Google Prettify --> 
+  </html>
