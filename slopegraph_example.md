@@ -1,65 +1,46 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>rCharts + dimple | Slopegraph</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <link rel="icon" type="image/png" href="favicon.ico">
-  <style>
-  body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-  }
-  </style>
+---
+title: rCharts + dimple | Slopegraph
+author: Timely Portfolio
+github: {user: timelyportfolio, repo: rCharts_dimple, branch: "gh-pages"}
+framework: bootstrap
+mode: selfcontained
+highlighter: prettify
+hitheme: twitter-bootstrap
+---
   
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-responsive.no-icons.min.css" rel="stylesheet">
-<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
-<link  rel="stylesheet" 
-    href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css">
-  <link rel="stylesheet" href="libraries/frameworks/bootstrap/css/bootstrap-responsive.min.css">
-  
-  <link rel="stylesheet" href="libraries/frameworks/bootstrap/css/main.css">
-  <link rel="stylesheet" href="libraries/highlighters/prettify/css/twitter-bootstrap.css" />
-  <script src="libraries/frameworks/bootstrap/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="libraries/frameworks/bootstrap/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-    
-  
-</head>
-<body>
-   <!--[if lt IE 7]>
-     <p class="chromeframe">You are using an outdated browser. 
-       <a href="http://browsehappy.com/">Upgrade your browser today</a> or 
-       <a href="http://www.google.com/chromeframe/?redirect=true"> 
-         install Google Chrome Frame
-       </a> to better experience this site.
-    </p>
-   <![endif]-->
-   <!-- Ref: http://twitter.github.com/bootstrap/examples/hero.html -->
-   
-    <div class="container">
-      
 <style>
-  .container { width: 900px;}
+  .container { width: 850px;}
 </style>
 
-<div class="hero-unit">
-  <h2>rCharts + dimple | Slopegraph</h2>
-  <p>
-  James Keirstead implemented <a href="http://www.jameskeirstead.ca/blog/slopegraphs-in-r/">slopegraphs in R</a> based on the the very thorough post from <a href="http://charliepark.org/slopegraphs/#the_tablegraphic">Charlie Park</a>.  I couldn&#39;t resist trying to do something similar with <a href="http://rcharts.io">rCharts</a> and <a href="http://dimplejs.org">dimplejs</a>.
-  </p>
-</div>
+## rCharts + dimple | Slopegraph
 
-<div class = "row">
-<div class = "span4">
+James Keirstead implemented [slopegraphs in R](http://www.jameskeirstead.ca/blog/slopegraphs-in-r/) based on the the very thorough post from [Charlie Park](http://charliepark.org/slopegraphs/#the_tablegraphic).  I couldn't resist trying to do something similar with [rCharts](http://rcharts.io) and [dimplejs](http://dimplejs.org).
+
+
+
+
+
+
+
+
+
+
 <h4>First Try | Out of the Box</h4>
+A slopegraph most closely resembles a line graph.  Let's plot the data in a simple line graph using `type = 'line'` with dimple.
 
-<p>A slopegraph most closely resembles a line graph.  Let&#39;s plot the data in a simple line graph using <code>type = &#39;line&#39;</code> with dimple.</p>
+
+```r
+d1 <- dPlot2(  #dPlot2 for minor internal change to iframesrc
+  value ~ year,
+  groups = "group",
+  data = data,
+  type = "line",
+  height = 800,
+  width = 550,
+  bounds = list(x=200,y=30,height=700,width=300)
+)
+d1$show("iframesrc")
+```
 
 <iframe srcdoc='
 &lt;!doctype HTML&gt;
@@ -71,6 +52,16 @@
     &lt;script src=&#039;C:/Program Files/R/R-3.0.2/library/rCharts/libraries/dimple/js/d3.v3.js&#039; type=&#039;text/javascript&#039;&gt;&lt;/script&gt;
     &lt;script src=&#039;C:/Program Files/R/R-3.0.2/library/rCharts/libraries/dimple/js/d3-grid.js&#039; type=&#039;text/javascript&#039;&gt;&lt;/script&gt;
     
+    &lt;style&gt;
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 550px;
+      height: 800px;
+    }  
+    &lt;/style&gt;
+    
   &lt;/head&gt;
   &lt;body &gt;
     
@@ -78,7 +69,7 @@
     &lt;script type=&quot;text/javascript&quot;&gt;
   var opts = {
  &quot;dom&quot;: &quot;chart2c2c33ea8ac&quot;,
-&quot;width&quot;:    350,
+&quot;width&quot;:    550,
 &quot;height&quot;:    800,
 &quot;xAxis&quot;: {
  &quot;type&quot;: &quot;addCategoryAxis&quot;,
@@ -98,7 +89,7 @@
 &quot;groups&quot;: &quot;group&quot;,
 &quot;type&quot;: &quot;line&quot;,
 &quot;bounds&quot;: {
- &quot;x&quot;:    50,
+ &quot;x&quot;:    200,
 &quot;y&quot;:     30,
 &quot;height&quot;:    700,
 &quot;width&quot;:    300 
@@ -274,27 +265,131 @@ dimple
  ' height = 
 800px
  ' width = 
-400px
+550px
 id='iframe-chart2c2c33ea8ac'>
 </iframe>
 
-<pre><code class="r">d1 &lt;- dPlot2(  #dPlot2 for minor internal change to iframesrc
-  value ~ year,
-  groups = &quot;group&quot;,
-  data = data,
-  type = &quot;line&quot;,
-  height = 800,
-  width = 550,
-  bounds = list(x=200,y=30,height=700,width=300)
-)
-d1$show(&quot;iframesrc&quot;)
-</code></pre>
-</div>
 
-<div class = "span5">
 <h4>With Some Javascript Adjustments</h4>
+Let's transform this simple line with some javascript.  I'll incorporate this [nice labelling example](http://bl.ocks.org/syntagmatic/4053096) to help us label our y axis.
 
-<p>Let&#39;s transform this simple line with some javascript.  I&#39;ll incorporate this <a href="http://bl.ocks.org/syntagmatic/4053096">nice labelling example</a> to help us avoid overlapping labels on our y axis.</p>
+
+```r
+#with improvements from afterScript template
+d1$setTemplate(
+  afterScript = "
+<script>
+  //axes adjustments for slopegraph
+  
+  //based on template myChart.axes[2] should be y
+  //but just to make sure do map
+  var ySlope = myChart.axes.filter(function(axis){return axis.position==='y'})[0];
+  var xSlope = myChart.axes.filter(function(axis){return axis.position==='x'})[0]
+  
+  //remove axis labels if desired
+  ySlope.shapes.remove();
+  //remove gridlines
+  ySlope.gridlineShapes.remove();
+  //remove axis title
+  ySlope.titleShape.remove();
+  
+  var slopelabels = d3.select('#'+opts.id).select('svg').select('g').append('g')
+   .attr('class','slopelabels')
+  
+  //get unique values for groups in data
+  //note will only work with one group level
+  var firstPoints = data.filter(function(d){
+    return d[opts.x] == myChart.axes[0]._draw.scale().domain()[0];
+  });
+  
+  slopelabels.selectAll('text')
+    .data(firstPoints)
+    .enter()
+    .append('text')
+    .attr('class','labels')
+    //.attr('x', function(d){
+    //  return xSlope._scale(d[opts.x])
+    //})
+    .attr('x',d3.select('.axis').select('.tick text').attr('x') - 20)
+    .attr('y', function(d){
+      return ySlope._scale(d[opts.y])
+    })
+    .attr('dy','0.2em')
+    .attr('transform',d3.select('.axis').select('.tick').attr('transform'))
+    .attr('fill',function(d)  {
+      return myChart._assignedColors[d[opts.groups]].fill
+    })
+    //.attr('stroke',function(d){return myChart._assignedColors[d[opts.groups]].stroke})
+    .attr('opacity',function(d){return myChart._assignedColors[d[opts.groups]].opacity})
+    .style('text-anchor','end')
+    .text(function(d){
+      return d[opts.groups]
+    });
+  
+    // constraint relaxation on labels
+    // from http://bl.ocks.org/syntagmatic/4053096
+    //add y for each of these to use code as is
+    firstPoints.forEach(function(d){
+      d.y = ySlope._scale(d[opts.y]);
+    })
+  
+    var alpha = 0.5;
+    var spacing = 12;
+    function relax() {
+      var again = false;
+      firstPoints.forEach(function(a,i) {
+        firstPoints.slice(i+1).forEach(function(b) {
+          var dy = a.y - b.y;
+          if (Math.abs(dy) < spacing) {
+            again = true;
+            var sign = dy > 0 ? 1 : -1;
+            a.y += sign*alpha;
+            b.y -= sign*alpha;
+          }
+        });
+      });
+      d3.selectAll('.labels')
+        .attr('y', function(d) {
+        return d.y;
+      });
+      if (again) setTimeout(relax,20);
+    };
+    
+    relax();  
+    
+    
+    //add numbers to each point
+    var pointtext = d3.select('#'+opts.id).select('svg').select('g').append('g')
+      .attr('class','pointtext')
+    pointtext.selectAll('text')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('transform',function(d){
+        return d3.select(d3.select('.axis').selectAll('.tick')[0].filter(function(dd){
+          return d3.select(dd).datum() == d[opts.x]
+        })[0]).attr('transform')
+      })
+      .append('text')
+      .attr('x',function(d){
+        return d3.select('.axis').select('.tick text').attr('x')
+      })
+      .attr('y',function(d){
+        return ySlope._scale(d[opts.y])})
+      .attr('dy','0.2em')
+      //.attr('fill',function(d){return myChart._assignedColors[d[opts.groups]].fill})
+      //.attr('stroke',function(d){return myChart._assignedColors[d[opts.groups]].stroke})
+      //.attr('opacity',function(d){return myChart._assignedColors[d[opts.groups]].opacity})
+      .attr('text-anchor','middle')
+      .style('font-size','12')
+      .style('pointer-events','none')
+      .text(function(d){
+        return d[opts.y]
+      })
+</script>"
+)
+d1$show("iframesrc")
+```
 
 <iframe srcdoc='
 &lt;!doctype HTML&gt;
@@ -323,7 +418,7 @@ d1$show(&quot;iframesrc&quot;)
     &lt;script type=&quot;text/javascript&quot;&gt;
   var opts = {
  &quot;dom&quot;: &quot;chart2c2c33ea8ac&quot;,
-&quot;width&quot;:    500,
+&quot;width&quot;:    550,
 &quot;height&quot;:    800,
 &quot;xAxis&quot;: {
  &quot;type&quot;: &quot;addCategoryAxis&quot;,
@@ -344,8 +439,8 @@ d1$show(&quot;iframesrc&quot;)
 &quot;type&quot;: &quot;line&quot;,
 &quot;bounds&quot;: {
  &quot;x&quot;:    200,
-&quot;y&quot;:     50,
-&quot;height&quot;:    690,
+&quot;y&quot;:     30,
+&quot;height&quot;:    700,
 &quot;width&quot;:    300 
 },
 &quot;id&quot;: &quot;chart2c2c33ea8ac&quot; 
@@ -628,145 +723,7 @@ dimple
  ' height = 
 800px
  ' width = 
-500px
+550px
 id='iframe-chart2c2c33ea8ac'>
 </iframe>
 
-<pre><code class="r">#with improvements from afterScript template
-d1$setTemplate(
-  afterScript = &quot;
-&lt;script&gt;
-  //axes adjustments for slopegraph
-
-  //based on template myChart.axes[2] should be y
-  //but just to make sure do map
-  var ySlope = myChart.axes.filter(function(axis){return axis.position===&#39;y&#39;})[0];
-  var xSlope = myChart.axes.filter(function(axis){return axis.position===&#39;x&#39;})[0]
-
-  //remove axis labels if desired
-  ySlope.shapes.remove();
-  //remove gridlines
-  ySlope.gridlineShapes.remove();
-  //remove axis title
-  ySlope.titleShape.remove();
-
-  var slopelabels = d3.select(&#39;#&#39;+opts.id).select(&#39;svg&#39;).select(&#39;g&#39;).append(&#39;g&#39;)
-   .attr(&#39;class&#39;,&#39;slopelabels&#39;)
-
-  //get unique values for groups in data
-  //note will only work with one group level
-  var firstPoints = data.filter(function(d){
-    return d[opts.x] == myChart.axes[0]._draw.scale().domain()[0];
-  });
-
-  slopelabels.selectAll(&#39;text&#39;)
-    .data(firstPoints)
-    .enter()
-    .append(&#39;text&#39;)
-    .attr(&#39;class&#39;,&#39;labels&#39;)
-    //.attr(&#39;x&#39;, function(d){
-    //  return xSlope._scale(d[opts.x])
-    //})
-    .attr(&#39;x&#39;,d3.select(&#39;.axis&#39;).select(&#39;.tick text&#39;).attr(&#39;x&#39;) - 20)
-    .attr(&#39;y&#39;, function(d){
-      return ySlope._scale(d[opts.y])
-    })
-    .attr(&#39;dy&#39;,&#39;0.2em&#39;)
-    .attr(&#39;transform&#39;,d3.select(&#39;.axis&#39;).select(&#39;.tick&#39;).attr(&#39;transform&#39;))
-    .attr(&#39;fill&#39;,function(d)  {
-      return myChart._assignedColors[d[opts.groups]].fill
-    })
-    //.attr(&#39;stroke&#39;,function(d){return myChart._assignedColors[d[opts.groups]].stroke})
-    .attr(&#39;opacity&#39;,function(d){return myChart._assignedColors[d[opts.groups]].opacity})
-    .style(&#39;text-anchor&#39;,&#39;end&#39;)
-    .text(function(d){
-      return d[opts.groups]
-    });
-
-    // constraint relaxation on labels
-    // from http://bl.ocks.org/syntagmatic/4053096
-    //add y for each of these to use code as is
-    firstPoints.forEach(function(d){
-      d.y = ySlope._scale(d[opts.y]);
-    })
-
-    var alpha = 0.5;
-    var spacing = 12;
-    function relax() {
-      var again = false;
-      firstPoints.forEach(function(a,i) {
-        firstPoints.slice(i+1).forEach(function(b) {
-          var dy = a.y - b.y;
-          if (Math.abs(dy) &lt; spacing) {
-            again = true;
-            var sign = dy &gt; 0 ? 1 : -1;
-            a.y += sign*alpha;
-            b.y -= sign*alpha;
-          }
-        });
-      });
-      d3.selectAll(&#39;.labels&#39;)
-        .attr(&#39;y&#39;, function(d) {
-        return d.y;
-      });
-      if (again) setTimeout(relax,20);
-    };
-
-    relax();  
-
-
-    //add numbers to each point
-    var pointtext = d3.select(&#39;#&#39;+opts.id).select(&#39;svg&#39;).select(&#39;g&#39;).append(&#39;g&#39;)
-      .attr(&#39;class&#39;,&#39;pointtext&#39;)
-    pointtext.selectAll(&#39;text&#39;)
-      .data(data)
-      .enter()
-      .append(&#39;g&#39;)
-      .attr(&#39;transform&#39;,function(d){
-        return d3.select(d3.select(&#39;.axis&#39;).selectAll(&#39;.tick&#39;)[0].filter(function(dd){
-          return d3.select(dd).datum() == d[opts.x]
-        })[0]).attr(&#39;transform&#39;)
-      })
-      .append(&#39;text&#39;)
-      .attr(&#39;x&#39;,function(d){
-        return d3.select(&#39;.axis&#39;).select(&#39;.tick text&#39;).attr(&#39;x&#39;)
-      })
-      .attr(&#39;y&#39;,function(d){
-        return ySlope._scale(d[opts.y])})
-      .attr(&#39;dy&#39;,&#39;0.2em&#39;)
-      //.attr(&#39;fill&#39;,function(d){return myChart._assignedColors[d[opts.groups]].fill})
-      //.attr(&#39;stroke&#39;,function(d){return myChart._assignedColors[d[opts.groups]].stroke})
-      //.attr(&#39;opacity&#39;,function(d){return myChart._assignedColors[d[opts.groups]].opacity})
-      .attr(&#39;text-anchor&#39;,&#39;middle&#39;)
-      .style(&#39;font-size&#39;,&#39;12&#39;)
-      .style(&#39;pointer-events&#39;,&#39;none&#39;)
-      .text(function(d){
-        return d[opts.y]
-      })
-&lt;/script&gt;&quot;
-)
-d1$show(&quot;iframesrc&quot;)
-</code></pre>
-
-</div>
-</div><!--row-->
-    </div><!--container-->
-        
-</body>
-  <script src="libraries/frameworks/bootstrap/js/vendor/bootstrap.min.js"></script>
-  <script src="libraries/frameworks/bootstrap/js/plugins.js"></script>
-  <script src="libraries/frameworks/bootstrap/js/main.js"></script>
-  <!-- Load Javascripts for Widgets -->
-  
-  <!-- Google Prettify -->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
-  <script src='libraries/highlighters/prettify/js/lang-r.js'></script>
-  <script>
-    var pres = document.getElementsByTagName("pre");
-    for (var i=0; i < pres.length; ++i) {
-      pres[i].className = "prettyprint linenums";
-    }
-    prettyPrint();
-  </script>
-  <!-- End Google Prettify --> 
-  </html>

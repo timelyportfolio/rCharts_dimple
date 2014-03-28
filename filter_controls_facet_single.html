@@ -3,11 +3,9 @@
 <html>
   <head>
     <link rel='stylesheet' href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <style>
-      .tooltip{
-        opacity:100;
-      }
-    </style>
+    <link rel='stylesheet' href='http://timelyportfolio.github.io/rCharts_dimple/tooltipfix.css'>
+    <link rel='stylesheet' href='./js/d3-grid.js'>
+    
     <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
     <script src='http://dimplejs.org/dist/dimple.v1.1.5.min.js' type='text/javascript'></script>
     <script src='./js/d3-grid.js' type='text/javascript'></script>
@@ -59,7 +57,7 @@
     </div>
     <div class='col-md-8'>
       <div class="bs-docs-example">
-        <div id='chart2988a1a96a' class='rChart '>
+        <div id='chart242c207446c5' class='rChart '>
           <svg></svg>
         </div>
         
@@ -70,7 +68,7 @@
 <script type="text/javascript">
 function DemoCtrl($scope){
   $scope.opts = {
- "dom": "chart2988a1a96a",
+ "dom": "chart242c207446c5",
 "width":    700,
 "height":    400,
 "xAxis": {
@@ -97,7 +95,7 @@ function DemoCtrl($scope){
 "y": null,
 "removeAxes": true 
 },
-"id": "chart2988a1a96a" 
+"id": "chart242c207446c5" 
 }
   $scope.data = [{"Hair":"Black","Eye":"Brown","Sex":"Male","Freq":32},{"Hair":"Brown","Eye":"Brown","Sex":"Male","Freq":53},{"Hair":"Red","Eye":"Brown","Sex":"Male","Freq":10},{"Hair":"Blond","Eye":"Brown","Sex":"Male","Freq":3},{"Hair":"Black","Eye":"Blue","Sex":"Male","Freq":11},{"Hair":"Brown","Eye":"Blue","Sex":"Male","Freq":50},{"Hair":"Red","Eye":"Blue","Sex":"Male","Freq":10},{"Hair":"Blond","Eye":"Blue","Sex":"Male","Freq":30},{"Hair":"Black","Eye":"Hazel","Sex":"Male","Freq":10},{"Hair":"Brown","Eye":"Hazel","Sex":"Male","Freq":25},{"Hair":"Red","Eye":"Hazel","Sex":"Male","Freq":7},{"Hair":"Blond","Eye":"Hazel","Sex":"Male","Freq":5},{"Hair":"Black","Eye":"Green","Sex":"Male","Freq":3},{"Hair":"Brown","Eye":"Green","Sex":"Male","Freq":15},{"Hair":"Red","Eye":"Green","Sex":"Male","Freq":7},{"Hair":"Blond","Eye":"Green","Sex":"Male","Freq":8},{"Hair":"Black","Eye":"Brown","Sex":"Female","Freq":36},{"Hair":"Brown","Eye":"Brown","Sex":"Female","Freq":66},{"Hair":"Red","Eye":"Brown","Sex":"Female","Freq":16},{"Hair":"Blond","Eye":"Brown","Sex":"Female","Freq":4},{"Hair":"Black","Eye":"Blue","Sex":"Female","Freq":9},{"Hair":"Brown","Eye":"Blue","Sex":"Female","Freq":34},{"Hair":"Red","Eye":"Blue","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Blue","Sex":"Female","Freq":64},{"Hair":"Black","Eye":"Hazel","Sex":"Female","Freq":5},{"Hair":"Brown","Eye":"Hazel","Sex":"Female","Freq":29},{"Hair":"Red","Eye":"Hazel","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Hazel","Sex":"Female","Freq":5},{"Hair":"Black","Eye":"Green","Sex":"Female","Freq":2},{"Hair":"Brown","Eye":"Green","Sex":"Female","Freq":14},{"Hair":"Red","Eye":"Green","Sex":"Female","Freq":7},{"Hair":"Blond","Eye":"Green","Sex":"Female","Freq":8}]
   $scope.controls = {
@@ -178,8 +176,11 @@ function DemoCtrl($scope){
     if($scope.opts.facetx) {
       $scope.opts.facet.x = $scope.opts.facetx
     }
+    if($scope.opts.facety) {
+      $scope.opts.facet.y = $scope.opts.facety
+    }    
     $scope.drawChart()
-	}, true)
+  }, true)
 }  
 
 //global for now until I come up with a better idea
@@ -242,25 +243,26 @@ function drawChart(opts, data){
     */
   }
   
+  /*
   //move this here for facet template since only occurs once
   //allow manipulation of default colors to use with dimple
   var defaultColors = opts.defaultColors;
-  if(defaultColors.length) {
+  if(defaultColors.length && typeof(defaultColors) != "function") {
     defaultColors = defaultColors[0];
-    if (typeof(defaultColors) == "function") {
-      //assume this is a d3 scale
-      //for now loop through first 20 but need a better way to handle
-      var defaultColorsArray = [];
-      for (var n=0;n<20;n++) {
-        defaultColorsArray.push(defaultColors(n));
-      };
-      defaultColors = defaultColorsArray;
-    }
-    defaultColors.forEach(function(d,i) {
-      defaultColors[i] = new dimple.color(d);
-    })
   }
-  
+  if (typeof(defaultColors) == "function") {
+    //assume this is a d3 scale
+    //for now loop through first 20 but need a better way to handle
+    var defaultColorsArray = [];
+    for (var n=0;n<20;n++) {
+      defaultColorsArray.push(defaultColors(n));
+    };
+    defaultColors = defaultColorsArray;
+  }
+  defaultColors.forEach(function(d,i) {
+    defaultColors[i] = new dimple.color(d);
+  })
+  */
   var c = null;
   
   function buildSeries(layer, hidden, myChart){
@@ -349,7 +351,6 @@ function drawChart(opts, data){
   var svgGrid = d3.select("#" + opts.id).select("svg")
     .attr("width", opts.width)
     .attr("height", opts.height);
-   // .attr("transform", "translate(50,0)");
 
   grid(tuples);
 
@@ -397,13 +398,24 @@ function drawChart(opts, data){
 
 
         // Position the chart inside the shape
-        subChart.setBounds(
+        subChart.height = grid.nodeSize()[1]
+        subChart.width = grid.nodeSize()[0]      
+        
+        if (opts.margins) {
+          subChart.setBounds(
+            parseFloat(cell.x + opts.margins.left),
+            parseFloat(cell.y + opts.margins.bottom),
+            subChart.width - opts.margins.right- opts.margins.left,
+            subChart.height - opts.margins.top - opts.margins.bottom
+          )
+        } else {
+          subChart.setBounds(
             parseFloat(cell.x + 50), 
             parseFloat(cell.y + 10),
             parseFloat(grid.nodeSize()[0] - 50),
-            parseFloat(grid.nodeSize()[1]) - 10);
-
-  
+            parseFloat(grid.nodeSize()[1]) - 10
+          );
+        }
   
   //dimple allows use of custom CSS with noFormats
   if(opts.noFormats) { subChart.noFormats = opts.noFormats; };
@@ -413,12 +425,13 @@ function drawChart(opts, data){
     c = subChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
   }
 
-  
+  /*
   //allow manipulation of default colors to use with dimple
   if(defaultColors.length) {
     //move transform of defaultColors to top
     subChart.defaultColors = defaultColors;
-  }  
+  } 
+  */
   
   buildSeries(opts, false, subChart);
   if (opts.layers.length > 0) {
@@ -447,13 +460,13 @@ subCharts.forEach(function(subChart) {
 //get rid of all y for those not in column 1
 //can easily customize this to only remove bits and pieces
   if(opts.facet.removeAxes) {
-    //work on axis scaling
-    //assume if remove then same scales for all charts
-    axisdomain = [];
-    ["y"].forEach(function(position){
+    ["x","y","z"].forEach(function(position){
+      //work on axis scaling
+      //assume if remove then same scales for all charts
+      axisdomain = [];      
       subCharts.forEach(function(subChart){
         subChart.axes.forEach(function(axis){
-          if (axis.position === position){
+          if (axis.position === position && !axis._hasCategories()){
             axisdomain.push(axis._scale.domain())
           }
         })
@@ -461,7 +474,7 @@ subCharts.forEach(function(subChart) {
       axisdomain = d3.extent(_.flatten(axisdomain));
       subCharts.forEach(function(subChart){
         subChart.axes.forEach(function(axis){
-          if (axis.position === position){
+          if (axis.position === position && !axis._hasCategories()){
             axis.overrideMin = axisdomain[0];
             axis.overrideMax = axisdomain[1];
           }
@@ -495,6 +508,24 @@ subCharts.forEach(function(subChart) {
       })
     });
   }
+  
+  
+//also need to fix colors since dimple
+//does not use category scale for defaultColors like d3
+if (typeof(opts.defaultColors) === "function"){
+  var defaultColors = opts.defaultColors;
+  subCharts.forEach(function(subChart) {
+    subChart.series[0].shapes
+      .transition()
+      .style("fill", function(d){
+        return defaultColors(d.aggField.join())
+      })
+      .style("stroke", function(d){
+        return defaultColors(d.aggField.join())
+      })
+      .delay(1000)
+    })
+}
 }
 
 </script>
