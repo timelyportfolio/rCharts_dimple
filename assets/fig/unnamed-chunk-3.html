@@ -1,0 +1,288 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    
+    <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
+    <script src='http://dimplejs.org/dist/dimple.v1.1.5.min.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 590px;
+      height: 380px;
+    }  
+    </style>
+    
+  </head>
+  <body >
+    
+    <div id = 'chart12009807f1f' class = 'rChart dimple'></div>    
+    <script type="text/javascript">
+  var opts = {
+ "dom": "chart12009807f1f",
+"width":    590,
+"height":    380,
+"xAxis": {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+"yAxis": {
+ "type": "addMeasureAxis",
+"showPercent": false 
+},
+"zAxis": [],
+"colorAxis": [],
+"defaultColors": [],
+"layers": [],
+"legend": {
+ "x":    530,
+"y":    100,
+"width":     60,
+"height":    300,
+"horizontalAlign": "right" 
+},
+"x": "Price",
+"y": "SalesValue",
+"groups": [ "SKU", "Channel", "Owner" ],
+"type": "bubble",
+"bounds": {
+ "x":     60,
+"y":     30,
+"width":    420,
+"height":    310 
+},
+"xlab": "I am a changed x",
+"ylab": "I am a changed y",
+"id": "chart12009807f1f" 
+},
+    data = [{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Delta","PackSize":12,"PackType":"Standard","SKU":"Delta 12 Pack Standard","PriceTier":"Budget","UnitSales":1553,"SalesValue":88223,"Distribution":98.19,"CostofSales":224.14,"Price":56.81,"GrossProfit":87998.86,"IndirectCosts":82159.96,"OperatingProfit":5838.9,"UnitSalesMonthlyChange":81,"SalesValueMonthlyChange":4492,"DistributionMonthlyChange":0.64,"CostofSalesMonthlyChange":11.42,"PriceMonthlyChange":-0.07,"GrossProfitMonthlyChange":4480.58,"IndirectCostsMonthlyChange":4184.01,"OperatingProfitMonthlyChange":296.57},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Eta","PackSize":12,"PackType":"Standard","SKU":"Eta 12 Pack Standard","PriceTier":"Budget","UnitSales":928,"SalesValue":40885,"Distribution":17.48,"CostofSales":103.87,"Price":44.06,"GrossProfit":40781.13,"IndirectCosts":38075.24,"OperatingProfit":2705.89,"UnitSalesMonthlyChange":66,"SalesValueMonthlyChange":2829,"DistributionMonthlyChange":2.34,"CostofSalesMonthlyChange":7.19,"PriceMonthlyChange":-0.09,"GrossProfitMonthlyChange":2821.81,"IndirectCostsMonthlyChange":2634.57,"OperatingProfitMonthlyChange":187.24},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":8,"PackType":"Standard","SKU":"Omicron 8 Pack Standard","PriceTier":"Regular","UnitSales":470,"SalesValue":41348,"Distribution":33.84,"CostofSales":105.05,"Price":87.97,"GrossProfit":41242.95,"IndirectCosts":38506.6,"OperatingProfit":2736.35,"UnitSalesMonthlyChange":180,"SalesValueMonthlyChange":15759,"DistributionMonthlyChange":3.44,"CostofSalesMonthlyChange":40.04,"PriceMonthlyChange":-0.27,"GrossProfitMonthlyChange":15718.96,"IndirectCostsMonthlyChange":14676.47,"OperatingProfitMonthlyChange":1042.49},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Deluxe","SKU":"Omicron 12 Pack Deluxe","PriceTier":"Regular","UnitSales":721,"SalesValue":63070,"Distribution":48.42,"CostofSales":160.24,"Price":87.48,"GrossProfit":62909.76,"IndirectCosts":58735.5,"OperatingProfit":4174.26,"UnitSalesMonthlyChange":349,"SalesValueMonthlyChange":30535,"DistributionMonthlyChange":7.74,"CostofSalesMonthlyChange":77.58,"PriceMonthlyChange":0.02,"GrossProfitMonthlyChange":30457.42,"IndirectCostsMonthlyChange":28436.57,"OperatingProfitMonthlyChange":2020.85},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Giftset","SKU":"Omicron 12 Pack Giftset","PriceTier":"Regular","UnitSales":7315,"SalesValue":620587,"Distribution":99.44,"CostofSales":1576.66,"Price":84.84,"GrossProfit":619010.34,"IndirectCosts":577934.81,"OperatingProfit":41075.53,"UnitSalesMonthlyChange":4604,"SalesValueMonthlyChange":385333,"DistributionMonthlyChange":0.23,"CostofSalesMonthlyChange":978.97,"PriceMonthlyChange":-1.94,"GrossProfitMonthlyChange":384354.03,"IndirectCostsMonthlyChange":358849.39,"OperatingProfitMonthlyChange":25504.64},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Standard","SKU":"Omicron 12 Pack Standard","PriceTier":"Regular","UnitSales":1766,"SalesValue":129609,"Distribution":50.03,"CostofSales":329.29,"Price":73.39,"GrossProfit":129279.71,"IndirectCosts":120701.21,"OperatingProfit":8578.5,"UnitSalesMonthlyChange":918,"SalesValueMonthlyChange":67277,"DistributionMonthlyChange":8.73,"CostofSalesMonthlyChange":170.93,"PriceMonthlyChange":-0.11,"GrossProfitMonthlyChange":67106.07,"IndirectCostsMonthlyChange":62653.54,"OperatingProfitMonthlyChange":4452.53},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":18,"PackType":"Standard","SKU":"Omicron 18 Pack Standard","PriceTier":"Regular","UnitSales":40370,"SalesValue":2379032,"Distribution":99.94,"CostofSales":6044.18,"Price":58.93,"GrossProfit":2372987.82,"IndirectCosts":2215525.8,"OperatingProfit":157462.02,"UnitSalesMonthlyChange":-503,"SalesValueMonthlyChange":-39845,"DistributionMonthlyChange":0.01,"CostofSalesMonthlyChange":-101.23,"PriceMonthlyChange":-0.25,"GrossProfitMonthlyChange":-39743.77,"IndirectCostsMonthlyChange":-37106.34,"OperatingProfitMonthlyChange":-2637.43},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Sigma","PackSize":12,"PackType":"Giftset","SKU":"Sigma 12 Pack Giftset","PriceTier":"Premium","UnitSales":2388,"SalesValue":355954,"Distribution":98.21,"CostofSales":904.34,"Price":149.06,"GrossProfit":355049.66,"IndirectCosts":331490.11,"OperatingProfit":23559.55,"UnitSalesMonthlyChange":837,"SalesValueMonthlyChange":123731,"DistributionMonthlyChange":1.91,"CostofSalesMonthlyChange":314.35,"PriceMonthlyChange":-0.66,"GrossProfitMonthlyChange":123416.65,"IndirectCostsMonthlyChange":115227,"OperatingProfitMonthlyChange":8189.65},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Sigma","PackSize":12,"PackType":"Standard","SKU":"Sigma 12 Pack Standard","PriceTier":"Premium","UnitSales":1663,"SalesValue":245351,"Distribution":98.66,"CostofSales":623.34,"Price":147.54,"GrossProfit":244727.66,"IndirectCosts":228488.28,"OperatingProfit":16239.38,"UnitSalesMonthlyChange":630,"SalesValueMonthlyChange":92337,"DistributionMonthlyChange":0.16,"CostofSalesMonthlyChange":234.59,"PriceMonthlyChange":-0.59,"GrossProfitMonthlyChange":92102.41,"IndirectCostsMonthlyChange":85990.28,"OperatingProfitMonthlyChange":6112.13},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Aperture","Brand":"Tau","PackSize":12,"PackType":"Standard","SKU":"Tau 12 Pack Standard","PriceTier":"Regular","UnitSales":589,"SalesValue":45364,"Distribution":92.22,"CostofSales":115.25,"Price":77.02,"GrossProfit":45248.75,"IndirectCosts":42246.4,"OperatingProfit":3002.35,"UnitSalesMonthlyChange":30,"SalesValueMonthlyChange":2436,"DistributionMonthlyChange":-1.04,"CostofSalesMonthlyChange":6.19,"PriceMonthlyChange":0.23,"GrossProfitMonthlyChange":2429.81,"IndirectCostsMonthlyChange":2268.57,"OperatingProfitMonthlyChange":161.24},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Epsilon","PackSize":12,"PackType":"Standard","SKU":"Epsilon 12 Pack Standard","PriceTier":"Budget","UnitSales":721,"SalesValue":38965,"Distribution":45.96,"CostofSales":98.99,"Price":54.04,"GrossProfit":38866.01,"IndirectCosts":36287.2,"OperatingProfit":2578.81,"UnitSalesMonthlyChange":127,"SalesValueMonthlyChange":6734,"DistributionMonthlyChange":0.66,"CostofSalesMonthlyChange":17.1,"PriceMonthlyChange":-0.22,"GrossProfitMonthlyChange":6716.9,"IndirectCostsMonthlyChange":6271.01,"OperatingProfitMonthlyChange":445.89},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Iota","PackSize":12,"PackType":"Giftset","SKU":"Iota 12 Pack Giftset","PriceTier":"Regular","UnitSales":1177,"SalesValue":114062,"Distribution":97.46,"CostofSales":289.79,"Price":96.91,"GrossProfit":113772.21,"IndirectCosts":106222.54,"OperatingProfit":7549.67,"UnitSalesMonthlyChange":591,"SalesValueMonthlyChange":56616,"DistributionMonthlyChange":3.71,"CostofSalesMonthlyChange":143.84,"PriceMonthlyChange":-1.12,"GrossProfitMonthlyChange":56472.16,"IndirectCostsMonthlyChange":52724.33,"OperatingProfitMonthlyChange":3747.83},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Iota","PackSize":12,"PackType":"Standard","SKU":"Iota 12 Pack Standard","PriceTier":"Regular","UnitSales":1384,"SalesValue":123644,"Distribution":98.4,"CostofSales":314.13,"Price":89.34,"GrossProfit":123329.87,"IndirectCosts":115145.98,"OperatingProfit":8183.89,"UnitSalesMonthlyChange":333,"SalesValueMonthlyChange":30877,"DistributionMonthlyChange":1.62,"CostofSalesMonthlyChange":78.44,"PriceMonthlyChange":1.07,"GrossProfitMonthlyChange":30798.56,"IndirectCostsMonthlyChange":28754.51,"OperatingProfitMonthlyChange":2044.05},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Lambda","PackSize":8,"PackType":"Standard","SKU":"Lambda 8 Pack Standard","PriceTier":"Budget","UnitSales":796,"SalesValue":48595,"Distribution":42.62,"CostofSales":123.46,"Price":61.05,"GrossProfit":48471.54,"IndirectCosts":45254.78,"OperatingProfit":3216.76,"UnitSalesMonthlyChange":-123,"SalesValueMonthlyChange":-6366,"DistributionMonthlyChange":-26.55,"CostofSalesMonthlyChange":-16.17,"PriceMonthlyChange":1.24,"GrossProfitMonthlyChange":-6349.83,"IndirectCostsMonthlyChange":-5928.48,"OperatingProfitMonthlyChange":-421.35},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Lambda","PackSize":12,"PackType":"Standard","SKU":"Lambda 12 Pack Standard","PriceTier":"Budget","UnitSales":3245,"SalesValue":187067,"Distribution":99.71,"CostofSales":475.26,"Price":57.65,"GrossProfit":186591.74,"IndirectCosts":174210.04,"OperatingProfit":12381.7,"UnitSalesMonthlyChange":274,"SalesValueMonthlyChange":16015,"DistributionMonthlyChange":0.4,"CostofSalesMonthlyChange":40.69,"PriceMonthlyChange":0.08,"GrossProfitMonthlyChange":15974.31,"IndirectCostsMonthlyChange":14913.95,"OperatingProfitMonthlyChange":1060.36},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Mu","PackSize":12,"PackType":"Standard","SKU":"Mu 12 Pack Standard","PriceTier":"Premium","UnitSales":614,"SalesValue":90866,"Distribution":66.91,"CostofSales":230.86,"Price":147.99,"GrossProfit":90635.14,"IndirectCosts":84621.32,"OperatingProfit":6013.82,"UnitSalesMonthlyChange":343,"SalesValueMonthlyChange":49419,"DistributionMonthlyChange":8.69,"CostofSalesMonthlyChange":125.56,"PriceMonthlyChange":-4.95,"GrossProfitMonthlyChange":49293.44,"IndirectCostsMonthlyChange":46022.52,"OperatingProfitMonthlyChange":3270.92},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":6,"PackType":"Standard","SKU":"Theta 6 Pack Standard","PriceTier":"Regular","UnitSales":305,"SalesValue":31113,"Distribution":20.6,"CostofSales":79.04,"Price":102.01,"GrossProfit":31033.96,"IndirectCosts":28974.66,"OperatingProfit":2059.3,"UnitSalesMonthlyChange":126,"SalesValueMonthlyChange":12752,"DistributionMonthlyChange":2.96,"CostofSalesMonthlyChange":32.39,"PriceMonthlyChange":-0.57,"GrossProfitMonthlyChange":12719.61,"IndirectCostsMonthlyChange":11875.96,"OperatingProfitMonthlyChange":843.65},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":8,"PackType":"Standard","SKU":"Theta 8 Pack Standard","PriceTier":"Regular","UnitSales":4679,"SalesValue":344647,"Distribution":97.49,"CostofSales":875.61,"Price":73.66,"GrossProfit":343771.39,"IndirectCosts":320960.22,"OperatingProfit":22811.17,"UnitSalesMonthlyChange":1872,"SalesValueMonthlyChange":132030,"DistributionMonthlyChange":-1.1,"CostofSalesMonthlyChange":335.44,"PriceMonthlyChange":-2.09,"GrossProfitMonthlyChange":131694.56,"IndirectCostsMonthlyChange":122956.37,"OperatingProfitMonthlyChange":8738.19},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Deluxe","SKU":"Theta 12 Pack Deluxe","PriceTier":"Regular","UnitSales":1894,"SalesValue":155006,"Distribution":81.5,"CostofSales":393.81,"Price":81.84,"GrossProfit":154612.19,"IndirectCosts":144353.09,"OperatingProfit":10259.1,"UnitSalesMonthlyChange":1414,"SalesValueMonthlyChange":114224,"DistributionMonthlyChange":9.69,"CostofSalesMonthlyChange":290.2,"PriceMonthlyChange":-3.12,"GrossProfitMonthlyChange":113933.8,"IndirectCostsMonthlyChange":106373.96,"OperatingProfitMonthlyChange":7559.84},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Giftset","SKU":"Theta 12 Pack Giftset","PriceTier":"Regular","UnitSales":4281,"SalesValue":368994,"Distribution":99.39,"CostofSales":937.47,"Price":86.19,"GrossProfit":368056.53,"IndirectCosts":343633.7,"OperatingProfit":24422.83,"UnitSalesMonthlyChange":2374,"SalesValueMonthlyChange":191488,"DistributionMonthlyChange":0.85,"CostofSalesMonthlyChange":486.5,"PriceMonthlyChange":-6.89,"GrossProfitMonthlyChange":191001.5,"IndirectCostsMonthlyChange":178326.99,"OperatingProfitMonthlyChange":12674.51},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Standard","SKU":"Theta 12 Pack Standard","PriceTier":"Regular","UnitSales":10676,"SalesValue":768425,"Distribution":99.98,"CostofSales":1952.26,"Price":71.98,"GrossProfit":766472.74,"IndirectCosts":715612.35,"OperatingProfit":50860.39,"UnitSalesMonthlyChange":2739,"SalesValueMonthlyChange":186789,"DistributionMonthlyChange":0.47,"CostofSalesMonthlyChange":474.55,"PriceMonthlyChange":-1.3,"GrossProfitMonthlyChange":186314.45,"IndirectCostsMonthlyChange":173950.77,"OperatingProfitMonthlyChange":12363.68},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":18,"PackType":"Standard","SKU":"Theta 18 Pack Standard","PriceTier":"Regular","UnitSales":69711,"SalesValue":4120384,"Distribution":99.64,"CostofSales":10468.26,"Price":59.11,"GrossProfit":4109915.74,"IndirectCosts":3837197.08,"OperatingProfit":272718.66,"UnitSalesMonthlyChange":52055,"SalesValueMonthlyChange":2986989,"DistributionMonthlyChange":-0.31,"CostofSalesMonthlyChange":7588.75,"PriceMonthlyChange":-5.08,"GrossProfitMonthlyChange":2979400.25,"IndirectCostsMonthlyChange":2781698.09,"OperatingProfitMonthlyChange":197702.16},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"LexCorp","Brand":"Gamma","PackSize":12,"PackType":"Standard","SKU":"Gamma 12 Pack Standard","PriceTier":"Budget","UnitSales":2547,"SalesValue":158784,"Distribution":99.21,"CostofSales":403.41,"Price":62.34,"GrossProfit":158380.59,"IndirectCosts":147871.06,"OperatingProfit":10509.53,"UnitSalesMonthlyChange":125,"SalesValueMonthlyChange":10540,"DistributionMonthlyChange":1.29,"CostofSalesMonthlyChange":26.78,"PriceMonthlyChange":1.13,"GrossProfitMonthlyChange":10513.22,"IndirectCostsMonthlyChange":9815.79,"OperatingProfitMonthlyChange":697.43},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"MomCorp","Brand":"Alpha","PackSize":12,"PackType":"Standard","SKU":"Alpha 12 Pack Standard","PriceTier":"Regular","UnitSales":1537,"SalesValue":128728,"Distribution":70.09,"CostofSales":327.05,"Price":83.75,"GrossProfit":128400.95,"IndirectCosts":119880.38,"OperatingProfit":8520.57,"UnitSalesMonthlyChange":563,"SalesValueMonthlyChange":45857,"DistributionMonthlyChange":-1.67,"CostofSalesMonthlyChange":116.51,"PriceMonthlyChange":-1.33,"GrossProfitMonthlyChange":45740.49,"IndirectCostsMonthlyChange":42705.14,"OperatingProfitMonthlyChange":3035.35},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"MomCorp","Brand":"Alpha","PackSize":18,"PackType":"Standard","SKU":"Alpha 18 Pack Standard","PriceTier":"Regular","UnitSales":2521,"SalesValue":191567,"Distribution":95.73,"CostofSales":486.7,"Price":75.99,"GrossProfit":191080.3,"IndirectCosts":178401.32,"OperatingProfit":12678.98,"UnitSalesMonthlyChange":321,"SalesValueMonthlyChange":27490,"DistributionMonthlyChange":0.41,"CostofSalesMonthlyChange":69.84,"PriceMonthlyChange":1.41,"GrossProfitMonthlyChange":27420.16,"IndirectCostsMonthlyChange":25601.41,"OperatingProfitMonthlyChange":1818.75},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":8,"PackType":"Standard","SKU":"Beta 8 Pack Standard","PriceTier":"Premium","UnitSales":1839,"SalesValue":218055,"Distribution":97.78,"CostofSales":553.99,"Price":118.57,"GrossProfit":217501.01,"IndirectCosts":203068.48,"OperatingProfit":14432.53,"UnitSalesMonthlyChange":669,"SalesValueMonthlyChange":79398,"DistributionMonthlyChange":0.37,"CostofSalesMonthlyChange":201.72,"PriceMonthlyChange":0.06,"GrossProfitMonthlyChange":79196.28,"IndirectCostsMonthlyChange":73941.12,"OperatingProfitMonthlyChange":5255.16},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Deluxe","SKU":"Beta 12 Pack Deluxe","PriceTier":"Premium","UnitSales":1241,"SalesValue":141427,"Distribution":82.09,"CostofSales":359.31,"Price":113.96,"GrossProfit":141067.69,"IndirectCosts":131707.16,"OperatingProfit":9360.53,"UnitSalesMonthlyChange":688,"SalesValueMonthlyChange":78391,"DistributionMonthlyChange":13.12,"CostofSalesMonthlyChange":199.16,"PriceMonthlyChange":-0.03,"GrossProfitMonthlyChange":78191.84,"IndirectCostsMonthlyChange":73003.51,"OperatingProfitMonthlyChange":5188.33},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Giftset","SKU":"Beta 12 Pack Giftset","PriceTier":"Premium","UnitSales":6796,"SalesValue":786737,"Distribution":99.43,"CostofSales":1998.79,"Price":115.76,"GrossProfit":784738.21,"IndirectCosts":732666.36,"OperatingProfit":52071.85,"UnitSalesMonthlyChange":4294,"SalesValueMonthlyChange":490375,"DistributionMonthlyChange":2.32,"CostofSalesMonthlyChange":1245.85,"PriceMonthlyChange":-2.69,"GrossProfitMonthlyChange":489129.15,"IndirectCostsMonthlyChange":456673.16,"OperatingProfitMonthlyChange":32455.99},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Standard","SKU":"Beta 12 Pack Standard","PriceTier":"Premium","UnitSales":8007,"SalesValue":823151,"Distribution":99.93,"CostofSales":2091.3,"Price":102.8,"GrossProfit":821059.7,"IndirectCosts":766577.13,"OperatingProfit":54482.57,"UnitSalesMonthlyChange":1427,"SalesValueMonthlyChange":153240,"DistributionMonthlyChange":0.02,"CostofSalesMonthlyChange":389.32,"PriceMonthlyChange":0.99,"GrossProfitMonthlyChange":152850.68,"IndirectCostsMonthlyChange":142708.09,"OperatingProfitMonthlyChange":10142.59},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":18,"PackType":"Standard","SKU":"Beta 18 Pack Standard","PriceTier":"Premium","UnitSales":17705,"SalesValue":1542020,"Distribution":98.23,"CostofSales":3917.66,"Price":87.1,"GrossProfit":1538102.34,"IndirectCosts":1436040.12,"OperatingProfit":102062.22,"UnitSalesMonthlyChange":10228,"SalesValueMonthlyChange":868979,"DistributionMonthlyChange":1.66,"CostofSalesMonthlyChange":2207.73,"PriceMonthlyChange":-2.91,"GrossProfitMonthlyChange":866771.27,"IndirectCostsMonthlyChange":809256.01,"OperatingProfitMonthlyChange":57515.26},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Rekall","Brand":"Beta","PackSize":60,"PackType":"Standard","SKU":"Beta 60 Pack Standard","PriceTier":"Premium","UnitSales":974,"SalesValue":103201,"Distribution":50.46,"CostofSales":262.19,"Price":105.96,"GrossProfit":102938.81,"IndirectCosts":96108.37,"OperatingProfit":6830.44,"UnitSalesMonthlyChange":382,"SalesValueMonthlyChange":42390,"DistributionMonthlyChange":7.98,"CostofSalesMonthlyChange":107.7,"PriceMonthlyChange":3.24,"GrossProfitMonthlyChange":42282.3,"IndirectCostsMonthlyChange":39477.17,"OperatingProfitMonthlyChange":2805.13},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Stark Ind","Brand":"Omega","PackSize":12,"PackType":"Standard","SKU":"Omega 12 Pack Standard","PriceTier":"Budget","UnitSales":625,"SalesValue":39725,"Distribution":36.61,"CostofSales":100.93,"Price":63.56,"GrossProfit":39624.07,"IndirectCosts":36994.58,"OperatingProfit":2629.49,"UnitSalesMonthlyChange":245,"SalesValueMonthlyChange":15871,"DistributionMonthlyChange":-1.41,"CostofSalesMonthlyChange":40.33,"PriceMonthlyChange":0.79,"GrossProfitMonthlyChange":15830.67,"IndirectCostsMonthlyChange":14780.39,"OperatingProfitMonthlyChange":1050.28},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":8,"PackType":"Standard","SKU":"Kappa 8 Pack Standard","PriceTier":"Regular","UnitSales":1416,"SalesValue":108079,"Distribution":64.3,"CostofSales":274.58,"Price":76.33,"GrossProfit":107804.42,"IndirectCosts":100651.12,"OperatingProfit":7153.3,"UnitSalesMonthlyChange":425,"SalesValueMonthlyChange":32565,"DistributionMonthlyChange":0.79,"CostofSalesMonthlyChange":82.73,"PriceMonthlyChange":0.13,"GrossProfitMonthlyChange":32482.27,"IndirectCostsMonthlyChange":30326.87,"OperatingProfitMonthlyChange":2155.4},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":12,"PackType":"Standard","SKU":"Kappa 12 Pack Standard","PriceTier":"Regular","UnitSales":5180,"SalesValue":355197,"Distribution":99.33,"CostofSales":902.41,"Price":68.57,"GrossProfit":354294.59,"IndirectCosts":330784.96,"OperatingProfit":23509.63,"UnitSalesMonthlyChange":2874,"SalesValueMonthlyChange":187428,"DistributionMonthlyChange":0.59,"CostofSalesMonthlyChange":476.18,"PriceMonthlyChange":-4.18,"GrossProfitMonthlyChange":186951.82,"IndirectCostsMonthlyChange":174546.42,"OperatingProfitMonthlyChange":12405.4},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":18,"PackType":"Standard","SKU":"Kappa 18 Pack Standard","PriceTier":"Regular","UnitSales":11113,"SalesValue":697498,"Distribution":99.07,"CostofSales":1772.06,"Price":62.76,"GrossProfit":695725.94,"IndirectCosts":649560.41,"OperatingProfit":46165.53,"UnitSalesMonthlyChange":1348,"SalesValueMonthlyChange":89144,"DistributionMonthlyChange":0.71,"CostofSalesMonthlyChange":226.47,"PriceMonthlyChange":0.46,"GrossProfitMonthlyChange":88917.53,"IndirectCostsMonthlyChange":83017.11,"OperatingProfitMonthlyChange":5900.42},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Hypermarkets","Owner":"Wayne Ent","Brand":"Pi","PackSize":12,"PackType":"Giftset","SKU":"Pi 12 Pack Giftset","PriceTier":"Regular","UnitSales":1380,"SalesValue":108170,"Distribution":74.75,"CostofSales":274.82,"Price":78.38,"GrossProfit":107895.18,"IndirectCosts":100735.48,"OperatingProfit":7159.7,"UnitSalesMonthlyChange":622,"SalesValueMonthlyChange":48739,"DistributionMonthlyChange":-3.19,"CostofSalesMonthlyChange":123.83,"PriceMonthlyChange":-0.03,"GrossProfitMonthlyChange":48615.17,"IndirectCostsMonthlyChange":45389.44,"OperatingProfitMonthlyChange":3225.73},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Delta","PackSize":12,"PackType":"Standard","SKU":"Delta 12 Pack Standard","PriceTier":"Budget","UnitSales":808,"SalesValue":48600,"Distribution":20.13,"CostofSales":123.47,"Price":60.15,"GrossProfit":48476.53,"IndirectCosts":45259.81,"OperatingProfit":3216.72,"UnitSalesMonthlyChange":23,"SalesValueMonthlyChange":2091,"DistributionMonthlyChange":1.33,"CostofSalesMonthlyChange":5.31,"PriceMonthlyChange":0.9,"GrossProfitMonthlyChange":2085.69,"IndirectCostsMonthlyChange":1947.29,"OperatingProfitMonthlyChange":138.4},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Eta","PackSize":12,"PackType":"Standard","SKU":"Eta 12 Pack Standard","PriceTier":"Budget","UnitSales":709,"SalesValue":31264,"Distribution":4.11,"CostofSales":79.43,"Price":44.1,"GrossProfit":31184.57,"IndirectCosts":29115.47,"OperatingProfit":2069.1,"UnitSalesMonthlyChange":-97,"SalesValueMonthlyChange":-4289,"DistributionMonthlyChange":0,"CostofSalesMonthlyChange":-10.89,"PriceMonthlyChange":-0.01,"GrossProfitMonthlyChange":-4278.11,"IndirectCostsMonthlyChange":-3994.04,"OperatingProfitMonthlyChange":-284.07},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":8,"PackType":"Standard","SKU":"Omicron 8 Pack Standard","PriceTier":"Regular","UnitSales":32105,"SalesValue":2204656,"Distribution":46.36,"CostofSales":5601.16,"Price":68.67,"GrossProfit":2199054.84,"IndirectCosts":2053133.6,"OperatingProfit":145921.24,"UnitSalesMonthlyChange":-3221,"SalesValueMonthlyChange":-262911,"DistributionMonthlyChange":-8.57,"CostofSalesMonthlyChange":-667.95,"PriceMonthlyChange":-1.18,"GrossProfitMonthlyChange":-262243.05,"IndirectCostsMonthlyChange":-244841.61,"OperatingProfitMonthlyChange":-17401.44},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Deluxe","SKU":"Omicron 12 Pack Deluxe","PriceTier":"Regular","UnitSales":519,"SalesValue":49345,"Distribution":10.91,"CostofSales":125.36,"Price":95.08,"GrossProfit":49219.64,"IndirectCosts":45953.24,"OperatingProfit":3266.4,"UnitSalesMonthlyChange":197,"SalesValueMonthlyChange":18693,"DistributionMonthlyChange":2.35,"CostofSalesMonthlyChange":47.49,"PriceMonthlyChange":-0.11,"GrossProfitMonthlyChange":18645.51,"IndirectCostsMonthlyChange":17407.71,"OperatingProfitMonthlyChange":1237.8},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Giftset","SKU":"Omicron 12 Pack Giftset","PriceTier":"Regular","UnitSales":6115,"SalesValue":532679,"Distribution":39.27,"CostofSales":1353.33,"Price":87.11,"GrossProfit":531325.67,"IndirectCosts":496069.3,"OperatingProfit":35256.37,"UnitSalesMonthlyChange":2461,"SalesValueMonthlyChange":212548,"DistributionMonthlyChange":2.32,"CostofSalesMonthlyChange":540.01,"PriceMonthlyChange":-0.5,"GrossProfitMonthlyChange":212007.99,"IndirectCostsMonthlyChange":197940.69,"OperatingProfitMonthlyChange":14067.3},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":12,"PackType":"Standard","SKU":"Omicron 12 Pack Standard","PriceTier":"Regular","UnitSales":5464,"SalesValue":400160,"Distribution":24.37,"CostofSales":1016.65,"Price":73.24,"GrossProfit":399143.35,"IndirectCosts":372657.54,"OperatingProfit":26485.81,"UnitSalesMonthlyChange":1235,"SalesValueMonthlyChange":84693,"DistributionMonthlyChange":0.85,"CostofSalesMonthlyChange":215.18,"PriceMonthlyChange":-1.36,"GrossProfitMonthlyChange":84477.82,"IndirectCostsMonthlyChange":78872.2,"OperatingProfitMonthlyChange":5605.62},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Omicron","PackSize":18,"PackType":"Standard","SKU":"Omicron 18 Pack Standard","PriceTier":"Regular","UnitSales":94757,"SalesValue":5577970,"Distribution":74.64,"CostofSales":14171.41,"Price":58.87,"GrossProfit":5563798.59,"IndirectCosts":5194605.83,"OperatingProfit":369192.76,"UnitSalesMonthlyChange":65193,"SalesValueMonthlyChange":3795458,"DistributionMonthlyChange":33.15,"CostofSalesMonthlyChange":9642.75,"PriceMonthlyChange":-1.42,"GrossProfitMonthlyChange":3785815.25,"IndirectCostsMonthlyChange":3534602.29,"OperatingProfitMonthlyChange":251212.96},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Sigma","PackSize":12,"PackType":"Giftset","SKU":"Sigma 12 Pack Giftset","PriceTier":"Premium","UnitSales":593,"SalesValue":97327,"Distribution":14.33,"CostofSales":247.27,"Price":164.13,"GrossProfit":97079.73,"IndirectCosts":90638.08,"OperatingProfit":6441.65,"UnitSalesMonthlyChange":330,"SalesValueMonthlyChange":51824,"DistributionMonthlyChange":2.08,"CostofSalesMonthlyChange":131.67,"PriceMonthlyChange":-8.89,"GrossProfitMonthlyChange":51692.33,"IndirectCostsMonthlyChange":48262.6,"OperatingProfitMonthlyChange":3429.73},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Sigma","PackSize":12,"PackType":"Standard","SKU":"Sigma 12 Pack Standard","PriceTier":"Premium","UnitSales":1664,"SalesValue":246175,"Distribution":27.86,"CostofSales":625.43,"Price":147.94,"GrossProfit":245549.57,"IndirectCosts":229255.46,"OperatingProfit":16294.11,"UnitSalesMonthlyChange":550,"SalesValueMonthlyChange":76112,"DistributionMonthlyChange":1.26,"CostofSalesMonthlyChange":193.37,"PriceMonthlyChange":-4.72,"GrossProfitMonthlyChange":75918.63,"IndirectCostsMonthlyChange":70880.77,"OperatingProfitMonthlyChange":5037.86},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Aperture","Brand":"Tau","PackSize":12,"PackType":"Standard","SKU":"Tau 12 Pack Standard","PriceTier":"Regular","UnitSales":365,"SalesValue":29458,"Distribution":13.18,"CostofSales":74.84,"Price":80.71,"GrossProfit":29383.16,"IndirectCosts":27433.03,"OperatingProfit":1950.13,"UnitSalesMonthlyChange":54,"SalesValueMonthlyChange":4313,"DistributionMonthlyChange":0.02,"CostofSalesMonthlyChange":10.96,"PriceMonthlyChange":-0.14,"GrossProfitMonthlyChange":4302.04,"IndirectCostsMonthlyChange":4015.83,"OperatingProfitMonthlyChange":286.21},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Epsilon","PackSize":12,"PackType":"Standard","SKU":"Epsilon 12 Pack Standard","PriceTier":"Budget","UnitSales":557,"SalesValue":30431,"Distribution":6.77,"CostofSales":77.32,"Price":54.63,"GrossProfit":30353.68,"IndirectCosts":28339.9,"OperatingProfit":2013.78,"UnitSalesMonthlyChange":37,"SalesValueMonthlyChange":2278,"DistributionMonthlyChange":1.51,"CostofSalesMonthlyChange":5.79,"PriceMonthlyChange":0.49,"GrossProfitMonthlyChange":2272.21,"IndirectCostsMonthlyChange":2121.62,"OperatingProfitMonthlyChange":150.59},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Iota","PackSize":12,"PackType":"Giftset","SKU":"Iota 12 Pack Giftset","PriceTier":"Regular","UnitSales":505,"SalesValue":50380,"Distribution":14,"CostofSales":127.99,"Price":99.76,"GrossProfit":50252.01,"IndirectCosts":46917.1,"OperatingProfit":3334.91,"UnitSalesMonthlyChange":193,"SalesValueMonthlyChange":19161,"DistributionMonthlyChange":0.96,"CostofSalesMonthlyChange":48.68,"PriceMonthlyChange":-0.3,"GrossProfitMonthlyChange":19112.32,"IndirectCostsMonthlyChange":17844.1,"OperatingProfitMonthlyChange":1268.22},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Iota","PackSize":12,"PackType":"Standard","SKU":"Iota 12 Pack Standard","PriceTier":"Regular","UnitSales":1458,"SalesValue":134738,"Distribution":30.3,"CostofSales":342.32,"Price":92.41,"GrossProfit":134395.68,"IndirectCosts":125478.07,"OperatingProfit":8917.61,"UnitSalesMonthlyChange":358,"SalesValueMonthlyChange":32658,"DistributionMonthlyChange":1.1,"CostofSalesMonthlyChange":82.98,"PriceMonthlyChange":-0.39,"GrossProfitMonthlyChange":32575.02,"IndirectCostsMonthlyChange":30413.47,"OperatingProfitMonthlyChange":2161.55},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Lambda","PackSize":8,"PackType":"Standard","SKU":"Lambda 8 Pack Standard","PriceTier":"Budget","UnitSales":946,"SalesValue":60466,"Distribution":18.45,"CostofSales":153.62,"Price":63.92,"GrossProfit":60312.38,"IndirectCosts":56310.47,"OperatingProfit":4001.91,"UnitSalesMonthlyChange":-325,"SalesValueMonthlyChange":-19276,"DistributionMonthlyChange":2.07,"CostofSalesMonthlyChange":-48.97,"PriceMonthlyChange":1.18,"GrossProfitMonthlyChange":-19227.03,"IndirectCostsMonthlyChange":-17950.82,"OperatingProfitMonthlyChange":-1276.21},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Lambda","PackSize":12,"PackType":"Standard","SKU":"Lambda 12 Pack Standard","PriceTier":"Budget","UnitSales":3500,"SalesValue":204598,"Distribution":32.45,"CostofSales":519.8,"Price":58.46,"GrossProfit":204078.2,"IndirectCosts":190536.53,"OperatingProfit":13541.67,"UnitSalesMonthlyChange":562,"SalesValueMonthlyChange":32422,"DistributionMonthlyChange":-0.42,"CostofSalesMonthlyChange":82.37,"PriceMonthlyChange":-0.14,"GrossProfitMonthlyChange":32339.63,"IndirectCostsMonthlyChange":30193.87,"OperatingProfitMonthlyChange":2145.76},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Mu","PackSize":12,"PackType":"Standard","SKU":"Mu 12 Pack Standard","PriceTier":"Premium","UnitSales":946,"SalesValue":151789,"Distribution":20.94,"CostofSales":385.63,"Price":160.45,"GrossProfit":151403.37,"IndirectCosts":141356.45,"OperatingProfit":10046.92,"UnitSalesMonthlyChange":269,"SalesValueMonthlyChange":39981,"DistributionMonthlyChange":2.07,"CostofSalesMonthlyChange":101.57,"PriceMonthlyChange":-4.7,"GrossProfitMonthlyChange":39879.43,"IndirectCostsMonthlyChange":37233.18,"OperatingProfitMonthlyChange":2646.25},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":6,"PackType":"Standard","SKU":"Theta 6 Pack Standard","PriceTier":"Regular","UnitSales":319,"SalesValue":32937,"Distribution":6.87,"CostofSales":83.68,"Price":103.25,"GrossProfit":32853.32,"IndirectCosts":30673.3,"OperatingProfit":2180.02,"UnitSalesMonthlyChange":80,"SalesValueMonthlyChange":8117,"DistributionMonthlyChange":0.62,"CostofSalesMonthlyChange":20.62,"PriceMonthlyChange":-0.6,"GrossProfitMonthlyChange":8096.38,"IndirectCostsMonthlyChange":7558.95,"OperatingProfitMonthlyChange":537.43},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":8,"PackType":"Standard","SKU":"Theta 8 Pack Standard","PriceTier":"Regular","UnitSales":2681,"SalesValue":220090,"Distribution":27.09,"CostofSales":559.16,"Price":82.09,"GrossProfit":219530.84,"IndirectCosts":204963.8,"OperatingProfit":14567.04,"UnitSalesMonthlyChange":216,"SalesValueMonthlyChange":11658,"DistributionMonthlyChange":-0.1,"CostofSalesMonthlyChange":29.62,"PriceMonthlyChange":-2.47,"GrossProfitMonthlyChange":11628.38,"IndirectCostsMonthlyChange":10857.33,"OperatingProfitMonthlyChange":771.05},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Deluxe","SKU":"Theta 12 Pack Deluxe","PriceTier":"Regular","UnitSales":3882,"SalesValue":284110,"Distribution":22.21,"CostofSales":721.81,"Price":73.19,"GrossProfit":283388.19,"IndirectCosts":264583.26,"OperatingProfit":18804.93,"UnitSalesMonthlyChange":3740,"SalesValueMonthlyChange":271017,"DistributionMonthlyChange":15.2,"CostofSalesMonthlyChange":688.55,"PriceMonthlyChange":-19.01,"GrossProfitMonthlyChange":270328.45,"IndirectCostsMonthlyChange":252389.93,"OperatingProfitMonthlyChange":17938.52},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Giftset","SKU":"Theta 12 Pack Giftset","PriceTier":"Regular","UnitSales":2506,"SalesValue":233914,"Distribution":22.78,"CostofSales":594.28,"Price":93.34,"GrossProfit":233319.72,"IndirectCosts":217837.14,"OperatingProfit":15482.58,"UnitSalesMonthlyChange":912,"SalesValueMonthlyChange":81999,"DistributionMonthlyChange":0.09,"CostofSalesMonthlyChange":208.32,"PriceMonthlyChange":-1.96,"GrossProfitMonthlyChange":81790.68,"IndirectCostsMonthlyChange":76363.36,"OperatingProfitMonthlyChange":5427.32},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":12,"PackType":"Standard","SKU":"Theta 12 Pack Standard","PriceTier":"Regular","UnitSales":11830,"SalesValue":901034,"Distribution":47.5,"CostofSales":2289.17,"Price":76.17,"GrossProfit":898744.83,"IndirectCosts":839107.37,"OperatingProfit":59637.46,"UnitSalesMonthlyChange":1423,"SalesValueMonthlyChange":101989,"DistributionMonthlyChange":2.05,"CostofSalesMonthlyChange":259.11,"PriceMonthlyChange":-0.61,"GrossProfitMonthlyChange":101729.89,"IndirectCostsMonthlyChange":94979.1,"OperatingProfitMonthlyChange":6750.79},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Black Mesa","Brand":"Theta","PackSize":18,"PackType":"Standard","SKU":"Theta 18 Pack Standard","PriceTier":"Regular","UnitSales":68455,"SalesValue":3896305,"Distribution":47.08,"CostofSales":9898.97,"Price":56.92,"GrossProfit":3886406.03,"IndirectCosts":3628519.18,"OperatingProfit":257886.85,"UnitSalesMonthlyChange":55770,"SalesValueMonthlyChange":3049397,"DistributionMonthlyChange":6.91,"CostofSalesMonthlyChange":7747.31,"PriceMonthlyChange":-9.84,"GrossProfitMonthlyChange":3041649.69,"IndirectCostsMonthlyChange":2839817.27,"OperatingProfitMonthlyChange":201832.42},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"LexCorp","Brand":"Gamma","PackSize":12,"PackType":"Standard","SKU":"Gamma 12 Pack Standard","PriceTier":"Budget","UnitSales":805,"SalesValue":57791,"Distribution":20.86,"CostofSales":146.83,"Price":71.79,"GrossProfit":57644.17,"IndirectCosts":53818.94,"OperatingProfit":3825.23,"UnitSalesMonthlyChange":-168,"SalesValueMonthlyChange":-10522,"DistributionMonthlyChange":-1.38,"CostofSalesMonthlyChange":-26.73,"PriceMonthlyChange":1.58,"GrossProfitMonthlyChange":-10495.27,"IndirectCostsMonthlyChange":-9799.03,"OperatingProfitMonthlyChange":-696.24},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"MomCorp","Brand":"Alpha","PackSize":12,"PackType":"Standard","SKU":"Alpha 12 Pack Standard","PriceTier":"Regular","UnitSales":4026,"SalesValue":307918,"Distribution":35.98,"CostofSales":782.3,"Price":76.48,"GrossProfit":307135.7,"IndirectCosts":286755.54,"OperatingProfit":20380.16,"UnitSalesMonthlyChange":3092,"SalesValueMonthlyChange":220954,"DistributionMonthlyChange":16.21,"CostofSalesMonthlyChange":561.36,"PriceMonthlyChange":-16.63,"GrossProfitMonthlyChange":220392.64,"IndirectCostsMonthlyChange":205768.42,"OperatingProfitMonthlyChange":14624.22},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"MomCorp","Brand":"Alpha","PackSize":18,"PackType":"Standard","SKU":"Alpha 18 Pack Standard","PriceTier":"Regular","UnitSales":260,"SalesValue":22211,"Distribution":7.63,"CostofSales":56.43,"Price":85.43,"GrossProfit":22154.57,"IndirectCosts":20684.29,"OperatingProfit":1470.28,"UnitSalesMonthlyChange":-41,"SalesValueMonthlyChange":-2797,"DistributionMonthlyChange":-1.23,"CostofSalesMonthlyChange":-7.1,"PriceMonthlyChange":2.35,"GrossProfitMonthlyChange":-2789.9,"IndirectCostsMonthlyChange":-2604.96,"OperatingProfitMonthlyChange":-184.94},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":8,"PackType":"Standard","SKU":"Beta 8 Pack Standard","PriceTier":"Premium","UnitSales":1310,"SalesValue":159261,"Distribution":16.47,"CostofSales":404.62,"Price":121.57,"GrossProfit":158856.38,"IndirectCosts":148315.28,"OperatingProfit":10541.1,"UnitSalesMonthlyChange":70,"SalesValueMonthlyChange":6737,"DistributionMonthlyChange":0.63,"CostofSalesMonthlyChange":17.12,"PriceMonthlyChange":-1.43,"GrossProfitMonthlyChange":6719.88,"IndirectCostsMonthlyChange":6274.35,"OperatingProfitMonthlyChange":445.53},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Deluxe","SKU":"Beta 12 Pack Deluxe","PriceTier":"Premium","UnitSales":413,"SalesValue":53091,"Distribution":8.57,"CostofSales":134.89,"Price":128.55,"GrossProfit":52956.11,"IndirectCosts":49442.15,"OperatingProfit":3513.96,"UnitSalesMonthlyChange":276,"SalesValueMonthlyChange":36152,"DistributionMonthlyChange":4.26,"CostofSalesMonthlyChange":91.86,"PriceMonthlyChange":4.91,"GrossProfitMonthlyChange":36060.14,"IndirectCostsMonthlyChange":33667.71,"OperatingProfitMonthlyChange":2392.43},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Giftset","SKU":"Beta 12 Pack Giftset","PriceTier":"Premium","UnitSales":2917,"SalesValue":365333,"Distribution":24.44,"CostofSales":928.17,"Price":125.24,"GrossProfit":364404.83,"IndirectCosts":340224.7,"OperatingProfit":24180.13,"UnitSalesMonthlyChange":1319,"SalesValueMonthlyChange":163449,"DistributionMonthlyChange":2.27,"CostofSalesMonthlyChange":415.27,"PriceMonthlyChange":-1.1,"GrossProfitMonthlyChange":163033.73,"IndirectCostsMonthlyChange":152216.01,"OperatingProfitMonthlyChange":10817.72},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":12,"PackType":"Standard","SKU":"Beta 12 Pack Standard","PriceTier":"Premium","UnitSales":9691,"SalesValue":1033889,"Distribution":39.22,"CostofSales":2626.7,"Price":106.69,"GrossProfit":1031262.3,"IndirectCosts":962831.49,"OperatingProfit":68430.81,"UnitSalesMonthlyChange":1705,"SalesValueMonthlyChange":194790,"DistributionMonthlyChange":-1.5,"CostofSalesMonthlyChange":494.88,"PriceMonthlyChange":1.62,"GrossProfitMonthlyChange":194295.12,"IndirectCostsMonthlyChange":181401.88,"OperatingProfitMonthlyChange":12893.24},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":18,"PackType":"Standard","SKU":"Beta 18 Pack Standard","PriceTier":"Premium","UnitSales":8422,"SalesValue":776210,"Distribution":33.89,"CostofSales":1972.04,"Price":92.16,"GrossProfit":774237.96,"IndirectCosts":722862.3,"OperatingProfit":51375.66,"UnitSalesMonthlyChange":5184,"SalesValueMonthlyChange":445398,"DistributionMonthlyChange":8.63,"CostofSalesMonthlyChange":1131.58,"PriceMonthlyChange":-10.01,"GrossProfitMonthlyChange":444266.42,"IndirectCostsMonthlyChange":414786.6,"OperatingProfitMonthlyChange":29479.82},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Rekall","Brand":"Beta","PackSize":60,"PackType":"Standard","SKU":"Beta 60 Pack Standard","PriceTier":"Premium","UnitSales":223,"SalesValue":28738,"Distribution":4.02,"CostofSales":73.01,"Price":128.87,"GrossProfit":28664.99,"IndirectCosts":26762.52,"OperatingProfit":1902.47,"UnitSalesMonthlyChange":24,"SalesValueMonthlyChange":3161,"DistributionMonthlyChange":1.43,"CostofSalesMonthlyChange":8.03,"PriceMonthlyChange":0.34,"GrossProfitMonthlyChange":3152.97,"IndirectCostsMonthlyChange":2943.56,"OperatingProfitMonthlyChange":209.41},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Stark Ind","Brand":"Omega","PackSize":12,"PackType":"Standard","SKU":"Omega 12 Pack Standard","PriceTier":"Budget","UnitSales":748,"SalesValue":48223,"Distribution":13.49,"CostofSales":122.51,"Price":64.47,"GrossProfit":48100.49,"IndirectCosts":44908.35,"OperatingProfit":3192.14,"UnitSalesMonthlyChange":-137,"SalesValueMonthlyChange":-7190,"DistributionMonthlyChange":-5.55,"CostofSalesMonthlyChange":-18.27,"PriceMonthlyChange":1.86,"GrossProfitMonthlyChange":-7171.73,"IndirectCostsMonthlyChange":-6696.22,"OperatingProfitMonthlyChange":-475.51},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":8,"PackType":"Standard","SKU":"Kappa 8 Pack Standard","PriceTier":"Regular","UnitSales":11263,"SalesValue":703847,"Distribution":36.56,"CostofSales":1788.2,"Price":62.49,"GrossProfit":702058.8,"IndirectCosts":655473.24,"OperatingProfit":46585.56,"UnitSalesMonthlyChange":-10565,"SalesValueMonthlyChange":-625137,"DistributionMonthlyChange":1.02,"CostofSalesMonthlyChange":-1588.22,"PriceMonthlyChange":1.61,"GrossProfitMonthlyChange":-623548.78,"IndirectCostsMonthlyChange":-582171.91,"OperatingProfitMonthlyChange":-41376.87},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":12,"PackType":"Standard","SKU":"Kappa 12 Pack Standard","PriceTier":"Regular","UnitSales":4999,"SalesValue":377208,"Distribution":39,"CostofSales":958.34,"Price":75.46,"GrossProfit":376249.66,"IndirectCosts":351283.18,"OperatingProfit":24966.48,"UnitSalesMonthlyChange":1864,"SalesValueMonthlyChange":128842,"DistributionMonthlyChange":4.93,"CostofSalesMonthlyChange":327.34,"PriceMonthlyChange":-3.76,"GrossProfitMonthlyChange":128514.66,"IndirectCostsMonthlyChange":119986.56,"OperatingProfitMonthlyChange":8528.1},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Tyrell Corp","Brand":"Kappa","PackSize":18,"PackType":"Standard","SKU":"Kappa 18 Pack Standard","PriceTier":"Regular","UnitSales":5330,"SalesValue":339454,"Distribution":31.78,"CostofSales":862.42,"Price":63.69,"GrossProfit":338591.58,"IndirectCosts":316124.13,"OperatingProfit":22467.45,"UnitSalesMonthlyChange":-1763,"SalesValueMonthlyChange":-103005,"DistributionMonthlyChange":-0.35,"CostofSalesMonthlyChange":-261.69,"PriceMonthlyChange":1.31,"GrossProfitMonthlyChange":-102743.31,"IndirectCostsMonthlyChange":-95925.65,"OperatingProfitMonthlyChange":-6817.66},{"Date":"01/12/2012","Month":"Dec-12","Channel":"Supermarkets","Owner":"Wayne Ent","Brand":"Pi","PackSize":12,"PackType":"Giftset","SKU":"Pi 12 Pack Giftset","PriceTier":"Regular","UnitSales":176,"SalesValue":14269,"Distribution":5.97,"CostofSales":36.25,"Price":81.07,"GrossProfit":14232.75,"IndirectCosts":13288.51,"OperatingProfit":944.24,"UnitSalesMonthlyChange":4,"SalesValueMonthlyChange":-3,"DistributionMonthlyChange":0.12,"CostofSalesMonthlyChange":-0.01,"PriceMonthlyChange":-1.91,"GrossProfitMonthlyChange":-2.99,"IndirectCostsMonthlyChange":-2.79,"OperatingProfitMonthlyChange":-0.2}];
+  var svg = dimple.newSvg("#" + opts.id, opts.width, opts.height);
+
+  //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
+  var myChart = new dimple.chart(svg, data);
+  if (opts.bounds) {
+    myChart.setBounds(opts.bounds.x, opts.bounds.y, opts.bounds.width, opts.bounds.height);//myChart.setBounds(80, 30, 480, 330);
+  }
+  //dimple allows use of custom CSS with noFormats
+  if(opts.noFormats) { myChart.noFormats = opts.noFormats; };
+  //for markimekko and addAxis also have third parameter measure
+  //so need to evaluate if measure provided
+  
+  //function to build axes
+  function buildAxis(position,layer){
+    var axis;
+    var axisopts = opts[position+"Axis"];
+    
+    if(axisopts.measure) {
+      axis = myChart[axisopts.type](position,layer[position],axisopts.measure);
+    } else {
+      axis = myChart[axisopts.type](position, layer[position]);
+    };
+    if(!(axisopts.type === "addPctAxis")) axis.showPercent = axisopts.showPercent;
+    if (axisopts.orderRule) axis.addOrderRule(axisopts.orderRule);
+    if (axisopts.grouporderRule) axis.addGroupOrderRule(axisopts.grouporderRule);  
+    if (axisopts.overrideMin) axis.overrideMin = axisopts.overrideMin;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.overrideMax) axis.overrideMax = axisopts.overrideMax;
+    if (axisopts.inputFormat) axis.dateParseFormat = axisopts.inputFormat;
+    if (axisopts.outputFormat) axis.tickFormat = axisopts.outputFormat;    
+    return axis;
+  };
+  
+  var c = null;
+  if(d3.keys(opts.colorAxis).length > 0) {
+    c = myChart[opts.colorAxis.type](opts.colorAxis.colorSeries,opts.colorAxis.palette) ;
+    if(opts.colorAxis.outputFormat){
+      c.tickFormat = opts.colorAxis.outputFormat;
+    }
+  }
+  
+  //allow manipulation of default colors to use with dimple
+  if(opts.defaultColors.length) {
+    //opts.defaultColors = opts.defaultColors[0];
+    if (typeof(opts.defaultColors) == "function") {
+      //assume this is a d3 scale
+      //for now loop through first 20 but need a better way to handle
+      defaultColorsArray = [];
+      for (var n=0;n<20;n++) {
+        defaultColorsArray.push(opts.defaultColors(n));
+      };
+      opts.defaultColors = defaultColorsArray;
+    }
+    opts.defaultColors.forEach(function(d,i) {
+      opts.defaultColors[i] = new dimple.color(d);
+    })
+    myChart.defaultColors = opts.defaultColors;
+  }  
+  
+  //do series
+  //set up a function since same for each
+  //as of now we have x,y,groups,data,type in opts for primary layer
+  //and other layers reside in opts.layers
+  function buildSeries(layer, hidden){
+    //inherit from primary layer if not intentionally changed or xAxis, yAxis, zAxis null
+    if (!layer.xAxis) layer.xAxis = opts.xAxis;    
+    if (!layer.yAxis) layer.yAxis = opts.yAxis;
+    if (!layer.zAxis) layer.zAxis = opts.zAxis;
+    
+    var x = buildAxis("x", layer);
+    x.hidden = hidden;
+    
+    var y = buildAxis("y", layer);
+    y.hidden = hidden;
+    
+    //z for bubbles
+    var z = null;
+    if (!(typeof(layer.zAxis) === 'undefined') && layer.zAxis.type){
+      z = buildAxis("z", layer);
+    };
+    
+    //here think I need to evaluate group and if missing do null
+    //as the group argument
+    //if provided need to use groups from layer
+    var s = new dimple.series(myChart, null, x, y, z, c, dimple.plot[layer.type], dimple.aggregateMethod.avg, dimple.plot[layer.type].stacked);
+    
+    //as of v1.1.4 dimple can use different dataset for each series
+    if(layer.data){
+      //convert to an array of objects
+      var tempdata;
+      //avoid lodash for now
+      datakeys = d3.keys(layer.data)
+      tempdata = layer.data[datakeys[1]].map(function(d,i){
+        var tempobj = {}
+        datakeys.forEach(function(key){
+          tempobj[key] = layer.data[key][i]
+        })
+        return tempobj
+      })
+      s.data = tempdata;
+    }
+    
+    if(layer.hasOwnProperty("groups")) {
+      s.categoryFields = (typeof layer.groups === "object") ? layer.groups : [layer.groups];
+      //series offers an aggregate method that we will also need to check if available
+      //options available are avg, count, max, min, sum
+    }
+    if (!(typeof(layer.aggregate) === 'undefined')) {
+      s.aggregate = eval(layer.aggregate);
+    }
+    if (!(typeof(layer.lineWeight) === 'undefined')) {
+      s.lineWeight = eval(layer.lineWeight);
+    }
+    if (!(typeof(layer.barGap) === 'undefined')) {
+      s.barGap = eval(layer.barGap);
+    }    
+  
+   /* if (!(typeof(layer.eventHandler) === 'undefined')) {
+      layer.eventHandler = (layer.eventHandler.length === "undefined") ? layer.eventHandler : [layer.eventHandler];
+      layer.eventHandler.forEach(function(evt){
+        s.addEventHandler(evt.event, eval(evt.handler))
+      })
+    }*/
+      
+    myChart.series.push(s);
+    
+    /*placeholder fix domain of primary scale for new series data
+    //not working right now but something like this
+    //for now just use overrideMin and overrideMax from rCharts
+    for( var i = 0; i<2; i++) {
+      if (!myChart.axes[i].overrideMin) {
+        myChart.series[0]._axisBounds(i==0?"x":"y").min = myChart.series[0]._axisBounds(i==0?"x":"y").min < s._axisBounds(i==0?"x":"y").min ? myChart.series[0]._axisBounds(i==0?"x":"y").min : s._axisBounds(i==0?"x":"y").min;
+      }
+      if (!myChart.axes[i].overrideMax) {  
+        myChart.series[0]._axisBounds(i==0?"x":"y")._max = myChart.series[0]._axisBounds(i==0?"x":"y").max > s._axisBounds(i==0?"x":"y").max ? myChart.series[0]._axisBounds(i==0?"x":"y").max : s._axisBounds(i==0?"x":"y").max;
+      }
+      myChart.axes[i]._update();
+    }
+    */
+    
+    return s;
+  };
+  
+  buildSeries(opts, false);
+  if (opts.layers.length > 0) {
+    opts.layers.forEach(function(layer){
+      buildSeries(layer, true);
+    })
+  }
+  //unsure if this is best but if legend is provided (not empty) then evaluate
+  if(d3.keys(opts.legend).length > 0) {
+    var l =myChart.addLegend();
+    d3.keys(opts.legend).forEach(function(d){
+      l[d] = opts.legend[d];
+    });
+  }
+  //quick way to get this going but need to make this cleaner
+  if(opts.storyboard) {
+    myChart.setStoryboard(opts.storyboard);
+  };
+  myChart.draw();
+
+</script>
+    
+    <script>
+    
+              myChart.axes.filter(function(ax){return ax.position == "x"})[0].titleShape.text(opts.xlab)
+              myChart.axes.filter(function(ax){return ax.position == "y"})[0].titleShape.text(opts.ylab)
+    
+            // This is a critical step.  By doing this we orphan the legend. This
+            // means it will not respond to graph updates.  Without this the legend
+            // will redraw when the chart refreshes removing the unchecked item and
+            // also dropping the events we define below.
+            myChart.legends = [];
+    
+            // This block simply adds the legend title. I put it into a d3 data
+            // object to split it onto 2 lines.  This technique works with any
+            // number of lines, it isn't dimple specific.
+            svg.selectAll("title_text")
+              .data(["Click legend to","show/hide owners:"])
+              .enter()
+              .append("text")
+                .attr("x", 499)
+                .attr("y", function (d, i) { return 90 + i * 14; })
+                .style("font-family", "sans-serif")
+                .style("font-size", "10px")
+                .style("color", "Black")
+                .text(function (d) { return d; });
+    
+            // Get a unique list of Owner values to use when filtering
+            var filterValues = dimple.getUniqueValues(data, "Owner");
+            // Get all the rectangles from our now orphaned legend
+            l.shapes.selectAll("rect")
+              // Add a click event to each rectangle
+              .on("click", function (e) {
+                // This indicates whether the item is already visible or not
+                var hide = false;
+                var newFilters = [];
+                // If the filters contain the clicked shape hide it
+                filterValues.forEach(function (f) {
+                  if (f === e.aggField.slice(-1)[0]) {
+                    hide = true;
+                  } else {
+                    newFilters.push(f);
+                  }
+                });
+                // Hide the shape or show it
+                if (hide) {
+                  d3.select(this).style("opacity", 0.2);
+                } else {
+                  newFilters.push(e.aggField.slice(-1)[0]);
+                  d3.select(this).style("opacity", 0.8);
+                }
+                // Update the filters
+                filterValues = newFilters;
+                // Filter the data
+                myChart.data = dimple.filterData(data, "Owner", filterValues);
+                // Passing a duration parameter makes the chart animate. Without
+                // it there is no transition
+                myChart.draw(800);
+    
+              myChart.axes.filter(function(ax){return ax.position == "x"})[0].titleShape.text(opts.xlab)
+              myChart.axes.filter(function(ax){return ax.position == "y"})[0].titleShape.text(opts.ylab)
+                });
+      </script>    
+  </body>
+</html>
