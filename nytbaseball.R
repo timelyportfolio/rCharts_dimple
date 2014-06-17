@@ -29,7 +29,9 @@ p1$layer(
 p1$xAxis(
   type = "addTimeAxis",
   inputFormat = "%Y-%m-%d",
-  outputFormat = "%Y"
+  outputFormat = "%Y",
+  overrideMin = sprintf("#!new Date('%s')!#",min(team_data$yearID)),
+  overrideMax = sprintf("#!new Date('%s')!#",max(team_data$yearID))
 )
 p1$yAxis(
   outputFormat = ".2f",
@@ -52,9 +54,6 @@ p1
 p1$setTemplate(
   afterScript = sprintf(
     '<script>
-    //#remove the hover effect for the lines
-    svg.selectAll("circle").selectAll("[id*=%s]").transition().remove()
-    svg.selectAll("circle").selectAll("[id*=%s]").transition().remove()
     svg.selectAll("path")
         .transition()
         .delay(200)
@@ -63,7 +62,7 @@ p1$setTemplate(
     //since dimple drawing has a transition; wait for it
     svg.selectAll("circle").transition().attr("r",1).delay(200)
     //delete some of the ticks
-    svg.select(".axis").selectAll(".tick")[0].forEach(function(d,i){
+    svg.select(".dimple-axis").selectAll(".tick")[0].forEach(function(d,i){
           if (!(+d3.time.format("%%Y")(new Date(+d3.select(d).datum())) %% 10 == 0)) {
             d.remove()
           }
@@ -78,9 +77,12 @@ p1$setTemplate(
       })
       .delay(200);
     */
+    //#remove the hover effect for the lines
+    svg.selectAll("circle  + .dimple-series-2 + [id*=%s]").transition().remove()
+    svg.selectAll("circle + [id*=%s]").transition().remove()
     </script>',
-    "'league'",
-    "'team'"
+    paste0("'",myteam,"'"),
+    paste0("'",p1$params$groups[1],"'")
   )
 )
 p1
