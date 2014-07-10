@@ -19,6 +19,23 @@ p1 <- dPlot(
   data = team_data,
   type = 'line' 
 )
+p1$xAxis(
+  type = "addTimeAxis",
+  inputFormat = "%Y-%m-%d",
+  outputFormat = "%Y"
+)
+p1$setTemplate(
+  afterScript = sprintf(
+    '<script>
+    //delete some of the ticks
+    {{chartId}}[0].axes[0].timePeriod = d3.time.years;
+    {{chartId}}[0].axes[0].timeInterval = 10;
+    {{chartId}}[0].draw();
+    </script>'
+  )
+)
+p1
+
 p1$layer(
   y="SOG",
   x="yearID",
@@ -47,13 +64,16 @@ p1$layer(
   groups = "name",
   type = 'line'
 )
-p1
-
 
 #now clean it up a bit with new rCharts functionality
 p1$setTemplate(
   afterScript = sprintf(
     '<script>
+    //delete some of the ticks
+    {{chartId}}[0].axes[0].timePeriod = d3.time.years;
+    {{chartId}}[0].axes[0].timeInterval = 10;
+    {{chartId}}[0].draw();
+
     var svg = {{chartId}}[0].svg;
     svg.selectAll("path")
         .transition()
@@ -62,12 +82,7 @@ p1$setTemplate(
     //do a delayed transition to make the circles smaller
     //since dimple drawing has a transition; wait for it
     svg.selectAll("circle").transition().attr("r",1).delay(200)
-    //delete some of the ticks
-    svg.select(".dimple-axis").selectAll(".tick")[0].forEach(function(d,i){
-          if (!(+d3.time.format("%%Y")(new Date(+d3.select(d).datum())) %% 10 == 0)) {
-            d.remove()
-          }
-        });
+
     //fix scale for additional layers
     //does not work cross browser
     //use overrideMin/Max instead
