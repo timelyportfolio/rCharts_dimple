@@ -40,31 +40,31 @@ p$xAxis(inputFormat = '%Y-%m-%d', outputFormat = '%Y')
 p$yAxis(outputFormat = "%")
 p$setTemplate(afterScript = "
               <script>
-              myChart.axes[0].timeField = 'Year'
-              myChart.axes[0].timePeriod = d3.time.years
-              myChart.axes[0].timeInterval = 5
-              myChart.draw()
+              {{chartId}}[0].axes[0].timeField = 'Year'
+              {{chartId}}[0].axes[0].timePeriod = d3.time.years
+              {{chartId}}[0].axes[0].timeInterval = 5
+              {{chartId}}[0].draw()
               
               //if we wanted to change  our line width to match the ggplot chart
-              myChart.series[0].shapes.style('stroke-width',1);
+              {{chartId}}[0].series[0].shapes.style('stroke-width',1);
               
               //if we wanted to label our plot
-              myChart.svg.append('g')
+              {{chartId}}[0].svg.append('g')
               .selectAll('text')
               .data(
               d3.nest().key(function(d){
               return d.cx
-              }).map(myChart.series[0]._positionData)[myChart.axes[0]._max])
+              }).map({{chartId}}[0].series[0]._positionData)[{{chartId}}[0].axes[0]._max])
               .enter()
               .append('text')
               .text(function(d){return d.aggField[0]})
-              .attr('x',function(d){return myChart.axes[0]._scale(d.cx)})
-              .attr('y',function(d){return myChart.axes[1]._scale(d.cy)})
+              .attr('x',function(d){return {{chartId}}[0].axes[0]._scale(d.cx)})
+              .attr('y',function(d){return {{chartId}}[0].axes[1]._scale(d.cy)})
               .attr('dy','.3em')
               .style('font-size','80%')
-              .style('fill',function(d){return myChart._assignedColors[d.aggField[0]].fill})
+              .style('fill',function(d){return {{chartId}}[0]._assignedColors[d.aggField[0]].fill})
               
               </script>               
               ")
-    p$defaultColors(ggplot_build(gp)$data[[2]]$colour)
-    p
+p$defaultColors(ggplot_build(gp)$data[[2]]$colour)
+p
