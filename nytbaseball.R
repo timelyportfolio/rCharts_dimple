@@ -2,7 +2,7 @@ require(Lahman)
 require(plyr)
 require(ggplot2)
 
-dat = Teams[,c('yearID', 'name', 'G', 'SO')]
+dat = Teams[,c('yearID', 'name', 'lgID', 'G', 'SO')]
 team_data = na.omit(transform(dat, SOG = round(SO/G, 2)))
 team_data$yearID = paste0(team_data$yearID, "-01-01")
 
@@ -26,17 +26,33 @@ p1$xAxis(
   inputFormat = "%Y-%m-%d",
   outputFormat = "%Y"
 )
+
 p1$setTemplate(
   afterScript = sprintf(
     '<script>
     //delete some of the ticks
-    {{chartId}}[0].axes[0].timePeriod = d3.time.years;
-    {{chartId}}[0].axes[0].timeInterval = 10;
-    {{chartId}}[0].draw();
+    {{chartId}}.forEach(function(cht){
+      cht.axes[0].timePeriod = d3.time.years;
+      cht.axes[0].timeInterval = 20;
+      cht.draw();
+    })
     </script>'
   )
 )
 p1
+
+
+
+#test out some facets
+p1_facets <- p1$copy()
+p1_facets$params$facet <- list(
+  x = "lgID", y = NULL
+)
+p1_facets
+
+p1_facets$facet(removeAxes=T)
+p1_facets
+
 
 p1$layer(
   y="SOG",
@@ -72,9 +88,11 @@ p1$setTemplate(
   afterScript = sprintf(
     '<script>
     //delete some of the ticks
-    {{chartId}}[0].axes[0].timePeriod = d3.time.years;
-    {{chartId}}[0].axes[0].timeInterval = 10;
-    {{chartId}}[0].draw();
+    {{chartId}}.forEach(function(cht){
+      cht.axes[0].timePeriod = d3.time.years;
+      cht.axes[0].timeInterval = 20;
+      cht.draw();
+    })
 
     var svg = {{chartId}}[0].svg;
     svg.selectAll("path")
@@ -104,6 +122,21 @@ p1$setTemplate(
   )
 )
 p1
+
+
+#test out some facets
+p1_facets <- p1$copy()
+p1_facets$params$facet <- list(
+  x = "lgID", y = NULL
+)
+p1_facets
+
+p1_facets$facet(removeAxes=T)
+p1_facets
+
+p1_facets$params$layers <- list()
+p1_facets
+
 
 #test to see that r mean matches dimple.aggregateMethod.avg
 p2 <- dPlot(
@@ -149,7 +182,7 @@ p2
 #color axis is not working as expected
 # I think this is really nice functionality
 # in next version make sure to solve this
-p1$colorAxis(
+p1$copy()$colorAxis(
   type = "addColorAxis",
   colorSeries = "SOG",
   palette = c("red","yellow","green")
