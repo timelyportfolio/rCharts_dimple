@@ -94,3 +94,5 @@ d62$set(
 d62$defaultColors("#!d3.scale.category10()!#")
 d62
 
+d62$set(facet = list(removeAxes = T))
+d62
