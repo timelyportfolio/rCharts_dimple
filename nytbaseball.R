@@ -54,7 +54,7 @@ p1
 p1$setTemplate(
   afterScript = sprintf(
     '<script>
-    var svg = {{chartId}}.svg;
+    var svg = {{chartId}}[0].svg;
     svg.selectAll("path")
         .transition()
         .delay(200)
