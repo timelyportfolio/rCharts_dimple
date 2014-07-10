@@ -135,5 +135,6 @@ p2
 p1$colorAxis(
   type = "addColorAxis",
   colorSeries = "SOG",
-  palette = "#FF0000"
+  palette = c("red","yellow","green")
 )
+p1
