@@ -1,5 +1,7 @@
 require(Lahman)  
 require(plyr)
+require(ggplot2)
+
 dat = Teams[,c('yearID', 'name', 'G', 'SO')]
 team_data = na.omit(transform(dat, SOG = round(SO/G, 2)))
 team_data$yearID = paste0(team_data$yearID, "-01-01")
