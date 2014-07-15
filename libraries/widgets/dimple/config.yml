@@ -1,6 +1,7 @@
 dimple:
-  jshead: [js/dimple.v1.js, js/d3.v3.js]
+  jshead: [js/dimple.v2.0.0.js, js/d3.v3.js, js/d3-grid.js]
   cdn:
     jshead: 
       - "http://d3js.org/d3.v3.min.js"
-      - "http://dimplejs.org/dist/dimple.v1.min.js"
+      - "http://dimplejs.org/dist/dimple.v2.0.0.min.js"
+      - "http://timelyportfolio.github.io/rCharts_dimple/js/d3-grid.js"
