@@ -32,7 +32,7 @@ cumul.xts <- cumprod(1+returns.xts)
 oSharpe <- rollapply(returns.xts, FUN=OmegaSharpeRatio, width = 150, fill = 0 )
 
 #get the drawdown
-drawdown <- Drawdowns(returns.xts)
+drawdown <- PerformanceAnalytics:::Drawdowns(returns.xts)
 
 #melt the prices and rolling OmegaSharpe to combine for plotting
 cumul.melt <- melt(
